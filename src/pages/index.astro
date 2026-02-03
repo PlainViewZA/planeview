@@ -152,6 +152,7 @@ import Footer from '../components/Footer.astro';
   .lead {
     font-size: 1.25rem;
     color: var(--color-slate-grey);
+    max-width: 100%;
   }
 
   .card-icon {
@@ -231,9 +232,87 @@ import Footer from '../components/Footer.astro';
     font-size: 1.125rem;
   }
 
+  /* Mobile Responsive Styles */
   @media (max-width: 768px) {
+    .section-header {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .lead {
+      font-size: 1.125rem;
+    }
+
     .work-process {
       grid-template-columns: 1fr;
+      gap: var(--spacing-xl);
+    }
+
+    .step-number {
+      font-size: 2.5rem;
+    }
+
+    .pillar-item {
+      padding: var(--spacing-md);
+    }
+
+    .pillar-item h4 {
+      font-size: 1.125rem;
+    }
+
+    .cta-box {
+      padding: var(--spacing-2xl) var(--spacing-lg);
+    }
+
+    .cta-box h2 {
+      font-size: 1.75rem;
+    }
+
+    .cta-box p {
+      font-size: 1rem;
+    }
+
+    .btn-lg {
+      width: 100%;
+      padding: var(--spacing-md);
+    }
+  }
+
+  /* Tablet Responsive Styles */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .work-process {
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: var(--spacing-xl);
+    }
+
+    .step-number {
+      font-size: 2.75rem;
+    }
+  }
+
+  /* Small mobile adjustments */
+  @media (max-width: 480px) {
+    .section-header h2 {
+      font-size: 2rem;
+    }
+
+    .lead {
+      font-size: 1rem;
+    }
+
+    .card {
+      padding: var(--spacing-md);
+    }
+
+    .card h3 {
+      font-size: 1.25rem;
+    }
+
+    .process-step h3 {
+      font-size: 1.25rem;
+    }
+
+    .process-step p {
+      font-size: 0.9375rem;
     }
   }
 </style>

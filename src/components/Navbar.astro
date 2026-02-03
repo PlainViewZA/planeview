@@ -25,29 +25,95 @@ const navItems = [
         </div>
       </a>
 
-      <!-- Navigation Links -->
-      <ul class="nav-links">
-        {navItems.map((item) => (
-          <li>
-            <a href={item.href} class="nav-link">
-              {item.label}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <!-- Mobile Menu Toggle (uses plane icon) -->
+      <button class="mobile-menu-toggle" aria-label="Toggle menu">
+        <svg class="menu-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M28 4L14 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M28 4L19 28L14 18L4 13L28 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <svg class="close-icon" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 8L8 24M8 8L24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
 
-      <!-- CTA Button -->
-      <a href="/contact" class="btn btn-primary">
-        Get in Touch
-        <span class="arrow">→</span>
-      </a>
+      <!-- Navigation Links (Centered) -->
+      <div class="nav-menu">
+        <ul class="nav-links">
+          {navItems.map((item) => (
+            <li>
+              <a href={item.href} class="nav-link">
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+
+        <!-- Mobile CTA Button (only in mobile menu) -->
+        <a href="/contact" class="btn btn-primary mobile-nav-cta">
+          Get in Touch
+          <span class="arrow">→</span>
+        </a>
+      </div>
+
+      <!-- Desktop CTA Button (right-aligned) -->
+      <div class="nav-cta-wrapper">
+        <a href="/contact" class="btn btn-primary nav-cta">
+          Get in Touch
+          <span class="arrow">→</span>
+        </a>
+      </div>
     </div>
   </div>
 </nav>
 
-<!-- Main content wrapper – this prevents overlap -->
-<main class="content-wrapper">
+<script>
+  // Liquid glass effect on scroll
+  let lastScroll = 0;
+  const nav = document.querySelector('.nav');
+  
+  window.addEventListener('scroll', () => {
+    const currentScroll = window.pageYOffset;
+    
+    if (currentScroll > 50) {
+      nav?.classList.add('scrolled');
+    } else {
+      nav?.classList.remove('scrolled');
+    }
+    
+    lastScroll = currentScroll;
+  });
 
+  // Mobile menu toggle
+  const menuToggle = document.querySelector('.mobile-menu-toggle');
+  const navMenu = document.querySelector('.nav-menu');
+  const body = document.body;
+
+  menuToggle?.addEventListener('click', () => {
+    menuToggle.classList.toggle('active');
+    navMenu?.classList.toggle('active');
+    body.classList.toggle('menu-open');
+  });
+
+  // Close menu when clicking on a link
+  const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-cta');
+  navLinks.forEach(link => {
+    link.addEventListener('click', () => {
+      menuToggle?.classList.remove('active');
+      navMenu?.classList.remove('active');
+      body.classList.remove('menu-open');
+    });
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (!target.closest('.nav-wrapper') && navMenu?.classList.contains('active')) {
+      menuToggle?.classList.remove('active');
+      navMenu?.classList.remove('active');
+      body.classList.remove('menu-open');
+    }
+  });
+</script>
 
 <style>
   .nav {
@@ -56,21 +122,35 @@ const navItems = [
     left: 0;
     right: 0;
     z-index: 1000;
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+    transition: all var(--transition-base);
+  }
+
+  .nav.scrolled {
+    background-color: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(24px) saturate(200%);
+    -webkit-backdrop-filter: blur(24px) saturate(200%);
+    box-shadow: 0 4px 24px rgba(17, 17, 17, 0.06);
   }
 
   .nav-wrapper {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
-    justify-content: space-between;
     padding-top: var(--spacing-md);
     padding-bottom: var(--spacing-md);
     gap: var(--spacing-lg);
   }
 
-  /* Logo */
+  /* Add padding to body to prevent navbar overlap */
+  :global(body) {
+    padding-top: 85px;
+  }
+
+  /* Logo - Left aligned */
   .logo {
     display: flex;
     align-items: center;
@@ -78,6 +158,8 @@ const navItems = [
     text-decoration: none;
     color: var(--color-jet-black);
     transition: opacity var(--transition-base);
+    z-index: 1001;
+    justify-self: start;
   }
 
   .logo:hover {
@@ -108,7 +190,56 @@ const navItems = [
     color: var(--color-slate-grey);
   }
 
-  /* Navigation Links */
+  /* Mobile Menu Toggle */
+  .mobile-menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+    width: 32px;
+    height: 32px;
+    position: relative;
+  }
+
+  .mobile-menu-toggle .menu-icon,
+  .mobile-menu-toggle .close-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: opacity var(--transition-base), transform var(--transition-base);
+  }
+
+  .mobile-menu-toggle .close-icon {
+    opacity: 0;
+    transform: rotate(-90deg);
+  }
+
+  .mobile-menu-toggle.active .menu-icon {
+    opacity: 0;
+    transform: rotate(90deg);
+  }
+
+  .mobile-menu-toggle.active .close-icon {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
+
+  /* Navigation Menu - Centered */
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xl);
+    justify-self: center;
+  }
+
+  /* Right side wrapper for CTA */
+  .nav-cta-wrapper {
+    display: flex;
+    justify-self: end;
+  }
+
   .nav-links {
     display: flex;
     align-items: center;
@@ -146,21 +277,103 @@ const navItems = [
     width: 100%;
   }
 
-  /* ────────────────────────────────────────────────
-     FIX: Prevent content from being hidden under fixed nav
-  ──────────────────────────────────────────────── */
-  .content-wrapper {
-    padding-top: calc(var(--spacing-md) * 2 + 3.5rem); /* ≈ navbar height + buffer */
+  /* Desktop CTA Button */
+  .nav-cta {
+    white-space: nowrap;
   }
 
-  /* Optional: better spacing on mobile if navbar collapses */
+  /* Mobile menu items wrapper - only visible in mobile menu */
+  .mobile-nav-cta {
+    display: none;
+  }
+
+  /* Mobile Styles */
   @media (max-width: 768px) {
-    .nav-links {
+    :global(body) {
+      padding-top: 70px;
+    }
+
+    .nav-wrapper {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .mobile-menu-toggle {
+      display: block;
+    }
+
+    /* Hide desktop CTA button */
+    .nav-cta-wrapper {
       display: none;
     }
-    
-    .content-wrapper {
-      padding-top: calc(var(--spacing-md) * 2 + 3rem); /* slightly less on mobile if needed */
+
+    .nav-menu {
+      position: fixed;
+      top: 0;
+      right: -100%;
+      width: 280px;
+      height: 100vh;
+      background-color: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      box-shadow: -4px 0 24px rgba(17, 17, 17, 0.1);
+      flex-direction: column;
+      align-items: stretch;
+      gap: 0;
+      padding: calc(var(--spacing-md) * 2 + 3.5rem) var(--spacing-lg) var(--spacing-xl);
+      transition: right var(--transition-slow);
+      overflow-y: auto;
+    }
+
+    .nav-menu.active {
+      right: 0;
+    }
+
+    .nav-links {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      width: 100%;
+    }
+
+    .nav-links li {
+      width: 100%;
+      border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+    }
+
+    .nav-link {
+      display: block;
+      width: 100%;
+      padding: var(--spacing-md) 0;
+      font-size: 1.125rem;
+    }
+
+    .nav-link::after {
+      display: none;
+    }
+
+    /* Show mobile CTA */
+    .mobile-nav-cta {
+      display: flex;
+      margin-top: var(--spacing-lg);
+      width: 100%;
+      justify-content: center;
+    }
+
+    /* Prevent body scroll when menu is open */
+    :global(body.menu-open) {
+      overflow: hidden;
+    }
+  }
+
+  /* Tablet adjustments */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .nav-links {
+      gap: var(--spacing-md);
+    }
+
+    .nav-link {
+      font-size: 0.875rem;
     }
   }
 </style>

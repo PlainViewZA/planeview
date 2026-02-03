@@ -59,6 +59,7 @@ body {
   color: var(--color-jet-black);
   background-color: var(--color-pure-white);
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* TYPOGRAPHY SYSTEM */
@@ -306,6 +307,19 @@ button:hover .arrow {
   color: var(--color-pure-white);
 }
 
+/* Text Alignment Utilities */
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
 /* ACCESSIBILITY */
 .sr-only {
   position: absolute;
@@ -326,16 +340,135 @@ button:hover .arrow {
 }
 
 /* RESPONSIVE UTILITIES */
+
+/* Tablet Styles */
+@media (max-width: 1024px) {
+  :root {
+    --spacing-3xl: 4rem; /* Reduce from 6rem */
+  }
+
+  .container {
+    padding-left: var(--spacing-md);
+    padding-right: var(--spacing-md);
+  }
+}
+
+/* Mobile Styles */
 @media (max-width: 768px) {
+  :root {
+    --spacing-2xl: 3rem;  /* Reduce from 4rem */
+    --spacing-3xl: 3.5rem; /* Reduce from 6rem */
+  }
+
+  body {
+    font-size: 0.9375rem;
+  }
+
   .section {
     padding-top: var(--spacing-2xl);
     padding-bottom: var(--spacing-2xl);
+  }
+
+  .section-sm {
+    padding-top: var(--spacing-xl);
+    padding-bottom: var(--spacing-xl);
   }
   
   .grid-2,
   .grid-3,
   .grid-4 {
     grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .container {
+    padding-left: var(--spacing-sm);
+    padding-right: var(--spacing-sm);
+  }
+
+  .btn {
+    width: 100%;
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  .btn-ghost {
+    width: auto;
+  }
+
+  .card {
+    padding: var(--spacing-md);
+  }
+
+  h1 {
+    font-size: clamp(2rem, 8vw, 2.5rem);
+  }
+
+  h2 {
+    font-size: clamp(1.75rem, 6vw, 2rem);
+  }
+
+  h3 {
+    font-size: clamp(1.375rem, 5vw, 1.5rem);
+  }
+
+  p {
+    max-width: 100%;
+  }
+}
+
+/* Small Mobile Styles */
+@media (max-width: 480px) {
+  :root {
+    --spacing-lg: 1.5rem;
+    --spacing-xl: 2rem;
+    --spacing-2xl: 2.5rem;
+    --spacing-3xl: 3rem;
+  }
+
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .btn {
+    font-size: 0.9375rem;
+    padding: var(--spacing-sm) var(--spacing-md);
+  }
+
+  .card {
+    padding: var(--spacing-sm);
+  }
+}
+
+/* Landscape Mobile Adjustment */
+@media (max-width: 768px) and (orientation: landscape) {
+  .section {
+    padding-top: var(--spacing-xl);
+    padding-bottom: var(--spacing-xl);
+  }
+}
+
+/* Touch Device Improvements */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger tap targets for mobile */
+  .btn {
+    min-height: 48px;
+    padding: var(--spacing-md) var(--spacing-lg);
+  }
+
+  a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Remove hover effects on touch devices */
+  .btn-primary:hover {
+    transform: none;
+  }
+
+  .card:hover {
+    transform: none;
   }
 }
 
@@ -348,5 +481,14 @@ button:hover .arrow {
   
   .no-print {
     display: none !important;
+  }
+
+  .nav,
+  .mobile-menu-toggle {
+    display: none !important;
+  }
+
+  .section {
+    page-break-inside: avoid;
   }
 }
