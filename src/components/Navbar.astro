@@ -1,5 +1,4 @@
 ---
-// Navigation Component - Plane View Collective
 const navItems = [
   { href: '/about', label: 'About' },
   { href: '/services', label: 'Services' },
@@ -8,6 +7,7 @@ const navItems = [
 ];
 ---
 
+<!-- Fixed Navigation -->
 <nav class="nav">
   <div class="container">
     <div class="nav-wrapper">
@@ -15,7 +15,6 @@ const navItems = [
       <a href="/" class="logo">
         <div class="logo-icon">
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- Paper plane icon -->
             <path d="M28 4L14 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
             <path d="M28 4L19 28L14 18L4 13L28 4Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
@@ -45,6 +44,10 @@ const navItems = [
     </div>
   </div>
 </nav>
+
+<!-- Main content wrapper – this prevents overlap -->
+<main class="content-wrapper">
+
 
 <style>
   .nav {
@@ -143,10 +146,21 @@ const navItems = [
     width: 100%;
   }
 
-  /* Responsive */
+  /* ────────────────────────────────────────────────
+     FIX: Prevent content from being hidden under fixed nav
+  ──────────────────────────────────────────────── */
+  .content-wrapper {
+    padding-top: calc(var(--spacing-md) * 2 + 3.5rem); /* ≈ navbar height + buffer */
+  }
+
+  /* Optional: better spacing on mobile if navbar collapses */
   @media (max-width: 768px) {
     .nav-links {
       display: none;
+    }
+    
+    .content-wrapper {
+      padding-top: calc(var(--spacing-md) * 2 + 3rem); /* slightly less on mobile if needed */
     }
   }
 </style>

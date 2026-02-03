@@ -1,0 +1,259 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Navigation from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<MainLayout 
+  title="About | Plane View Collective"
+  description="Founded in Cape Town, we're a collective focused on strategic clarity and creative execution."
+>
+  <Navigation />
+
+  <!-- Hero Section -->
+  <section class="section about-hero">
+    <div class="container">
+      <h1>About Plane View Collective</h1>
+      <p class="intro-text">
+        We help brands get noticed, understood, and remembered. Whether it's a website that needs clarity, social content that needs attention, or a brand that needs direction — we step in to simplify the message and amplify the impact.
+      </p>
+    </div>
+  </section>
+
+  <!-- Brand Meaning Section -->
+  <section class="section">
+    <div class="container container-narrow">
+      <div class="meaning-grid">
+        <div class="meaning-item">
+          <h3>Plane View</h3>
+          <p>Represents clarity from above — seeing the full picture before acting.</p>
+        </div>
+        <div class="meaning-item">
+          <h3>Collective</h3>
+          <p>Reflects collaboration, shared ownership, and multidisciplinary execution.</p>
+        </div>
+      </div>
+
+      <div class="values-list">
+        <ul>
+          <li>Strategic clarity</li>
+          <li>Speed with intention</li>
+          <li>High-level thinking</li>
+          <li>Structured creativity</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- Personality Section -->
+  <section class="section high-contrast">
+    <div class="container">
+      <div class="two-col-grid">
+        <div>
+          <h2>Who We Are</h2>
+          <p class="lead">We're human-first. People before platforms. Confident, not arrogant. Creative with intention. Fast, but thoughtful. Clear, never complicated.</p>
+        </div>
+        <div>
+          <h4>Our Tone of Voice</h4>
+          <div class="tone-grid">
+            <div class="tone-item">
+              <strong>Conversational</strong>
+              <span>not corporate</span>
+            </div>
+            <div class="tone-item">
+              <strong>Clear</strong>
+              <span>not technical</span>
+            </div>
+            <div class="tone-item">
+              <strong>Warm</strong>
+              <span>not robotic</span>
+            </div>
+            <div class="tone-item">
+              <strong>Honest</strong>
+              <span>not over-polished</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class="section">
+    <div class="container container-narrow">
+      <h2 class="text-center">What Drives Us</h2>
+      <p class="lead text-center">We care about how people feel when they interact with a brand. If it doesn't sound like something a real person would say, we rewrite it.</p>
+      
+      <div class="core-values">
+        <div class="value-card">
+          <div class="value-number">01</div>
+          <h4>Listen First</h4>
+          <p>We understand before we create. Your challenge becomes our mission.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-number">02</div>
+          <h4>Think Clearly</h4>
+          <p>Strategy before aesthetics. We solve problems, not just make things pretty.</p>
+        </div>
+        <div class="value-card">
+          <div class="value-number">03</div>
+          <h4>Create with Purpose</h4>
+          <p>Every design decision serves the end goal. No decoration for decoration's sake.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Location CTA -->
+  <section class="section section-sm">
+    <div class="container">
+      <div class="location-box">
+        <h3>Founded in Cape Town</h3>
+        <p>Working with brands globally, from our home in South Africa.</p>
+        <a href="/contact" class="btn btn-primary">
+          Get in Touch
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</MainLayout>
+
+<style>
+  .about-hero {
+    text-align: center;
+    padding-top: var(--spacing-2xl);
+  }
+
+  .about-hero h1 {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .intro-text {
+    font-size: 1.375rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+    color: var(--color-slate-grey);
+  }
+
+  .meaning-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--spacing-xl);
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .meaning-item h3 {
+    color: var(--color-steel-blue);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .values-list {
+    background-color: rgba(47, 111, 237, 0.05);
+    padding: var(--spacing-xl);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-steel-blue);
+  }
+
+  .values-list ul {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-md);
+  }
+
+  .values-list li {
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+  }
+
+  .values-list li::before {
+    content: '→';
+    margin-right: var(--spacing-sm);
+    color: var(--color-steel-blue);
+    font-weight: 700;
+  }
+
+  .two-col-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--spacing-3xl);
+  }
+
+  .tone-grid {
+    display: grid;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-lg);
+  }
+
+  .tone-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .tone-item strong {
+    color: var(--color-pure-white);
+    font-size: 1.125rem;
+  }
+
+  .tone-item span {
+    color: var(--color-slate-grey);
+    font-size: 0.9375rem;
+  }
+
+  .text-center {
+    text-align: center;
+  }
+
+  .core-values {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: var(--spacing-xl);
+    margin-top: var(--spacing-2xl);
+  }
+
+  .value-card {
+    padding: var(--spacing-lg);
+    border: 1px solid rgba(17, 17, 17, 0.1);
+    border-radius: var(--radius-md);
+  }
+
+  .value-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-steel-blue);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .value-card h4 {
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .value-card p {
+    color: var(--color-slate-grey);
+    margin: 0;
+  }
+
+  .location-box {
+    text-align: center;
+    padding: var(--spacing-2xl);
+    background-color: var(--color-jet-black);
+    color: var(--color-pure-white);
+    border-radius: var(--radius-lg);
+  }
+
+  .location-box h3 {
+    color: var(--color-pure-white);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .location-box p {
+    color: var(--color-slate-grey);
+    margin-bottom: var(--spacing-lg);
+  }
+</style>

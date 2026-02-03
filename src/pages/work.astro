@@ -1,0 +1,379 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Navigation from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<MainLayout 
+  title="Work | Plane View Collective"
+  description="See how we help brands get noticed, understood, and remembered through strategic clarity and creative execution."
+>
+  <Navigation />
+
+  <section class="section work-hero">
+    <div class="container container-narrow">
+      <h1>Our Work</h1>
+      <p class="intro-text">
+        Every project is an opportunity to create clarity, build connection, and drive measurable results.
+      </p>
+    </div>
+  </section>
+
+  <!-- Work Filter -->
+  <section class="section-sm">
+    <div class="container">
+      <div class="work-filter">
+        <button class="filter-btn active">All Work</button>
+        <button class="filter-btn">Branding</button>
+        <button class="filter-btn">Web Design</button>
+        <button class="filter-btn">Marketing</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work Grid -->
+  <section class="section">
+    <div class="container">
+      <div class="work-grid">
+        
+        <!-- Project 1 -->
+        <article class="work-card">
+          <div class="work-image">
+            <div class="work-placeholder" style="background: linear-gradient(135deg, #2F6FED 0%, #6B6B6B 100%);"></div>
+          </div>
+          <div class="work-content">
+            <div class="work-meta">
+              <span class="work-category">Brand Strategy</span>
+              <span class="work-year">2024</span>
+            </div>
+            <h3>TechStart Ventures</h3>
+            <p>Complete brand positioning and messaging framework for a VC firm focusing on African tech startups.</p>
+            <a href="#" class="work-link">
+              View Case Study
+              <span class="arrow">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Project 2 -->
+        <article class="work-card">
+          <div class="work-image">
+            <div class="work-placeholder" style="background: linear-gradient(135deg, #111111 0%, #2F6FED 100%);"></div>
+          </div>
+          <div class="work-content">
+            <div class="work-meta">
+              <span class="work-category">Web Design</span>
+              <span class="work-year">2024</span>
+            </div>
+            <h3>Coastal Coffee Co.</h3>
+            <p>E-commerce website redesign that increased conversion rates by 47% and reduced bounce rate.</p>
+            <a href="#" class="work-link">
+              View Case Study
+              <span class="arrow">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Project 3 -->
+        <article class="work-card">
+          <div class="work-image">
+            <div class="work-placeholder" style="background: linear-gradient(135deg, #FF6A00 0%, #2F6FED 100%);"></div>
+          </div>
+          <div class="work-content">
+            <div class="work-meta">
+              <span class="work-category">Digital Marketing</span>
+              <span class="work-year">2023</span>
+            </div>
+            <h3>GreenSpace Interiors</h3>
+            <p>6-month digital campaign that generated 340+ qualified leads and $2.1M in revenue.</p>
+            <a href="#" class="work-link">
+              View Case Study
+              <span class="arrow">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Project 4 -->
+        <article class="work-card">
+          <div class="work-image">
+            <div class="work-placeholder" style="background: linear-gradient(135deg, #6B6B6B 0%, #111111 100%);"></div>
+          </div>
+          <div class="work-content">
+            <div class="work-meta">
+              <span class="work-category">Brand Strategy</span>
+              <span class="work-year">2023</span>
+            </div>
+            <h3>Urban Wellness Studio</h3>
+            <p>Brand identity and positioning for a holistic wellness center in the Cape Town CBD.</p>
+            <a href="#" class="work-link">
+              View Case Study
+              <span class="arrow">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Project 5 -->
+        <article class="work-card">
+          <div class="work-image">
+            <div class="work-placeholder" style="background: linear-gradient(135deg, #2F6FED 0%, #FF6A00 100%);"></div>
+          </div>
+          <div class="work-content">
+            <div class="work-meta">
+              <span class="work-category">Web Design</span>
+              <span class="work-year">2023</span>
+            </div>
+            <h3>Atlas Learning Platform</h3>
+            <p>SaaS product website with clear value proposition and 23% increase in trial signups.</p>
+            <a href="#" class="work-link">
+              View Case Study
+              <span class="arrow">→</span>
+            </a>
+          </div>
+        </article>
+
+        <!-- Project 6 -->
+        <article class="work-card">
+          <div class="work-image">
+            <div class="work-placeholder" style="background: linear-gradient(135deg, #111111 0%, #6B6B6B 100%);"></div>
+          </div>
+          <div class="work-content">
+            <div class="work-meta">
+              <span class="work-category">Social Content</span>
+              <span class="work-year">2023</span>
+            </div>
+            <h3>Summit Outdoor Gear</h3>
+            <p>Social media strategy and content creation that grew following by 280% in 4 months.</p>
+            <a href="#" class="work-link">
+              View Case Study
+              <span class="arrow">→</span>
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Section -->
+  <section class="section high-contrast">
+    <div class="container container-narrow">
+      <h2 class="text-center">Impact That Matters</h2>
+      <p class="text-center">We measure success by real business outcomes, not vanity metrics.</p>
+      
+      <div class="results-grid">
+        <div class="result-item">
+          <div class="result-number">$8.4M</div>
+          <div class="result-label">Revenue Generated</div>
+        </div>
+        <div class="result-item">
+          <div class="result-number">47%</div>
+          <div class="result-label">Avg. Conversion Increase</div>
+        </div>
+        <div class="result-item">
+          <div class="result-number">2,400+</div>
+          <div class="result-label">Qualified Leads</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section">
+    <div class="container">
+      <div class="cta-box">
+        <h2>Want results like these?</h2>
+        <p>Let's discuss how we can help your brand stand out.</p>
+        <a href="/contact" class="btn btn-primary btn-lg">
+          Start a Project
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</MainLayout>
+
+<style>
+  .work-hero {
+    text-align: center;
+    padding-top: var(--spacing-2xl);
+  }
+
+  .work-hero h1 {
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .intro-text {
+    font-size: 1.375rem;
+    line-height: 1.6;
+    color: var(--color-slate-grey);
+  }
+
+  .work-filter {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    font-family: var(--font-primary);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    background-color: transparent;
+    border: 2px solid rgba(17, 17, 17, 0.1);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all var(--transition-base);
+    color: var(--color-jet-black);
+  }
+
+  .filter-btn:hover,
+  .filter-btn.active {
+    background-color: var(--color-jet-black);
+    border-color: var(--color-jet-black);
+    color: var(--color-pure-white);
+  }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--spacing-2xl);
+  }
+
+  .work-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(17, 17, 17, 0.1);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    transition: all var(--transition-base);
+  }
+
+  .work-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 48px rgba(17, 17, 17, 0.12);
+    border-color: var(--color-jet-black);
+  }
+
+  .work-image {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+
+  .work-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .work-content {
+    padding: var(--spacing-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .work-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.875rem;
+  }
+
+  .work-category {
+    color: var(--color-steel-blue);
+    font-weight: 500;
+  }
+
+  .work-year {
+    color: var(--color-slate-grey);
+  }
+
+  .work-content h3 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+
+  .work-content p {
+    color: var(--color-slate-grey);
+    margin: 0;
+    font-size: 0.9375rem;
+  }
+
+  .work-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    margin-top: var(--spacing-sm);
+    font-weight: 500;
+    color: var(--color-steel-blue);
+    transition: gap var(--transition-base);
+  }
+
+  .work-link:hover {
+    gap: var(--spacing-sm);
+  }
+
+
+
+  .results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--spacing-2xl);
+    margin-top: var(--spacing-2xl);
+  }
+
+  .result-item {
+    text-align: center;
+  }
+
+  .result-number {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 700;
+    color: var(--color-steel-blue);
+    line-height: 1;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .result-label {
+    color: var(--color-slate-grey);
+    font-size: 1rem;
+  }
+
+  .cta-box {
+    text-align: center;
+    padding: var(--spacing-3xl) var(--spacing-xl);
+    background-color: rgba(47, 111, 237, 0.05);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-md);
+  }
+
+  .cta-box h2 {
+    margin: 0;
+  }
+
+  .cta-box p {
+    font-size: 1.125rem;
+    color: var(--color-slate-grey);
+    margin: 0;
+  }
+
+  .btn-lg {
+    padding: var(--spacing-md) var(--spacing-xl);
+    font-size: 1.125rem;
+  }
+
+  @media (max-width: 768px) {
+    .work-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
