@@ -1,0 +1,63 @@
+Your Personal Git Push Formula (copy → paste → adapt)
+When you are ready to push (you have committed everything):
+
+Make sure you're on the correct local branch
+(usually your feature/fix branch — not main/develop)Bashgit branch
+# or
+git status→ You should see * feature/something or * fix/somethingIf not → switch first:Bashgit checkout feature/your-branch-name
+# or
+git switch feature/your-branch-name
+Always fetch latest remote state first (very important!)Bashgit fetch origin
+Decide which branches you want to update today
+Write them down (example):
+ feature/payment-screen
+ fix/login-crash-2026
+ develop
+ main
+
+Push to each one separately — one line per branchNormal (recommended) push — only if fast-forward is possibleBashgit push origin HEAD:feature/payment-screen
+git push origin HEAD:fix/login-crash-2026
+git push origin HEAD:develop
+git push origin HEAD:mainShorter version (when you're already on the branch you want to push from):Bashgit push origin feature/payment-screen
+git push origin fix/login-crash-2026
+git push origin develop
+git push origin main
+If any push gets rejected (“non-fast-forward”, “rejected”, “! [rejected]”)Then decide per branch:
+Option A — safest: pull + merge/rebase firstBashgit fetch origin
+git rebase origin/main          # or origin/develop, etc.
+# fix conflicts if any, then
+git push origin HEAD:main
+Option B — overwrite remote (only if you're sure!)Bashgit push --force-with-lease origin HEAD:main
+# or shorter
+git push -f --force-with-lease origin mainNever use plain --force / -f unless you really understand the consequences.
+
+
+One-page cheat sheet you can save
+text# Every time you want to push the same work to several branches:
+
+1. git fetch origin
+2. git status               # everything committed?
+3. git branch               # on the right branch? (feature/xxx or fix/xxx)
+
+Then for each branch you want to update:
+
+   Normal push:
+   git push origin HEAD:branch-name
+
+   OR shorter:
+   git push origin branch-name
+
+   If rejected → either:
+   • git rebase origin/branch-name   → then push again
+   • git push --force-with-lease origin HEAD:branch-name
+Quick example for your current situation
+Assuming you're on feature right now:
+Bashgit fetch origin
+
+# Most common — just update your feature branch
+git push origin feature
+
+# Also update main (only if you really want to)
+git push origin HEAD:main
+# or if it rejects:
+# git push --force-with-lease origin HEAD:main
