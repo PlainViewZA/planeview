@@ -4,10 +4,10 @@ const currentYear = new Date().getFullYear();
 
 const footerLinks = {
   services: [
-    { label: 'Brand Strategy', href: '/services/brand-strategy' },
-    { label: 'Website Design', href: '/services/web-design' },
-    { label: 'Digital Marketing', href: '/services/digital-marketing' },
-    { label: 'Social Content', href: '/services/social-content' }
+    { label: 'Brand Strategy', href: '/services#branding' },
+    { label: 'Website Design', href: '/services#web' },
+    { label: 'Digital Marketing', href: '/services#marketing' },
+    { label: 'Social Content', href: '/services#social' }
   ],
   company: [
     { label: 'About Us', href: '/about' },
@@ -17,9 +17,10 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { label: 'LinkedIn', href: '#', icon: 'linkedin' },
-  { label: 'Instagram', href: '#', icon: 'instagram' },
-  { label: 'Twitter', href: '#', icon: 'twitter' }
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/company/planeviewco/', icon: 'linkedin' },
+  { label: 'Instagram', href: 'https://www.instagram.com/plane_view_collective?igsh=MWtrODJ6M2lsMGptOA%3D%3D&utm_source=qr', icon: 'instagram' },
+  { label: 'Facebook', href: 'https://www.facebook.com/share/1AQg4ankHx/?mibextid=wwXIfr', icon: 'facebook' },
+  { label: 'Youtube', href: 'https://youtube.com/@planeviewcollective?si=nH-wXaomeGrJp3ZU', icon: 'youtube' }
 ];
 ---
 
@@ -84,7 +85,7 @@ const socialLinks = [
     <!-- Bottom Bar -->
     <div class="footer-bottom">
       <p class="footer-copyright">
-        © {currentYear} Plane View Collective. All rights reserved.
+        © {currentYear} Powered by Plane View Collective. All rights reserved.
       </p>
       <div class="footer-social">
         {socialLinks.map((social) => (

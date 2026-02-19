@@ -1,0 +1,308 @@
+<canvas id="floating-canvas"></canvas>
+
+<script>
+  (function () {
+    // TypeScript-safe: cast explicitly so the null error goes away
+    const canvas = document.getElementById('floating-canvas') as HTMLCanvasElement | null;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+
+    // ─────────────────────────────────────────────
+    // TWEAK: Shape colours
+    // ─────────────────────────────────────────────
+    const COLORS: string[] = ['#2F6FED', '#2F6FED', '#6B6B6B', '#111111'];
+    const PLANE_COLOR = '#0a0a0a';
+    const SHAPES = ['plane', 'triangle', 'diamond', 'circle', 'cross'] as const;
+    type Shape = typeof SHAPES[number];
+
+    // ─────────────────────────────────────────────
+    // TWEAK: Content zones to avoid (padding around each element in px)
+    // ─────────────────────────────────────────────
+    const AVOID_SELECTORS = 'h1, h2, h3, h4, h5, h6, p, a, button, input, textarea, select, label, nav, .card, section, footer, header';
+    const AVOID_PADDING = 24; // increase to push shapes further from text
+    let avoidZones: { x: number; y: number; w: number; h: number }[] = [];
+
+    function refreshAvoidZones() {
+      avoidZones = [];
+      document.querySelectorAll(AVOID_SELECTORS).forEach(el => {
+        const r = el.getBoundingClientRect();
+        if (r.width > 0 && r.height > 0) {
+          avoidZones.push({
+            x: r.left - AVOID_PADDING,
+            y: r.top  - AVOID_PADDING,
+            w: r.width  + AVOID_PADDING * 2,
+            h: r.height + AVOID_PADDING * 2
+          });
+        }
+      });
+    }
+
+    function isInAvoidZone(x: number, y: number): boolean {
+      for (const z of avoidZones) {
+        if (x >= z.x && x <= z.x + z.w && y >= z.y && y <= z.y + z.h) return true;
+      }
+      return false;
+    }
+
+    // Mouse: raw viewport coords since canvas is position:fixed
+    let mouse = { x: -999, y: -999 };
+
+    window.addEventListener('mousemove', (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+    });
+
+    document.addEventListener('mouseleave', () => {
+      mouse = { x: -999, y: -999 };
+    });
+
+    // Resize to full viewport since canvas is position:fixed
+    function resize() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function rand(a: number, b: number) {
+      return a + Math.random() * (b - a);
+    }
+
+    class Node {
+      homeX = 0; homeY = 0;
+      x = 0; y = 0;
+      size = 0;
+      shape: Shape = 'circle';
+      color = '';
+      alpha = 0;
+      rotation = 0; rotSpeed = 0;
+      phase = 0; phaseSpeed = 0;
+      bobRadius = 0;
+      vx = 0; vy = 0;
+
+      // ─────────────────────────────────────────
+      // TWEAK: Physics feel
+      // ─────────────────────────────────────────
+      readonly springK      = 0.045;  // higher = snappier return to home
+      readonly damping      = 0.87;   // lower = more floaty/bouncy
+      readonly repelRadius  = 100;    // cursor repulsion radius in px
+      readonly repelStrength = 10;    // cursor repulsion force
+
+      constructor() { this.init(); }
+
+      init() {
+        // Find a home position outside content zones
+        let attempts = 0;
+        do {
+          this.homeX = rand(0, canvas.width);
+          this.homeY = rand(0, canvas.height);
+          attempts++;
+        } while (isInAvoidZone(this.homeX, this.homeY) && attempts < 30);
+
+        this.x = this.homeX;
+        this.y = this.homeY;
+
+        // ───────────────────────────────────────
+        // TWEAK: Shape size range (px)
+        // ───────────────────────────────────────
+        this.size = rand(7, 19);
+
+        this.shape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
+        this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+
+        // ───────────────────────────────────────
+        // TWEAK: Opacity  ← CHANGE THIS
+        //   lower  = more subtle  e.g. rand(0.03, 0.10)
+        //   higher = more visible e.g. rand(0.15, 0.35)
+        // ───────────────────────────────────────
+        this.alpha = rand(0.05, 0.18);
+
+        this.rotation  = rand(0, Math.PI * 2);
+        this.rotSpeed  = rand(-0.007, 0.007);
+        this.phase     = rand(0, Math.PI * 2);
+        this.phaseSpeed = rand(0.004, 0.012);
+        this.bobRadius = rand(5, 16);
+      }
+
+      update(t: number) {
+        const tx = this.homeX + Math.sin(this.phase + t * 0.0007) * this.bobRadius;
+        const ty = this.homeY + Math.cos(this.phase * 1.3 + t * 0.0005) * this.bobRadius;
+
+        this.vx += (tx - this.x) * this.springK;
+        this.vy += (ty - this.y) * this.springK;
+
+        // Cursor repulsion
+        const dx   = this.x - mouse.x;
+        const dy   = this.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < this.repelRadius && dist > 0) {
+          const force = (1 - dist / this.repelRadius);
+          const angle = Math.atan2(dy, dx);
+          this.vx += Math.cos(angle) * force * this.repelStrength;
+          this.vy += Math.sin(angle) * force * this.repelStrength;
+        }
+
+        // Content zone repulsion — keeps shapes away from text
+        for (const z of avoidZones) {
+          const cx   = z.x + z.w / 2;
+          const cy   = z.y + z.h / 2;
+          const dx2  = this.x - cx;
+          const dy2  = this.y - cy;
+          const dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
+          const zoneRadius = Math.sqrt(z.w * z.w + z.h * z.h) / 2 + 30;
+          if (dist2 < zoneRadius && dist2 > 0) {
+            const force  = (1 - dist2 / zoneRadius) * 1.5;
+            const angle2 = Math.atan2(dy2, dx2);
+            this.vx += Math.cos(angle2) * force;
+            this.vy += Math.sin(angle2) * force;
+          }
+        }
+
+        this.vx *= this.damping;
+        this.vy *= this.damping;
+        this.x  += this.vx;
+        this.y  += this.vy;
+        this.rotation += this.rotSpeed;
+        this.phase    += this.phaseSpeed;
+      }
+
+      draw() {
+        ctx.save();
+
+        // ─────────────────────────────────────────
+        // TWEAK: Plane opacity cap (second number)
+        //   lower = more subtle planes e.g. 0.20
+        //   higher = more visible    e.g. 0.50
+        // ─────────────────────────────────────────
+        ctx.globalAlpha = this.shape === 'plane'
+          ? Math.min(this.alpha * 1.7, 0.28)
+          : this.alpha;
+
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.rotation);
+        ctx.strokeStyle = this.shape === 'plane' ? PLANE_COLOR : this.color;
+        ctx.lineWidth   = this.shape === 'plane' ? 1.5 : 1.1;
+
+        const s = this.size;
+
+        switch (this.shape) {
+          case 'plane':
+            ctx.beginPath();
+            ctx.moveTo(s, 0);
+            ctx.lineTo(-s * 0.6, -s * 0.5);
+            ctx.lineTo(-s * 0.3, 0);
+            ctx.lineTo(-s * 0.6,  s * 0.5);
+            ctx.closePath();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(-s * 0.3, 0);
+            ctx.lineTo( s * 0.3, s * 0.15);
+            ctx.stroke();
+            break;
+          case 'triangle':
+            ctx.beginPath();
+            ctx.moveTo(0, -s);
+            ctx.lineTo( s * 0.87, s * 0.5);
+            ctx.lineTo(-s * 0.87, s * 0.5);
+            ctx.closePath();
+            ctx.stroke();
+            break;
+          case 'diamond':
+            ctx.beginPath();
+            ctx.moveTo(0, -s);
+            ctx.lineTo( s * 0.6, 0);
+            ctx.lineTo(0,  s);
+            ctx.lineTo(-s * 0.6, 0);
+            ctx.closePath();
+            ctx.stroke();
+            break;
+          case 'circle':
+            ctx.beginPath();
+            ctx.arc(0, 0, s * 0.55, 0, Math.PI * 2);
+            ctx.stroke();
+            break;
+          case 'cross':
+            ctx.beginPath();
+            ctx.moveTo(-s * 0.5, 0);
+            ctx.lineTo( s * 0.5, 0);
+            ctx.moveTo(0, -s * 0.5);
+            ctx.lineTo(0,  s * 0.5);
+            ctx.stroke();
+            break;
+        }
+
+        ctx.restore();
+      }
+    }
+
+    function drawConnectors(nodes: Node[]) {
+      const MAX_DIST = 150;
+      for (let i = 0; i < nodes.length; i++) {
+        for (let j = i + 1; j < nodes.length; j++) {
+          const dx   = nodes[i].x - nodes[j].x;
+          const dy   = nodes[i].y - nodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < MAX_DIST) {
+            ctx.save();
+            ctx.globalAlpha  = (1 - dist / MAX_DIST) * 0.22;
+            ctx.strokeStyle  = '#2F6FED';
+            ctx.lineWidth    = 0.7;
+            ctx.setLineDash([3, 7]);
+            ctx.beginPath();
+            ctx.moveTo(nodes[i].x, nodes[i].y);
+            ctx.lineTo(nodes[j].x, nodes[j].y);
+            ctx.stroke();
+            ctx.restore();
+          }
+        }
+      }
+    }
+
+    // ─────────────────────────────────────────────
+    // TWEAK: Number of shapes on screen  ← CHANGE THIS
+    //   fewer  = less busy  e.g. 20
+    //   more   = busier     e.g. 60
+    // ─────────────────────────────────────────────
+    let nodes: Node[] = Array.from({ length: 36 }, () => new Node());
+
+    window.addEventListener('resize', () => {
+      resize();
+      refreshAvoidZones();
+      nodes.forEach(n => n.init());
+    });
+    window.addEventListener('scroll', refreshAvoidZones, { passive: true });
+
+    // Initial refresh after DOM settles
+    requestAnimationFrame(() => {
+      refreshAvoidZones();
+      nodes.forEach(n => n.init());
+    });
+
+    let t = 0;
+    let frameCount = 0;
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (frameCount % 120 === 0) refreshAvoidZones(); // re-check zones every ~2s
+      frameCount++;
+      drawConnectors(nodes);
+      nodes.forEach(n => { n.update(t); n.draw(); });
+      t++;
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  })();
+</script>
+
+<style>
+  #floating-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 0;
+  }
+</style>
