@@ -1,0 +1,102 @@
+================================================================================
+          AIDAN'S PERSONAL GIT FORMULA - Selective Add → Commit → Push
+                     (Add specific files → push to branches separately)
+                          Last updated: Feb 2026
+================================================================================
+
+QUICK WORKFLOW (do in this order every time)
+
+1. See what changed
+   git status
+   # or shorter
+   git status --short
+
+2. Stage ONLY the files you want (examples)
+
+   # One file
+   git add src/login.js
+
+   # Multiple specific files
+   git add src/login.js tests/login.test.js docs/README.md
+
+   # All files in one folder
+   git add src/components/
+
+   # All .js files in current folder
+   git add *.js
+
+   # Oops - remove something you added by mistake
+   git reset HEAD unwanted-file.txt
+
+3. Double-check what is staged (must be green in git status)
+   git status
+   git diff --staged           # shows exactly what will be committed
+
+4. Commit (good message is important)
+   git commit -m "Add login validation and unit tests"
+
+   # or multi-line (recommended)
+   git commit -m "Add login validation and unit tests
+
+   - Email format regex check
+   - Minimum password length rule
+   - Added 3 unit tests for edge cases"
+
+5. Sync with remote (always do this before pushing)
+   git fetch origin
+
+6. Push to branches SEPARATELY (while on your work branch e.g. feature)
+
+   # Most common - update your current branch
+   git push origin feature
+   # or if first time pushing this branch:
+   git push -u origin feature
+
+   # Push same commit to other branches (examples)
+   git push origin HEAD:develop
+   git push origin HEAD:fix
+   git push origin HEAD:main
+
+   # Shorter version when local name = remote name
+   git push origin develop
+   git push origin fix
+   git push origin main
+
+7. If push is rejected (non-fast-forward / ! [rejected])
+
+   Choose ONE of these (per branch):
+
+   A. Safest - rebase on remote version then push
+      git pull --rebase origin main     # or develop / fix / etc.
+      # resolve conflicts if any, then:
+      git push origin HEAD:main
+
+   B. Force push (only if you're sure - history rewrite)
+      git push --force-with-lease origin HEAD:main
+      # shorter version
+      git push -f --force-with-lease origin main
+
+   NEVER use plain --force / -f unless you fully understand the risk
+
+EXAMPLE FULL SESSION (copy-paste-adapt)
+
+git status
+git add src/auth/ tests/auth.test.js README.md
+git status
+git diff --staged
+git commit -m "Add auth refresh token + tests"
+git fetch origin
+git push origin feature
+git push origin HEAD:develop
+# git push origin HEAD:main      # uncomment only when needed
+
+TIPS
+- Always git fetch origin first
+- Use --force-with-lease (safer than --force)
+- Do NOT push the same commits to main + develop + feature regularly
+  → better to merge feature → develop → main (standard flow)
+- main is often protected on GitHub → direct push may be blocked
+
+================================================================================
+Save this file in your project folder or ~/git-cheats.txt
+================================================================================

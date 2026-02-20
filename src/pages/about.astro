@@ -15,13 +15,13 @@ import Footer from '../components/Footer.astro';
     <div class="container">
       <h1>About Plane View Collective</h1>
       <p class="intro-text">
-        We help brands get noticed, understood, and remembered. Whether it's a website that needs clarity, social content that needs attention, or a brand that needs direction — we step in to simplify the message and amplify the impact.
+        We help brands get noticed, understood, and remembered. Whether it's a website that needs clarity, social content that needs attention, or a brand that needs direction. We step in to simplify the message and amplify the impact.
       </p>
     </div>
   </section>
 
   <!-- Brand Meaning Section -->
-  <section class="section">
+  <section class="section meaning-section">
     <div class="container container-narrow">
       <div class="meaning-grid">
         <div class="meaning-item">
@@ -51,7 +51,7 @@ import Footer from '../components/Footer.astro';
       <div class="two-col-grid">
         <div>
           <h2>Who We Are</h2>
-          <p class="lead">We're human-first. People before platforms. Confident, not arrogant. Creative with intention. Fast, but thoughtful. Clear, never complicated.</p>
+          <p class="lead">We're human first. People before platforms. Confident, not arrogant. Creative with intention. Fast, but thoughtful. Clear, never complicated.</p>
         </div>
         <div>
           <h4>Our Tone of Voice</h4>
@@ -81,8 +81,10 @@ import Footer from '../components/Footer.astro';
   <!-- Values Section -->
   <section class="section">
     <div class="container container-narrow">
-      <h2 class="text-center">What Drives Us</h2>
-      <p class="lead text-center">We care about how people feel when they interact with a brand. If it doesn't sound like something a real person would say, we rewrite it.</p>
+    <div class="section-header">
+      <h2>What Drives Us</h2>
+      <p class="lead">We care about how people feel when they interact with a brand. If it does not sound like something a real person would say, we rewrite it.</p>
+    </div>
       
       <div class="core-values">
         <div class="value-card">
@@ -124,11 +126,12 @@ import Footer from '../components/Footer.astro';
 <style>
   .about-hero {
     text-align: center;
-    padding-top: var(--spacing-2xl);
+    padding-top: calc(var(--nav-height, 85px) + var(--spacing-lg));
+    padding-bottom: 0;
   }
 
   .about-hero h1 {
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
   }
 
   .intro-text {
@@ -139,11 +142,40 @@ import Footer from '../components/Footer.astro';
     color: var(--color-slate-grey);
   }
 
+  /* Increase gap between hero and the section directly below */
+  .meaning-section {
+    padding-top: calc(var(--spacing-xl) + var(--spacing-md));
+  }
+
+  .section-header {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto var(--spacing-md);
+  }
+
+  /* Tighten navbar wordmark line spacing when viewing the about page */
+  .logo-text {
+    gap: 0.05rem;
+  }
+
+  .lead {
+    font-size: 1.125rem;
+    color: var(--color-slate-grey);
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
   .meaning-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--spacing-xl);
-    margin-bottom: var(--spacing-2xl);
+    gap: var(--spacing-x1l);
+    margin-bottom: var(--spacing-xl);
+    text-align: center;
+    justify-items: center;
+  }
+
+  .meaning-item {
+    max-width: 340px;
   }
 
   .meaning-item h3 {
@@ -255,5 +287,26 @@ import Footer from '../components/Footer.astro';
   .location-box p {
     color: var(--color-slate-grey);
     margin-bottom: var(--spacing-lg);
+  }
+
+  /* Center paragraph and CTA inside location box and prevent full-width button
+     on mobile when inside this container */
+  .location-box p {
+    text-align: center;
+  }
+
+  .location-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .location-box .btn {
+    display: inline-flex;
+    width: auto !important;
+    max-width: 320px;
+    margin: 0 auto;
+    justify-content: center;
   }
 </style>

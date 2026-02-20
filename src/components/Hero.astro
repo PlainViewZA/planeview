@@ -55,7 +55,8 @@ const {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding-top: calc(80px + var(--spacing-3xl));
+    /* include nav height so spacing matches on mobile and desktop */
+    padding-top: calc(var(--nav-height, 85px) + var(--spacing-3xl));
     padding-bottom: var(--spacing-3xl);
     overflow: hidden;
   }
@@ -112,7 +113,8 @@ const {
   @media (max-width: 768px) {
     .hero {
       min-height: 70vh;
-      padding-top: calc(60px + var(--spacing-2xl));
+      /* include nav height on small screens as well */
+      padding-top: calc(var(--nav-height, 70px) + var(--spacing-2xl));
     }
 
     .hero-cta {

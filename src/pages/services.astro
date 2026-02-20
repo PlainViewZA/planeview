@@ -180,11 +180,12 @@ import Footer from '../components/Footer.astro';
 <style>
   .services-hero {
     text-align: center;
-    padding-top: var(--spacing-2xl);
+    padding-top: calc(var(--nav-height, 85px) + var(--spacing-lg));
+    padding-bottom: 0;
   }
 
   .services-hero h1 {
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-md);
   }
 
   .intro-text {
@@ -259,6 +260,11 @@ import Footer from '../components/Footer.astro';
 
   .text-center {
     text-align: center;
+  }
+
+  .lead {
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .process-timeline {

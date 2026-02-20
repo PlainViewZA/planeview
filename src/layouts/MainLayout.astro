@@ -1,4 +1,6 @@
 ---
+import FloatingCanvas from '../components/FloatingCanvas.astro';
+
 interface Props {
   title?: string;
   description?: string;
@@ -22,10 +24,30 @@ const {
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <slot />
+    <div class="page-wrapper">
+      <FloatingCanvas />
+      <div class="page-content">
+        <slot />
+      </div>
+    </div>
   </body>
 </html>
 
 <style is:global>
   @import '../styles/global.css';
+
+  .page-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  .page-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  body {
+    position: relative;
+  }
 </style>
