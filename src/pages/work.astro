@@ -833,7 +833,7 @@ const projects = [
   }
 
   @media (max-width: 480px) {
-    .work-hero { padding-top: var(--spacing-xl); }
+    .work-hero { padding-top: calc(var(--nav-height, 85px) + var(--spacing-xl)); }
     .filter-btn { flex: 1 1 calc(50% - var(--spacing-sm)); min-width: 120px; }
     .work-meta { flex-direction: column; align-items: flex-start; gap: var(--spacing-xs); }
   }
