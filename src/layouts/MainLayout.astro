@@ -1,5 +1,8 @@
 ---
 import FloatingCanvas from '../components/FloatingCanvas.astro';
+import Preloader from '../components/Preloader.astro';
+import { ViewTransitions } from 'astro:transitions';
+
 
 interface Props {
   title?: string;
@@ -22,8 +25,10 @@ const {
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  </head>
+    <ViewTransitions/>
+     </head>
   <body>
+     <Preloader />
     <div class="page-wrapper">
       <FloatingCanvas />
       <div class="page-content">

@@ -10,19 +10,18 @@ const projects = [
     category: "Branding",
     year: "2024",
     description: "Logo design, brand identity, social media content, email campaigns, and a full website for a Cape Town-based transport company.",
-    images: ["/images/3.png", "/images/4.png", "/images/5.png"],
+    images: ["/images/2.webp", "/images/5.webp", "/images/3.webp"],
     gradient: "linear-gradient(135deg, #1a1f5e 0%, #6b70b8 100%)",
     accentColor: "#6b70b8",
     tags: ["Logo Design", "Social Media", "Web Design"],
   },
-  
   {
     id: 3,
     client: "Tendr Buddi",
     category: "Branding",
     year: "2024",
     description: "Full brand identity system — wordmark, figure mark, combination mark, business cards, and poster design for a tender-matching platform.",
-     images: ["/images/10.png", ],
+    images: ["/images/10.webp", "/images/11.webp"],
     gradient: "linear-gradient(135deg, #111111 0%, #3a2c00 100%)",
     accentColor: "#f5c400",
     tags: ["Brand Identity", "Print Design", "Guidelines"],
@@ -33,33 +32,12 @@ const projects = [
     category: "Web Design",
     year: "2024",
     description: "Logo, brand identity, colour system, typography guide, and full brand rollout across digital and physical touchpoints.",
-    images: ["/images/34.png", ],
+    images: ["/images/34.webp", "/images/35.webp", "/images/36.webp", "/images/37.webp", "/images/38.webp", "/images/39.webp", "/images/40.webp"],
     gradient: "linear-gradient(135deg, #212121 0%, #005f6b 100%)",
     accentColor: "#00a5b5",
     tags: ["Web Design", "Brand Identity", "UI/UX"],
   },
-  {
-    id: 5,
-    client: "Preference Clothing",
-    category: "Marketing",
-    year: "2024",
-    description: "Giveaway campaigns, social content, and graphic design for a streetwear brand — growing engagement through bold, visual-first content.",
-    images: ["/images/32.png"],
-    gradient: "linear-gradient(135deg, #111111 0%, #2a2a2a 100%)",
-    accentColor: "#e8d44d",
-    tags: ["Social Content", "Campaign Design", "Branding"],
-  },
-  {
-    id: 6,
-    client: "DAC's — Paid Campaigns",
-    category: "Marketing",
-    year: "2023",
-    description: "Meta ad creatives and email content series that reinforced trust, showcased reliability, and drove direct booking enquiries.",
-    images: ["/images/5.png", ],
-    gradient: "linear-gradient(135deg, #2F6FED 0%, #111111 100%)",
-    accentColor: "#2F6FED",
-    tags: ["Paid Ads", "Email Design", "Copywriting"],
-  },
+  
 ];
 ---
 
@@ -69,8 +47,11 @@ const projects = [
 >
   <Navigation />
 
-  <!-- ── Hero ── -->
-  <section class="section work-hero">
+  <!-- Hero Section -->
+  <!-- FIX: Replaced .work-hero with .page-hero from global.css -->
+  <!-- REMOVED: padding-top: calc(var(--nav-height, 85px) + var(--spacing-lg)) -->
+  <!-- REMOVED: @media (max-width: 480px) override that also used calc(nav-height) -->
+  <section class="section page-hero">
     <div class="container container-narrow">
       <h1>Our Work</h1>
       <p class="intro-text">
@@ -79,7 +60,7 @@ const projects = [
     </div>
   </section>
 
-  <!-- ── Filter ── -->
+  <!-- Filter -->
   <section class="section-sm">
     <div class="container">
       <div class="work-filter">
@@ -91,11 +72,10 @@ const projects = [
     </div>
   </section>
 
-  <!-- ── Work Grid ── -->
+  <!-- Work Grid -->
   <section class="section" style="padding-bottom: 0;">
     <div class="container">
       <div class="work-grid">
-
         {projects.map((project) => (
           <article
             class="work-card"
@@ -107,7 +87,6 @@ const projects = [
             data-tags={JSON.stringify(project.tags)}
             data-year={project.year}
           >
-
             <div class="work-image">
               {project.images && project.images.length > 0 ? (
                 project.images.length > 1 ? (
@@ -144,31 +123,26 @@ const projects = [
                 </span>
                 <span class="work-year">{project.year}</span>
               </div>
-
               <h3>{project.client}</h3>
               <p>{project.description}</p>
-
               <div class="work-tags">
                 {project.tags.map((tag) => (
                   <span class="work-tag">{tag}</span>
                 ))}
               </div>
-
               <button class="work-link open-lightbox" type="button">
                 View Our Work
                 <span class="arrow">→</span>
               </button>
             </div>
-
           </article>
         ))}
-
       </div>
       <p class="no-results" id="no-results" aria-live="polite"></p>
     </div>
   </section>
 
-  <!-- ── CTA ── -->
+  <!-- CTA -->
   <section class="section" style="padding-top: var(--spacing-lg);">
     <div class="container">
       <div class="cta-box">
@@ -190,26 +164,18 @@ const projects = [
     </div>
   </section>
 
-  <!-- ── Lightbox ── -->
+  <!-- Lightbox -->
   <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Project viewer">
     <div class="lightbox-backdrop"></div>
     <div class="lightbox-panel">
-
       <button class="lightbox-close" aria-label="Close">&times;</button>
-
       <div class="lightbox-body">
-        <!-- Image viewer -->
         <div class="lightbox-images">
-          <div class="lightbox-img-wrap" id="lightbox-img-wrap">
-            <!-- images injected by JS -->
-          </div>
-          <!-- Only shown when project has 2+ images -->
+          <div class="lightbox-img-wrap" id="lightbox-img-wrap"></div>
           <button class="lb-arrow lb-prev" id="lb-prev" aria-label="Previous image">&#8592;</button>
           <button class="lb-arrow lb-next" id="lb-next" aria-label="Next image">&#8594;</button>
           <div class="lightbox-counter" id="lightbox-counter"></div>
         </div>
-
-        <!-- Project info -->
         <div class="lightbox-info">
           <p class="lb-category" id="lb-category"></p>
           <h2 id="lb-client"></h2>
@@ -218,7 +184,6 @@ const projects = [
           <span class="lb-year" id="lb-year"></span>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -226,7 +191,7 @@ const projects = [
 </MainLayout>
 
 <script>
-  // ── Filter ──
+  // Filter
   const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
   const cards      = document.querySelectorAll<HTMLElement>('.work-card');
   const noResults  = document.getElementById('no-results');
@@ -236,7 +201,7 @@ const projects = [
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       const filter = btn.dataset.filter ?? 'all';
-      let visible  = 0;
+      let visible = 0;
       cards.forEach(card => {
         const match = filter === 'all' || card.dataset.category === filter;
         card.style.display = match ? '' : 'none';
@@ -248,7 +213,7 @@ const projects = [
     });
   });
 
-  // ── Gallery hover slideshow ──
+  // Gallery hover slideshow
   document.querySelectorAll<HTMLElement>('[data-gallery]').forEach(gallery => {
     const imgs = gallery.querySelectorAll<HTMLImageElement>('img');
     const dots = gallery.querySelectorAll<HTMLElement>('.dot');
@@ -266,43 +231,38 @@ const projects = [
     gallery.closest('.work-card')?.addEventListener('mouseenter', () => {
       interval = setInterval(() => goTo((current + 1) % imgs.length), 1000);
     });
-
     gallery.closest('.work-card')?.addEventListener('mouseleave', () => {
       clearInterval(interval);
       goTo(0);
     });
   });
 
-  // ── Lightbox ──
-  const lightbox     = document.getElementById('lightbox')!;
-  const backdrop     = lightbox.querySelector('.lightbox-backdrop')!;
-  const closeBtn     = lightbox.querySelector('.lightbox-close')!;
-  const imgWrap      = document.getElementById('lightbox-img-wrap')!;
-  const prevBtn      = document.getElementById('lb-prev')!;
-  const nextBtn      = document.getElementById('lb-next')!;
-  const counter      = document.getElementById('lightbox-counter')!;
-  const lbCategory   = document.getElementById('lb-category')!;
-  const lbClient     = document.getElementById('lb-client')!;
-  const lbDesc       = document.getElementById('lb-description')!;
-  const lbTags       = document.getElementById('lb-tags')!;
-  const lbYear       = document.getElementById('lb-year')!;
+  // Lightbox
+  const lightbox   = document.getElementById('lightbox')!;
+  const backdrop   = lightbox.querySelector('.lightbox-backdrop')!;
+  const closeBtn   = lightbox.querySelector('.lightbox-close')!;
+  const imgWrap    = document.getElementById('lightbox-img-wrap')!;
+  const prevBtn    = document.getElementById('lb-prev')!;
+  const nextBtn    = document.getElementById('lb-next')!;
+  const counter    = document.getElementById('lightbox-counter')!;
+  const lbCategory = document.getElementById('lb-category')!;
+  const lbClient   = document.getElementById('lb-client')!;
+  const lbDesc     = document.getElementById('lb-description')!;
+  const lbTags     = document.getElementById('lb-tags')!;
+  const lbYear     = document.getElementById('lb-year')!;
 
   let lbImages: string[] = [];
   let lbCurrent = 0;
 
   function openLightbox(card: HTMLElement) {
-    lbImages   = JSON.parse(card.dataset.images || '[]');
-    lbCurrent  = 0;
-
-    lbClient.textContent   = card.dataset.client   || '';
+    lbImages  = JSON.parse(card.dataset.images || '[]');
+    lbCurrent = 0;
+    lbClient.textContent   = card.dataset.client || '';
     lbDesc.textContent     = card.dataset.description || '';
-    lbCategory.textContent = card.dataset.category  || '';
-    lbYear.textContent     = card.dataset.year       || '';
-
-    // Tags
+    lbCategory.textContent = card.dataset.category || '';
+    lbYear.textContent     = card.dataset.year || '';
     const tags: string[] = JSON.parse(card.dataset.tags || '[]');
     lbTags.innerHTML = tags.map(t => `<span class="work-tag">${t}</span>`).join('');
-
     renderLightboxImages();
     lightbox.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -315,7 +275,6 @@ const projects = [
 
   function renderLightboxImages() {
     if (lbImages.length === 0) {
-      // No images — show gradient placeholder
       const card = document.querySelector<HTMLElement>(`[data-client="${lbClient.textContent}"]`);
       const gradient = card?.dataset.gradient || '#111';
       imgWrap.innerHTML = `<div class="lb-gradient" style="background:${gradient}"></div>`;
@@ -324,15 +283,13 @@ const projects = [
       counter.textContent = '';
       return;
     }
-
     imgWrap.innerHTML = lbImages.map((src, i) =>
       `<img src="${src}" alt="Project image ${i + 1}" class="lb-img${i === lbCurrent ? ' active' : ''}" />`
     ).join('');
-
     const hasMultiple = lbImages.length > 1;
     prevBtn.style.display = hasMultiple ? '' : 'none';
     nextBtn.style.display = hasMultiple ? '' : 'none';
-    counter.textContent   = hasMultiple ? `${lbCurrent + 1} / ${lbImages.length}` : '';
+    counter.textContent = hasMultiple ? `${lbCurrent + 1} / ${lbImages.length}` : '';
   }
 
   function lbGoTo(index: number) {
@@ -343,7 +300,6 @@ const projects = [
     counter.textContent = `${lbCurrent + 1} / ${lbImages.length}`;
   }
 
-  // Open on button click
   document.querySelectorAll<HTMLButtonElement>('.open-lightbox').forEach(btn => {
     btn.addEventListener('click', () => {
       const card = btn.closest<HTMLElement>('.work-card');
@@ -351,44 +307,36 @@ const projects = [
     });
   });
 
-  // Close
   closeBtn.addEventListener('click', closeLightbox);
   backdrop.addEventListener('click', closeLightbox);
-
-  // Arrows
   prevBtn.addEventListener('click', () => lbGoTo(lbCurrent - 1));
   nextBtn.addEventListener('click', () => lbGoTo(lbCurrent + 1));
 
-  // Keyboard: Escape to close, arrows to navigate
   document.addEventListener('keydown', (e) => {
     if (!lightbox.classList.contains('open')) return;
-    if (e.key === 'Escape')      closeLightbox();
-    if (e.key === 'ArrowRight')  lbGoTo(lbCurrent + 1);
-    if (e.key === 'ArrowLeft')   lbGoTo(lbCurrent - 1);
+    if (e.key === 'Escape')     closeLightbox();
+    if (e.key === 'ArrowRight') lbGoTo(lbCurrent + 1);
+    if (e.key === 'ArrowLeft')  lbGoTo(lbCurrent - 1);
   });
 </script>
 
 <style>
-  /* ── Hero ── */
-  .work-hero {
-    text-align: center;
-    padding-top: calc(var(--nav-height, 85px) + var(--spacing-lg));
-    padding-bottom: 0;
-  }
-  .work-hero h1 { margin-bottom: var(--spacing-lg); }
+  /* FIX: .work-hero removed entirely — using .page-hero from global.css instead */
+  /* FIX: Removed @media (max-width: 480px) .work-hero override that used calc(nav-height) */
+
   .intro-text {
     font-size: 1.375rem;
     line-height: 1.6;
     color: var(--color-slate-grey);
   }
 
-  /* ── Filter ── */
   .work-filter {
     display: flex;
     justify-content: center;
     gap: var(--spacing-md);
     flex-wrap: wrap;
   }
+
   .filter-btn {
     padding: var(--spacing-sm) var(--spacing-lg);
     font-family: var(--font-primary);
@@ -401,6 +349,7 @@ const projects = [
     transition: all var(--transition-base);
     color: var(--color-jet-black);
   }
+
   .filter-btn:hover,
   .filter-btn.active {
     background-color: var(--color-jet-black);
@@ -408,14 +357,12 @@ const projects = [
     color: var(--color-pure-white);
   }
 
-  /* ── Grid ── */
   .work-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
     gap: var(--spacing-2xl);
   }
 
-  /* ── Card ── */
   .work-card {
     display: flex;
     flex-direction: column;
@@ -424,18 +371,19 @@ const projects = [
     overflow: hidden;
     transition: all var(--transition-base);
   }
+
   .work-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 16px 48px rgba(17, 17, 17, 0.12);
     border-color: var(--color-jet-black);
   }
 
-  /* ── Image area ── */
   .work-image {
     aspect-ratio: 16 / 10;
     overflow: hidden;
     position: relative;
   }
+
   .work-image > img {
     width: 100%;
     height: 100%;
@@ -443,9 +391,9 @@ const projects = [
     display: block;
     transition: transform 0.4s ease;
   }
+
   .work-card:hover .work-image > img { transform: scale(1.03); }
 
-  /* ── Gallery ── */
   .work-gallery { position: relative; width: 100%; height: 100%; }
   .work-gallery img {
     position: absolute;
@@ -457,6 +405,7 @@ const projects = [
     transition: opacity 0.5s ease;
   }
   .work-gallery img.active { opacity: 1; }
+
   .gallery-dots {
     position: absolute;
     bottom: 8px;
@@ -466,6 +415,7 @@ const projects = [
     gap: 5px;
     z-index: 2;
   }
+
   .dot {
     width: 6px; height: 6px;
     border-radius: 50%;
@@ -474,18 +424,17 @@ const projects = [
   }
   .dot.active { background: white; }
 
-  /* ── Placeholder ── */
   .work-placeholder {
     width: 100%; height: 100%;
     display: flex; align-items: center; justify-content: center;
   }
+
   .card-mark {
     opacity: 0.6;
     transition: transform 0.4s ease, opacity 0.4s ease;
   }
   .work-card:hover .card-mark { transform: scale(1.15) rotate(6deg); opacity: 0.9; }
 
-  /* ── Card Content ── */
   .work-content {
     padding: var(--spacing-lg);
     display: flex;
@@ -493,12 +442,14 @@ const projects = [
     gap: var(--spacing-sm);
     flex: 1;
   }
+
   .work-meta {
     display: flex;
     justify-content: space-between;
     align-items: center;
     font-size: 0.875rem;
   }
+
   .work-category { font-weight: 500; }
   .work-year { color: var(--color-slate-grey); }
   .work-content h3 { margin: 0; font-size: 1.5rem; }
@@ -509,7 +460,6 @@ const projects = [
     line-height: 1.6;
   }
 
-  /* ── Tags ── */
   .work-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--spacing-xs); }
   .work-tag {
     font-size: 0.75rem;
@@ -521,7 +471,6 @@ const projects = [
     letter-spacing: 0.02em;
   }
 
-  /* ── View button ── */
   .work-link {
     display: inline-flex;
     align-items: center;
@@ -540,7 +489,6 @@ const projects = [
   }
   .work-link:hover { gap: var(--spacing-sm); }
 
-  /* ── Empty state ── */
   .no-results {
     text-align: center;
     color: var(--color-slate-grey);
@@ -548,27 +496,6 @@ const projects = [
     padding: var(--spacing-2xl) 0;
   }
 
-  /* ── Results ── */
-  .results-header { text-align: center; margin-bottom: var(--spacing-2xl); }
-  .results-header h2 { margin-bottom: var(--spacing-md); }
-  .results-header p { color: var(--color-slate-grey); font-size: 1.125rem; margin: 0 auto; }
-  .results-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--spacing-1xl);
-    margin-top: var(--spacing-2xl);
-  }
-  .result-item { text-align: center; }
-  .result-number {
-    font-size: clamp(2.5rem, 5vw, 3.5rem);
-    font-weight: 700;
-    color: var(--color-steel-blue);
-    line-height: 1;
-    margin-bottom: var(--spacing-sm);
-  }
-  .result-label { color: var(--color-slate-grey); font-size: 1rem; }
-
-  /* ── CTA ── */
   .cta-box {
     text-align: center;
     padding: var(--spacing-xl) var(--spacing-xl);
@@ -579,6 +506,7 @@ const projects = [
     align-items: center;
     gap: var(--spacing-md);
   }
+
   .cta-box h2 { margin: 0; }
   .cta-box p { font-size: 1.125rem; color: var(--color-slate-grey); margin: 0; }
 
@@ -608,9 +536,7 @@ const projects = [
     color: var(--color-pure-white);
   }
 
-  /* ════════════════════════════════════════
-     LIGHTBOX
-  ════════════════════════════════════════ */
+  /* Lightbox */
   .lightbox {
     position: fixed;
     inset: 0;
@@ -622,10 +548,7 @@ const projects = [
     pointer-events: none;
     transition: opacity 0.3s ease;
   }
-  .lightbox.open {
-    opacity: 1;
-    pointer-events: all;
-  }
+  .lightbox.open { opacity: 1; pointer-events: all; }
 
   .lightbox-backdrop {
     position: absolute;
@@ -651,16 +574,13 @@ const projects = [
 
   .lightbox-close {
     position: absolute;
-    top: 14px;
-    right: 16px;
+    top: 14px; right: 16px;
     z-index: 10;
     background: rgba(255,255,255,0.85);
     border: none;
     border-radius: 50%;
-    width: 36px;
-    height: 36px;
+    width: 36px; height: 36px;
     font-size: 1.4rem;
-    line-height: 1;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -678,7 +598,6 @@ const projects = [
     overflow: hidden;
   }
 
-  /* Image side — fills its entire grid cell */
   .lightbox-images {
     position: relative;
     background: #111;
@@ -686,27 +605,19 @@ const projects = [
     overflow: hidden;
   }
 
-  .lightbox-img-wrap {
-    position: absolute;
-    inset: 0;
-  }
+  .lightbox-img-wrap { position: absolute; inset: 0; }
 
   .lb-img {
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     object-fit: contain;
     object-position: center;
     opacity: 0;
     transition: opacity 0.4s ease;
   }
   .lb-img.active { opacity: 1; }
-
-  .lb-gradient {
-    position: absolute;
-    inset: 0;
-  }
+  .lb-gradient { position: absolute; inset: 0; }
 
   .lb-arrow {
     position: absolute;
@@ -716,8 +627,7 @@ const projects = [
     border: none;
     color: white;
     font-size: 1.25rem;
-    width: 40px;
-    height: 40px;
+    width: 40px; height: 40px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
@@ -742,7 +652,6 @@ const projects = [
     border-radius: 20px;
   }
 
-  /* Info side */
   .lightbox-info {
     padding: 40px 28px;
     display: flex;
@@ -760,28 +669,11 @@ const projects = [
     margin: 0;
   }
 
-  .lightbox-info h2 {
-    font-size: 1.6rem;
-    margin: 0;
-    line-height: 1.2;
-  }
-
-  .lightbox-info p {
-    color: var(--color-slate-grey);
-    font-size: 0.9375rem;
-    line-height: 1.6;
-    margin: 0;
-  }
-
+  .lightbox-info h2 { font-size: 1.6rem; margin: 0; line-height: 1.2; }
+  .lightbox-info p { color: var(--color-slate-grey); font-size: 0.9375rem; line-height: 1.6; margin: 0; }
   .lb-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+  .lb-year { margin-top: auto; font-size: 0.8rem; color: var(--color-slate-grey); }
 
-  .lb-year {
-    margin-top: auto;
-    font-size: 0.8rem;
-    color: var(--color-slate-grey);
-  }
-
-  /* ── Responsive ── */
   @media (max-width: 768px) {
     .intro-text { font-size: 1.125rem; }
     .work-filter { gap: var(--spacing-sm); }
@@ -789,38 +681,16 @@ const projects = [
     .work-grid { grid-template-columns: 1fr; gap: var(--spacing-xl); }
     .work-content { padding: var(--spacing-md); }
     .work-content h3 { font-size: 1.25rem; }
-    .results-grid { grid-template-columns: 1fr; gap: var(--spacing-xl); }
-    .result-number { font-size: 2.5rem; }
     .cta-box { padding: var(--spacing-2xl) var(--spacing-lg); }
     .cta-box h2 { font-size: 1.75rem; }
     .cta-box p { font-size: 1rem; }
     .cta-actions { flex-direction: column; width: 100%; }
     .btn-lg { width: 100%; padding: var(--spacing-md); justify-content: center; }
     .btn-outline { justify-content: center; }
-
-    /* Lightbox — full screen modal on mobile */
-    .lightbox-panel {
-      width: 100vw;
-      height: 100dvh;
-      border-radius: 0;
-      max-width: 100%;
-    }
-    .lightbox-body {
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr auto;
-      height: 100%;
-      overflow: hidden;
-    }
-    .lightbox-images {
-      height: 100%;
-      min-height: 0;
-    }
-    .lightbox-info {
-      padding: 18px 20px;
-      gap: 8px;
-      max-height: 45vh;
-      overflow-y: auto;
-    }
+    .lightbox-panel { width: 100vw; height: 100dvh; border-radius: 0; max-width: 100%; }
+    .lightbox-body { grid-template-columns: 1fr; grid-template-rows: 1fr auto; height: 100%; overflow: hidden; }
+    .lightbox-images { height: 100%; min-height: 0; }
+    .lightbox-info { padding: 18px 20px; gap: 8px; max-height: 45vh; overflow-y: auto; }
     .lightbox-info h2 { font-size: 1.2rem; }
     .lightbox-info p { font-size: 0.875rem; }
     .lb-year { display: none; }
@@ -828,12 +698,11 @@ const projects = [
 
   @media (min-width: 769px) and (max-width: 1024px) {
     .work-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--spacing-xl); }
-    .results-grid { grid-template-columns: repeat(3, 1fr); gap: var(--spacing-lg); }
     .lightbox-body { grid-template-columns: 1fr 280px; }
   }
 
   @media (max-width: 480px) {
-    .work-hero { padding-top: calc(var(--nav-height, 85px) + var(--spacing-xl)); }
+    /* FIX: Removed old calc(var(--nav-height, 85px) + var(--spacing-xl)) override */
     .filter-btn { flex: 1 1 calc(50% - var(--spacing-sm)); min-width: 120px; }
     .work-meta { flex-direction: column; align-items: flex-start; gap: var(--spacing-xs); }
   }
