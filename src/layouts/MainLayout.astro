@@ -3,56 +3,89 @@ import FloatingCanvas from '../components/FloatingCanvas.astro';
 import Preloader from '../components/Preloader.astro';
 import { ViewTransitions } from 'astro:transitions';
 
-
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  url?: string;
 }
 
-const { 
-  title = 'Plane View Collective', 
-  description = 'Clarity, created with people in mind.' 
+const {
+  title = 'Plane View Collective',
+  description = 'Clarity, created with people in mind.',
+  image = '/social-preview.png',
+  url = 'https://planeview.co.za'
 } = Astro.props;
 ---
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    <title>{title}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    <ViewTransitions/>
-     </head>
-  <body>
-     <Preloader />
-    <div class="page-wrapper">
-      <FloatingCanvas />
-      <div class="page-content">
-        <slot />
-      </div>
+<head>
+  <!-- Basic Meta -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>{title}</title>
+  <meta name="description" content={description} />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/x-icon" href="/Plane View Collective Logos-02" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+
+  <!-- SEO / OpenGraph -->
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={url} />
+  <meta property="og:image" content={image} />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={image} />
+
+  <!-- Theme -->
+  <meta name="theme-color" content="#000000" />
+
+  <!-- Performance Optimizations -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- PWA Support (Optional but Future Proof) -->
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <ViewTransitions />
+</head>
+
+<body>
+  <Preloader />
+
+  <div class="page-wrapper">
+    <FloatingCanvas />
+
+    <div class="page-content">
+      <slot />
     </div>
-  </body>
-</html>
+  </div>
+</body>
 
 <style is:global>
-  @import '../styles/global.css';
+@import '../styles/global.css';
 
-  .page-wrapper {
-    position: relative;
-    width: 100%;
-    min-height: 100vh;
-  }
+.page-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
 
-  .page-content {
-    position: relative;
-    z-index: 1;
-  }
-
-  body {
-    position: relative;
-  }
+.page-content {
+  position: relative;
+  z-index: 1;
+}
 </style>
