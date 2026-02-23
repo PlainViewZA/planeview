@@ -497,3 +497,47 @@ button:hover .arrow {
     page-break-inside: avoid;
   }
 }
+
+/* ── Shared Page Hero ── */
+.page-hero {
+  text-align: center;
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+
+.page-hero h1 {
+  margin-bottom: var(--spacing-md);
+}
+
+.page-hero .intro-text {
+  font-size: 1.375rem;
+  line-height: 1.6;
+  max-width: 800px;
+  margin: 0 auto;
+  color: var(--color-slate-grey);
+}
+
+@media (max-width: 768px) {
+  .page-hero {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  .page-hero .intro-text {
+    font-size: 1.125rem;
+  }
+}
+/* ── Brand Dotted Lines ── */
+.brand-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.brand-lines svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}

@@ -2,6 +2,7 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import Navigation from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
+import BrandLines from '../components/BrandLines.astro';
 ---
 
 <MainLayout 
@@ -9,9 +10,13 @@ import Footer from '../components/Footer.astro';
   description="Founded in Cape Town, we're a collective focused on strategic clarity and creative execution."
 >
   <Navigation />
+   <BrandLines />
 
   <!-- Hero Section -->
-  <section class="section about-hero">
+  <!-- FIX: Replaced .about-hero with .page-hero from global.css -->
+  <!-- REMOVED: padding-top: calc(var(--nav-height, 85px) + var(--spacing-lg)) -->
+  <!-- The nav-spacer in Navbar.astro handles nav clearance — no calc needed here -->
+  <section class="section page-hero">
     <div class="container">
       <h1>About Plane View Collective</h1>
       <p class="intro-text">
@@ -53,6 +58,9 @@ import Footer from '../components/Footer.astro';
           <h2>Who We Are</h2>
           <p class="lead">We're human first. People before platforms. Confident, not arrogant. Creative with intention. Fast, but thoughtful. Clear, never complicated.</p>
         </div>
+        <section class="section" style="position: relative;">
+  
+  <div class="container">
         <div>
           <h4>Our Tone of Voice</h4>
           <div class="tone-grid">
@@ -81,10 +89,10 @@ import Footer from '../components/Footer.astro';
   <!-- Values Section -->
   <section class="section">
     <div class="container container-narrow">
-    <div class="section-header">
-      <h2>What Drives Us</h2>
-      <p class="lead">We care about how people feel when they interact with a brand. If it does not sound like something a real person would say, we rewrite it.</p>
-    </div>
+      <div class="section-header">
+        <h2>What Drives Us</h2>
+        <p class="lead">We care about how people feel when they interact with a brand. If it does not sound like something a real person would say, we rewrite it.</p>
+      </div>
       
       <div class="core-values">
         <div class="value-card">
@@ -124,15 +132,7 @@ import Footer from '../components/Footer.astro';
 </MainLayout>
 
 <style>
-  .about-hero {
-    text-align: center;
-    padding-top: calc(var(--nav-height, 85px) + var(--spacing-lg));
-    padding-bottom: 0;
-  }
-
-  .about-hero h1 {
-    margin-bottom: var(--spacing-md);
-  }
+  /* FIX: .about-hero removed entirely — using .page-hero from global.css instead */
 
   .intro-text {
     font-size: 1.375rem;
@@ -142,7 +142,6 @@ import Footer from '../components/Footer.astro';
     color: var(--color-slate-grey);
   }
 
-  /* Increase gap between hero and the section directly below */
   .meaning-section {
     padding-top: calc(var(--spacing-xl) + var(--spacing-md));
   }
@@ -151,11 +150,6 @@ import Footer from '../components/Footer.astro';
     text-align: center;
     max-width: 700px;
     margin: 0 auto var(--spacing-md);
-  }
-
-  /* Tighten navbar wordmark line spacing when viewing the about page */
-  .logo-text {
-    gap: 0.05rem;
   }
 
   .lead {
@@ -168,7 +162,7 @@ import Footer from '../components/Footer.astro';
   .meaning-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--spacing-x1l);
+    gap: var(--spacing-xl);
     margin-bottom: var(--spacing-xl);
     text-align: center;
     justify-items: center;
@@ -238,10 +232,6 @@ import Footer from '../components/Footer.astro';
     font-size: 0.9375rem;
   }
 
-  .text-center {
-    text-align: center;
-  }
-
   .core-values {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -272,6 +262,9 @@ import Footer from '../components/Footer.astro';
   }
 
   .location-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     text-align: center;
     padding: var(--spacing-2xl);
     background-color: var(--color-jet-black);
@@ -287,18 +280,6 @@ import Footer from '../components/Footer.astro';
   .location-box p {
     color: var(--color-slate-grey);
     margin-bottom: var(--spacing-lg);
-  }
-
-  /* Center paragraph and CTA inside location box and prevent full-width button
-     on mobile when inside this container */
-  .location-box p {
-    text-align: center;
-  }
-
-  .location-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     text-align: center;
   }
 
