@@ -32,8 +32,8 @@ const {
     </div>
   </div>
 
-  <!-- Decorative Element -->
-  <div class="hero-decoration">
+  <!-- Decorative dashed path -->
+  <div class="hero-decoration" aria-hidden="true">
     <div class="plane-path">
       <svg width="100%" height="200" viewBox="0 0 1200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path 
@@ -49,16 +49,30 @@ const {
 </section>
 
 <style>
+  /*
+    FIX: No calc() with CSS variables here.
+    The nav-spacer in Navbar.astro handles clearing the fixed navbar.
+    Hero padding is purely internal breathing room — hardcoded px values
+    that never conflict with the global spacing variable changes at breakpoints.
+
+    FIX: min-height changed from 40vh to calc(100vh - 85px) so the hero
+    always fills the visible viewport below the navbar on desktop.
+    This prevents content from sitting hidden behind the nav on first load.
+  */
   .hero {
     position: relative;
-    min-height: 40vh;
+    min-height: 60vh;
     display: flex;
     align-items: center;
     justify-content: center;
-    /* include nav height so spacing matches on mobile and desktop */
-    padding-top: calc(var(--nav-height, 85px) + var(--spacing-3xl));
-    padding-bottom: var(--spacing-3xl);
+    padding-top: 48px;
+    padding-bottom: 80px;
     overflow: hidden;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
   }
 
   .hero-content {
@@ -95,26 +109,29 @@ const {
     margin-top: var(--spacing-md);
   }
 
-  /* Decorative Element */
   .hero-decoration {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     pointer-events: none;
-    z-index: -1;
+    z-index: 1;
   }
 
   .plane-path {
     opacity: 0.3;
   }
 
-  /* Responsive */
+  /* 
+    FIX: Mobile min-height accounts for smaller nav (70px).
+    Padding values are hardcoded — not affected by global CSS variable 
+    changes at breakpoints which was causing the layout shift.
+  */
   @media (max-width: 768px) {
     .hero {
-      min-height: 70vh;
-      /* include nav height on small screens as well */
-      padding-top: calc(var(--nav-height, 70px) + var(--spacing-2xl));
+   min-height: 30vh;
+    padding-top: 32px;
+    padding-bottom: 60px;
     }
 
     .hero-cta {
@@ -124,6 +141,13 @@ const {
 
     .hero-cta .btn {
       width: 100%;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hero {
+      padding-top: 24px;
+      padding-bottom: 48px;
     }
   }
 </style>

@@ -11,7 +11,9 @@ import Footer from '../components/Footer.astro';
   <Navigation />
 
   <!-- Hero Section -->
-  <section class="section services-hero">
+  <!-- FIX: Replaced .services-hero with .page-hero from global.css -->
+  <!-- REMOVED: padding-top: calc(var(--nav-height, 85px) + var(--spacing-lg)) -->
+  <section class="section page-hero">
     <div class="container container-narrow">
       <h1>What We Do</h1>
       <p class="intro-text">
@@ -36,7 +38,6 @@ import Footer from '../components/Footer.astro';
           </div>
           <h2>Brand Strategy</h2>
           <p class="service-description">Clear direction and positioning that resonates with real people. We help you understand who you are, what you stand for, and how to communicate that effectively.</p>
-          
           <h4>What's Included</h4>
           <ul class="service-list">
             <li>Brand positioning & messaging</li>
@@ -57,7 +58,6 @@ import Footer from '../components/Footer.astro';
           </div>
           <h2>Website Design & Development</h2>
           <p class="service-description">Performance-first design with clear hierarchy and strong CTAs. We build websites that are fast, accessible, and convert visitors into customers.</p>
-          
           <h4>What's Included</h4>
           <ul class="service-list">
             <li>Custom website design</li>
@@ -78,7 +78,6 @@ import Footer from '../components/Footer.astro';
           </div>
           <h2>Digital Marketing</h2>
           <p class="service-description">Campaigns that turn attention into action. We create marketing strategies that reach the right people with the right message at the right time.</p>
-          
           <h4>What's Included</h4>
           <ul class="service-list">
             <li>Campaign strategy & planning</li>
@@ -103,7 +102,6 @@ import Footer from '../components/Footer.astro';
           </div>
           <h2>Social Media & Content</h2>
           <p class="service-description">Content that gets attention and drives engagement. We create social strategies and content that feels authentic and performs consistently.</p>
-          
           <h4>What's Included</h4>
           <ul class="service-list">
             <li>Social media strategy</li>
@@ -132,7 +130,6 @@ import Footer from '../components/Footer.astro';
             <p>We learn everything about your brand, audience, and goals.</p>
           </div>
         </div>
-        
         <div class="timeline-item">
           <div class="timeline-marker">2</div>
           <div class="timeline-content">
@@ -140,7 +137,6 @@ import Footer from '../components/Footer.astro';
             <p>We develop a clear plan with measurable objectives.</p>
           </div>
         </div>
-        
         <div class="timeline-item">
           <div class="timeline-marker">3</div>
           <div class="timeline-content">
@@ -148,7 +144,6 @@ import Footer from '../components/Footer.astro';
             <p>We design and build with purpose, testing as we go.</p>
           </div>
         </div>
-        
         <div class="timeline-item">
           <div class="timeline-marker">4</div>
           <div class="timeline-content">
@@ -178,15 +173,7 @@ import Footer from '../components/Footer.astro';
 </MainLayout>
 
 <style>
-  .services-hero {
-    text-align: center;
-    padding-top: calc(var(--nav-height, 85px) + var(--spacing-lg));
-    padding-bottom: 0;
-  }
-
-  .services-hero h1 {
-    margin-bottom: var(--spacing-md);
-  }
+  /* FIX: .services-hero removed entirely — using .page-hero from global.css instead */
 
   .intro-text {
     font-size: 1.375rem;
@@ -314,9 +301,7 @@ import Footer from '../components/Footer.astro';
     gap: var(--spacing-md);
   }
 
-  .cta-box h2 {
-    margin: 0;
-  }
+  .cta-box h2 { margin: 0; }
 
   .cta-box p {
     font-size: 1.125rem;
