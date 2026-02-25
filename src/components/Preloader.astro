@@ -2,12 +2,8 @@
 // Preloader Component - Plane View Collective
 ---
 
-<!-- 
-  FIX: transition:persist keeps the preloader alive across ViewTransitions
-  so it doesn't re-trigger on every page navigation.
-  style="display:none" hides it by default — script shows it only if not seen.
--->
 <div id="preloader" class="preloader" style="display:none" transition:persist>
+  <div id="preloader" class="preloader" style="display:none" transition:persist>
   <video
     class="preloader-animation"
     autoplay
@@ -15,94 +11,104 @@
     playsinline
     disablepictureinpicture
   >
-    <source src="/videos/plane-intro.webm" type="video/webm" />
+    <!-- Mobile-optimized version first -->
+    <source 
+      src="/videos/mobile_website.webm" 
+      type="video/webm"
+      media="(max-width: 767px)" 
+    />
+    
+    <!-- Desktop / larger screens -->
+    <source 
+      src="/videos/plane-intro.webm" 
+      type="video/webm"
+    />
+    
+    <!-- Optional fallback poster if video fails -->
+    <!-- <img src="/images/preloader-fallback.jpg" alt="Plane View Intro" slot="poster"> but not needed here -->
   </video>
+
   <button id="preloader-skip" class="preloader-skip" type="button">
     Skip <span class="skip-arrow">→</span>
   </button>
+
   <div class="preloader-progress">
     <div class="preloader-bar" id="preloader-bar"></div>
   </div>
 </div>
 
 <script>
-const preloader = document.getElementById('preloader')!;
-const skipBtn   = document.getElementById('preloader-skip')!;
-const bar       = document.getElementById('preloader-bar')!;
-const video     = preloader.querySelector('video')!;
+  const preloader = document.getElementById('preloader')!;
+  const skipBtn   = document.getElementById('preloader-skip')!;
+  const bar       = document.getElementById('preloader-bar')!;
+  const video     = preloader.querySelector('video')!;
 
-function dismiss() {
-  // FIX: Save to localStorage so preloader never shows again this browser session
-  try { localStorage.setItem('pvc-intro-seen', '1'); } catch(e) {}
+  function dismiss() {
+    try { localStorage.setItem('pvc-intro-seen', '1'); } catch(e) {}
 
-  preloader.classList.add('preloader-out');
+    preloader.classList.add('preloader-out');
 
-  // FIX: Unlock scroll on both body AND html — some browsers lock on html not body
-  document.body.style.overflow = '';
-  document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
 
-  // FIX: Dispatch resize event so Navbar recalculates its height
-  // and the nav-spacer updates correctly before hero becomes visible
-  window.dispatchEvent(new Event('resize'));
-
-  setTimeout(() => {
-    preloader.style.display = 'none';
-    // FIX: Second resize after preloader is fully hidden to ensure
-    // nav spacer is correct once layout repaints
     window.dispatchEvent(new Event('resize'));
-  }, 800);
-}
 
-// FIX: Wrap localStorage in try/catch — private browsing blocks it on some browsers
-let alreadySeen = false;
-try { alreadySeen = !!localStorage.getItem('pvc-intro-seen'); } catch(e) {}
+    setTimeout(() => {
+      preloader.style.display = 'none';
+      // Free video from memory so it stops burning CPU/GPU after dismiss
+      video.pause();
+      video.src = '';
+      video.load();
+      window.dispatchEvent(new Event('resize'));
+    }, 800);
+  }
 
-if (alreadySeen) {
-  // Already seen — hide immediately and make absolutely sure scroll is unlocked
-  preloader.style.display = 'none';
-  document.body.style.overflow = '';
-  document.documentElement.style.overflow = '';
-} else {
-  // First visit — show preloader and lock scroll
-  preloader.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
-  document.documentElement.style.overflow = 'hidden';
+  let alreadySeen = false;
+  try { alreadySeen = !!localStorage.getItem('pvc-intro-seen'); } catch(e) {}
 
-  // FIX: Sync progress bar to actual video duration via loadedmetadata
-  // instead of a hardcoded timer — works for any video length
-  video.addEventListener('loadedmetadata', () => {
-    bar.style.transition = `width ${video.duration}s linear`;
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => { bar.style.width = '100%'; });
+  if (alreadySeen) {
+    preloader.style.display = 'none';
+    document.body.style.overflow = '';
+    document.documentElement.style.overflow = '';
+  } else {
+    preloader.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    document.documentElement.style.overflow = 'hidden';
+
+    // Slightly reduce playback rate on mobile to ease decoder load
+    if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+      video.playbackRate = 0.95;
+    }
+
+    // Sync progress bar to actual video duration
+    video.addEventListener('loadedmetadata', () => {
+      bar.style.transition = `width ${video.duration / video.playbackRate}s linear`;
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => { bar.style.width = '100%'; });
+      });
     });
-  });
 
-  // FIX: Fallback timer in case video never fires ended/error events
-  const fallbackTimer = setTimeout(dismiss, 25000);
+    const fallbackTimer = setTimeout(dismiss, 25000);
 
-  // Dismiss when video naturally ends
-  video.addEventListener('ended', () => {
-    clearTimeout(fallbackTimer);
-    dismiss();
-  });
+    video.addEventListener('ended', () => {
+      clearTimeout(fallbackTimer);
+      dismiss();
+    });
 
-  // FIX: Also dismiss if video fails to load — prevents infinite lock
-  video.addEventListener('error', () => {
-    clearTimeout(fallbackTimer);
-    dismiss();
-  });
+    video.addEventListener('error', () => {
+      clearTimeout(fallbackTimer);
+      dismiss();
+    });
 
-  // Skip button — clears fallback timer and pauses video cleanly
-  skipBtn.addEventListener('click', () => {
-    clearTimeout(fallbackTimer);
-    video.pause();
-    dismiss();
-  });
-}
+    skipBtn.addEventListener('click', () => {
+      clearTimeout(fallbackTimer);
+      video.pause();
+      dismiss();
+    });
+  }
 </script>
 
 <style>
-  /* Base preloader — fullscreen fixed overlay */
   .preloader {
     position: fixed;
     inset: 0;
@@ -111,16 +117,16 @@ if (alreadySeen) {
     display: flex;
     align-items: center;
     justify-content: center;
+    will-change: opacity;
     transition: opacity 0.8s ease;
   }
 
-  /* Fade out class added by dismiss() */
   .preloader-out {
     opacity: 0;
     pointer-events: none;
   }
 
-  /* FIX: position:absolute + inset:0 ensures video fills the entire preloader */
+  /* Desktop / landscape — cover fills screen cleanly */
   .preloader-animation {
     position: absolute;
     inset: 0;
@@ -129,9 +135,10 @@ if (alreadySeen) {
     object-fit: cover;
     object-position: center center;
     display: block;
+    will-change: transform;
   }
 
-  /* Wordmark top left */
+  /* Wordmark */
   .preloader::before {
     content: 'PLANE VIEW';
     position: absolute;
@@ -150,7 +157,7 @@ if (alreadySeen) {
     bottom: 48px;
     right: 40px;
     z-index: 2;
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.12);
     border: 1px solid rgba(255, 255, 255, 0.25);
     color: rgba(255, 255, 255, 0.85);
     font-family: inherit;
@@ -164,11 +171,10 @@ if (alreadySeen) {
     align-items: center;
     gap: 6px;
     transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
-    backdrop-filter: blur(4px);
   }
 
   .preloader-skip:hover {
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.22);
     border-color: rgba(255, 255, 255, 0.5);
     color: #fff;
   }
@@ -198,11 +204,32 @@ if (alreadySeen) {
     background: #2F6FED;
   }
 
-  /* Tablet */
-  @media (max-width: 768px) {
-    .preloader-animation {
-      object-position: center 30%;
+  /* ── PORTRAIT CROP FIX ─────────────────────────────────────────────────────
+     The video is 16:9 landscape. On a portrait phone:
+     - inset:0 + 100% height resolves to the CSS viewport, not the real
+       screen height — browser chrome causes gaps at top/bottom
+     - This means object-fit:cover has the wrong reference dimensions
+       and the crop doesn't fill the screen correctly
+
+     Fix: explicitly set both container and video to 100dvh in portrait mode.
+     dvh = dynamic viewport height — it accounts for browser chrome
+     showing/hiding in real time, so the video always fills the true
+     visible screen. object-fit:cover then scales the landscape video
+     to fill portrait height and crops left/right — exactly what you want. */
+  @media (orientation: portrait) {
+    .preloader {
+      height: 100dvh;
     }
+    .preloader-animation {
+      width: 100vw;
+      height: 100dvh;
+      object-fit: cover;
+      object-position: center center;
+    }
+  }
+
+  /* Mobile UI adjustments */
+  @media (max-width: 768px) {
     .preloader::before {
       top: 28px;
       left: 24px;
@@ -216,11 +243,7 @@ if (alreadySeen) {
     }
   }
 
-  /* Mobile */
   @media (max-width: 480px) {
-    .preloader-animation {
-      object-position: 60% 30%;
-    }
     .preloader::before {
       top: 20px;
       left: 16px;
@@ -236,17 +259,16 @@ if (alreadySeen) {
     }
   }
 
-  /* Small mobile */
-  @media (max-width: 360px) {
-    .preloader::before {
-      font-size: 0.6rem;
-      letter-spacing: 0.12em;
-    }
+  /* Larger tap target on touch devices */
+  @media (hover: none) and (pointer: coarse) {
     .preloader-skip {
-      bottom: 24px;
-      right: 12px;
-      font-size: 0.7rem;
-      padding: 6px 12px;
+      min-height: 44px;
+      padding: 10px 20px;
+    }
+  }
+  @media (max-width: 767px) {
+    .preloader-animation {
+      object-position: center 30%;   /* ← adjust if mobile video is composed differently */
     }
   }
 </style>
