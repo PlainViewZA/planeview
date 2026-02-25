@@ -10,7 +10,7 @@ const projects = [
     category: "Branding",
     year: "2024",
     description: "Logo design, brand identity, social media content, email campaigns, and a full website for a Cape Town-based transport company.",
-    images: ["/images/2.webp", "/images/5.webp", "/images/3.webp"],
+    images: ["images/1.webp", "images/2.webp", "images/3.webp", "images/4.webp", "images/5.webp", "images/6.webp"],
     gradient: "linear-gradient(135deg, #1a1f5e 0%, #6b70b8 100%)",
     accentColor: "#6b70b8",
     tags: ["Logo Design", "Social Media", "Web Design"],
@@ -21,7 +21,7 @@ const projects = [
     category: "Branding",
     year: "2024",
     description: "Full brand identity system — wordmark, figure mark, combination mark, business cards, and poster design for a tender-matching platform.",
-    images: ["/images/10.webp", "/images/11.webp"],
+    images: ["images/10.webp", "images/11.webp", "images/12.webp", "images/13.webp", "images/14.webp", "images/15.webp", "images/16.webp", "images/17.webp", "images/18.webp", "images/19.webp", "images/20.webp", "images/21.webp","images/22.webp","images/23.webp","images/24.webp","images/25.webp","images/26.webp","images/27.webp","images/28.webp","images/29.webp"],
     gradient: "linear-gradient(135deg, #111111 0%, #3a2c00 100%)",
     accentColor: "#f5c400",
     tags: ["Brand Identity", "Print Design", "Guidelines"],
@@ -37,7 +37,6 @@ const projects = [
     accentColor: "#00a5b5",
     tags: ["Web Design", "Brand Identity", "UI/UX"],
   },
-  
 ];
 ---
 
@@ -48,9 +47,6 @@ const projects = [
   <Navigation />
 
   <!-- Hero Section -->
-  <!-- FIX: Replaced .work-hero with .page-hero from global.css -->
-  <!-- REMOVED: padding-top: calc(var(--nav-height, 85px) + var(--spacing-lg)) -->
-  <!-- REMOVED: @media (max-width: 480px) override that also used calc(nav-height) -->
   <section class="section page-hero">
     <div class="container container-narrow">
       <h1>Our Work</h1>
@@ -165,6 +161,8 @@ const projects = [
   </section>
 
   <!-- Lightbox -->
+  <!-- CHANGE: All lightbox CSS is now in global.css — styles here were scoped
+       by Astro and never reached the JS-created <img> elements inside imgWrap -->
   <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Project viewer">
     <div class="lightbox-backdrop"></div>
     <div class="lightbox-panel">
@@ -191,7 +189,7 @@ const projects = [
 </MainLayout>
 
 <script>
-  // Filter
+  // ─── Filter Logic ────────────────────────────────────────────────────────────
   const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
   const cards      = document.querySelectorAll<HTMLElement>('.work-card');
   const noResults  = document.getElementById('no-results');
@@ -213,7 +211,7 @@ const projects = [
     });
   });
 
-  // Gallery hover slideshow
+  // ─── Gallery Hover Slideshow ─────────────────────────────────────────────────
   document.querySelectorAll<HTMLElement>('[data-gallery]').forEach(gallery => {
     const imgs = gallery.querySelectorAll<HTMLImageElement>('img');
     const dots = gallery.querySelectorAll<HTMLElement>('.dot');
@@ -237,7 +235,7 @@ const projects = [
     });
   });
 
-  // Lightbox
+  // ─── Lightbox Setup ──────────────────────────────────────────────────────────
   const lightbox   = document.getElementById('lightbox')!;
   const backdrop   = lightbox.querySelector('.lightbox-backdrop')!;
   const closeBtn   = lightbox.querySelector('.lightbox-close')!;
@@ -273,6 +271,10 @@ const projects = [
     document.body.style.overflow = '';
   }
 
+  // CHANGE: Rewrote to use createElement instead of innerHTML string.
+  // innerHTML string approach set the active class before the DOM existed,
+  // causing images to not show on first open. createElement lets us set
+  // the class directly on the element before appending it.
   function renderLightboxImages() {
     if (lbImages.length === 0) {
       const card = document.querySelector<HTMLElement>(`[data-client="${lbClient.textContent}"]`);
@@ -283,19 +285,32 @@ const projects = [
       counter.textContent = '';
       return;
     }
-    imgWrap.innerHTML = lbImages.map((src, i) =>
-      `<img src="${src}" alt="Project image ${i + 1}" class="lb-img${i === lbCurrent ? ' active' : ''}" />`
-    ).join('');
+
+    imgWrap.innerHTML = '';
+
+    lbImages.forEach((src, i) => {
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = `Project image ${i + 1}`;
+      img.className = 'lb-img' + (i === lbCurrent ? ' active' : '');
+      imgWrap.appendChild(img);
+    });
+
     const hasMultiple = lbImages.length > 1;
-    prevBtn.style.display = hasMultiple ? '' : 'none';
-    nextBtn.style.display = hasMultiple ? '' : 'none';
+    // CHANGE: 'flex' not '' — matches display:flex in global CSS for centred arrows
+    prevBtn.style.display = hasMultiple ? 'flex' : 'none';
+    nextBtn.style.display = hasMultiple ? 'flex' : 'none';
     counter.textContent = hasMultiple ? `${lbCurrent + 1} / ${lbImages.length}` : '';
   }
 
+  // CHANGE: Added imgs.length guard + fixed negative modulo wrapping.
+  // Old: (index + lbImages.length) % lbImages.length — fails on index = -1 in some engines.
+  // New: double modulo pattern handles all negative values correctly.
   function lbGoTo(index: number) {
     const imgs = imgWrap.querySelectorAll<HTMLImageElement>('.lb-img');
+    if (imgs.length === 0) return;
     imgs[lbCurrent]?.classList.remove('active');
-    lbCurrent = (index + lbImages.length) % lbImages.length;
+    lbCurrent = ((index % lbImages.length) + lbImages.length) % lbImages.length;
     imgs[lbCurrent]?.classList.add('active');
     counter.textContent = `${lbCurrent + 1} / ${lbImages.length}`;
   }
@@ -318,392 +333,24 @@ const projects = [
     if (e.key === 'ArrowRight') lbGoTo(lbCurrent + 1);
     if (e.key === 'ArrowLeft')  lbGoTo(lbCurrent - 1);
   });
+
+  // CHANGE: Added swipe support — previously no mobile swipe handling existed.
+  // Swipe left = next image, swipe right = previous image. 50px threshold
+  // prevents accidental triggers on small taps.
+  let touchStartX = 0;
+  lightbox.addEventListener('touchstart', (e) => {
+    touchStartX = e.touches[0].clientX;
+  }, { passive: true });
+  lightbox.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) {
+      lbGoTo(diff > 0 ? lbCurrent + 1 : lbCurrent - 1);
+    }
+  });
 </script>
 
-<style>
-  /* FIX: .work-hero removed entirely — using .page-hero from global.css instead */
-  /* FIX: Removed @media (max-width: 480px) .work-hero override that used calc(nav-height) */
-
-  .intro-text {
-    font-size: 1.375rem;
-    line-height: 1.6;
-    color: var(--color-slate-grey);
-  }
-
-  .work-filter {
-    display: flex;
-    justify-content: center;
-    gap: var(--spacing-md);
-    flex-wrap: wrap;
-  }
-
-  .filter-btn {
-    padding: var(--spacing-sm) var(--spacing-lg);
-    font-family: var(--font-primary);
-    font-size: 0.9375rem;
-    font-weight: 500;
-    background-color: transparent;
-    border: 2px solid rgba(17, 17, 17, 0.1);
-    border-radius: var(--radius-full);
-    cursor: pointer;
-    transition: all var(--transition-base);
-    color: var(--color-jet-black);
-  }
-
-  .filter-btn:hover,
-  .filter-btn.active {
-    background-color: var(--color-jet-black);
-    border-color: var(--color-jet-black);
-    color: var(--color-pure-white);
-  }
-
-  .work-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: var(--spacing-2xl);
-  }
-
-  .work-card {
-    display: flex;
-    flex-direction: column;
-    border: 1px solid rgba(17, 17, 17, 0.1);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    transition: all var(--transition-base);
-  }
-
-  .work-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 48px rgba(17, 17, 17, 0.12);
-    border-color: var(--color-jet-black);
-  }
-
-  .work-image {
-    aspect-ratio: 16 / 10;
-    overflow: hidden;
-    position: relative;
-  }
-
-  .work-image > img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform 0.4s ease;
-  }
-
-  .work-card:hover .work-image > img { transform: scale(1.03); }
-
-  .work-gallery { position: relative; width: 100%; height: 100%; }
-  .work-gallery img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
-  .work-gallery img.active { opacity: 1; }
-
-  .gallery-dots {
-    position: absolute;
-    bottom: 8px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 5px;
-    z-index: 2;
-  }
-
-  .dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.45);
-    transition: background 0.3s ease;
-  }
-  .dot.active { background: white; }
-
-  .work-placeholder {
-    width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-  }
-
-  .card-mark {
-    opacity: 0.6;
-    transition: transform 0.4s ease, opacity 0.4s ease;
-  }
-  .work-card:hover .card-mark { transform: scale(1.15) rotate(6deg); opacity: 0.9; }
-
-  .work-content {
-    padding: var(--spacing-lg);
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
-    flex: 1;
-  }
-
-  .work-meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 0.875rem;
-  }
-
-  .work-category { font-weight: 500; }
-  .work-year { color: var(--color-slate-grey); }
-  .work-content h3 { margin: 0; font-size: 1.5rem; }
-  .work-content p {
-    color: var(--color-slate-grey);
-    margin: 0;
-    font-size: 0.9375rem;
-    line-height: 1.6;
-  }
-
-  .work-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--spacing-xs); }
-  .work-tag {
-    font-size: 0.75rem;
-    font-weight: 500;
-    padding: 3px 10px;
-    border-radius: var(--radius-full);
-    background-color: rgba(17, 17, 17, 0.06);
-    color: var(--color-slate-grey);
-    letter-spacing: 0.02em;
-  }
-
-  .work-link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--spacing-xs);
-    margin-top: auto;
-    padding-top: var(--spacing-sm);
-    font-weight: 500;
-    font-size: inherit;
-    font-family: inherit;
-    color: var(--color-steel-blue);
-    background: none;
-    border: none;
-    cursor: pointer;
-    transition: gap var(--transition-base);
-    padding-left: 0;
-  }
-  .work-link:hover { gap: var(--spacing-sm); }
-
-  .no-results {
-    text-align: center;
-    color: var(--color-slate-grey);
-    font-size: 1rem;
-    padding: var(--spacing-2xl) 0;
-  }
-
-  .cta-box {
-    text-align: center;
-    padding: var(--spacing-xl) var(--spacing-xl);
-    background-color: rgba(47, 111, 237, 0.05);
-    border-radius: var(--radius-lg);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--spacing-md);
-  }
-
-  .cta-box h2 { margin: 0; }
-  .cta-box p { font-size: 1.125rem; color: var(--color-slate-grey); margin: 0; }
-
-  .cta-actions {
-    display: flex;
-    gap: var(--spacing-md);
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .btn-lg { padding: var(--spacing-md) var(--spacing-xl); font-size: 1.125rem; }
-
-  .btn-outline {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    border: 2px solid var(--color-jet-black);
-    color: var(--color-jet-black);
-    background: transparent;
-    border-radius: var(--radius-full, 9999px);
-    font-weight: 500;
-    text-decoration: none;
-    transition: all var(--transition-base);
-  }
-  .btn-outline:hover {
-    background-color: var(--color-jet-black);
-    color: var(--color-pure-white);
-  }
-
-  /* Lightbox */
-  .lightbox {
-    position: fixed;
-    inset: 0;
-    z-index: 1000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-  }
-  .lightbox.open { opacity: 1; pointer-events: all; }
-
-  .lightbox-backdrop {
-    position: absolute;
-    inset: 0;
-    background: rgba(10, 10, 10, 0.88);
-    backdrop-filter: blur(4px);
-  }
-
-  .lightbox-panel {
-    position: relative;
-    z-index: 1;
-    background: #ffffff;
-    border-radius: 16px;
-    width: min(92vw, 1040px);
-    height: min(88vh, 640px);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    transform: translateY(16px);
-    transition: transform 0.3s ease;
-  }
-  .lightbox.open .lightbox-panel { transform: translateY(0); }
-
-  .lightbox-close {
-    position: absolute;
-    top: 14px; right: 16px;
-    z-index: 10;
-    background: rgba(255,255,255,0.85);
-    border: none;
-    border-radius: 50%;
-    width: 36px; height: 36px;
-    font-size: 1.4rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #111;
-    transition: background 0.2s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-  }
-  .lightbox-close:hover { background: rgba(255,255,255,1); }
-
-  .lightbox-body {
-    display: grid;
-    grid-template-columns: 1fr 320px;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .lightbox-images {
-    position: relative;
-    background: #111;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .lightbox-img-wrap { position: absolute; inset: 0; }
-
-  .lb-img {
-    position: absolute;
-    inset: 0;
-    width: 100%; height: 100%;
-    object-fit: contain;
-    object-position: center;
-    opacity: 0;
-    transition: opacity 0.4s ease;
-  }
-  .lb-img.active { opacity: 1; }
-  .lb-gradient { position: absolute; inset: 0; }
-
-  .lb-arrow {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgba(255,255,255,0.15);
-    border: none;
-    color: white;
-    font-size: 1.25rem;
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s ease;
-    z-index: 2;
-  }
-  .lb-arrow:hover { background: rgba(255,255,255,0.3); }
-  .lb-prev { left: 12px; }
-  .lb-next { right: 12px; }
-
-  .lightbox-counter {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    color: rgba(255,255,255,0.7);
-    font-size: 0.8rem;
-    background: rgba(0,0,0,0.4);
-    padding: 2px 10px;
-    border-radius: 20px;
-  }
-
-  .lightbox-info {
-    padding: 40px 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    overflow-y: auto;
-  }
-
-  .lb-category {
-    font-size: 0.8rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-steel-blue);
-    margin: 0;
-  }
-
-  .lightbox-info h2 { font-size: 1.6rem; margin: 0; line-height: 1.2; }
-  .lightbox-info p { color: var(--color-slate-grey); font-size: 0.9375rem; line-height: 1.6; margin: 0; }
-  .lb-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
-  .lb-year { margin-top: auto; font-size: 0.8rem; color: var(--color-slate-grey); }
-
-  @media (max-width: 768px) {
-    .intro-text { font-size: 1.125rem; }
-    .work-filter { gap: var(--spacing-sm); }
-    .filter-btn { padding: var(--spacing-xs) var(--spacing-md); font-size: 0.875rem; }
-    .work-grid { grid-template-columns: 1fr; gap: var(--spacing-xl); }
-    .work-content { padding: var(--spacing-md); }
-    .work-content h3 { font-size: 1.25rem; }
-    .cta-box { padding: var(--spacing-2xl) var(--spacing-lg); }
-    .cta-box h2 { font-size: 1.75rem; }
-    .cta-box p { font-size: 1rem; }
-    .cta-actions { flex-direction: column; width: 100%; }
-    .btn-lg { width: 100%; padding: var(--spacing-md); justify-content: center; }
-    .btn-outline { justify-content: center; }
-    .lightbox-panel { width: 100vw; height: 100dvh; border-radius: 0; max-width: 100%; }
-    .lightbox-body { grid-template-columns: 1fr; grid-template-rows: 1fr auto; height: 100%; overflow: hidden; }
-    .lightbox-images { height: 100%; min-height: 0; }
-    .lightbox-info { padding: 18px 20px; gap: 8px; max-height: 45vh; overflow-y: auto; }
-    .lightbox-info h2 { font-size: 1.2rem; }
-    .lightbox-info p { font-size: 0.875rem; }
-    .lb-year { display: none; }
-  }
-
-  @media (min-width: 769px) and (max-width: 1024px) {
-    .work-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--spacing-xl); }
-    .lightbox-body { grid-template-columns: 1fr 280px; }
-  }
-
-  @media (max-width: 480px) {
-    /* FIX: Removed old calc(var(--nav-height, 85px) + var(--spacing-xl)) override */
-    .filter-btn { flex: 1 1 calc(50% - var(--spacing-sm)); min-width: 120px; }
-    .work-meta { flex-direction: column; align-items: flex-start; gap: var(--spacing-xs); }
-  }
-</style>
+<!-- CHANGE: <style> block completely removed.
+     All styles moved to global.css to fix Astro scoping issue where
+     dynamically created elements (via document.createElement) never
+     receive Astro's data-attribute and therefore can't be targeted
+     by scoped component styles. Global CSS has no such restriction. -->
