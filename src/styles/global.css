@@ -64,7 +64,6 @@ body {
 
 /* TYPOGRAPHY SYSTEM */
 
-/* Headings - Bold/Semi-Bold */
 h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
   line-height: 1.2;
@@ -72,7 +71,6 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--color-jet-black);
 }
 
-/* Make anchor/scroll targets and headings offset from the fixed nav consistently */
 h1, h2, h3, h4, h5, h6 {
   scroll-margin-top: calc(var(--nav-height, 85px) + var(--spacing-sm));
 }
@@ -109,27 +107,23 @@ h6 {
   font-weight: 600;
 }
 
-/* Body Text - Regular/Medium */
 p {
   margin-bottom: var(--spacing-md);
   font-weight: 400;
   max-width: 65ch;
 }
 
-/* Captions - Regular */
 .caption, small {
   font-size: 0.875rem;
   font-weight: 400;
   color: var(--color-slate-grey);
 }
 
-/* Strong Contrast */
 strong, b {
   font-weight: 600;
   color: var(--color-jet-black);
 }
 
-/* Links */
 a {
   color: var(--color-steel-blue);
   text-decoration: none;
@@ -164,7 +158,6 @@ a:focus-visible {
   max-width: 1440px;
 }
 
-/* GRID SYSTEM - Strong architectural grids */
 .grid {
   display: grid;
   gap: var(--spacing-lg);
@@ -182,7 +175,6 @@ a:focus-visible {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
-/* SPACING UTILITIES */
 .section {
   padding-top: var(--spacing-3xl);
   padding-bottom: var(--spacing-3xl);
@@ -193,14 +185,13 @@ a:focus-visible {
   padding-bottom: var(--spacing-2xl);
 }
 
-/* WHITE SPACE - Generous negative space */
 .stack-xs > * + * { margin-top: var(--spacing-xs); }
 .stack-sm > * + * { margin-top: var(--spacing-sm); }
 .stack-md > * + * { margin-top: var(--spacing-md); }
 .stack-lg > * + * { margin-top: var(--spacing-lg); }
 .stack-xl > * + * { margin-top: var(--spacing-xl); }
 
-/* BUTTONS - CTAs with Steel Blue */
+/* BUTTONS */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -254,7 +245,36 @@ a:focus-visible {
   color: var(--color-steel-blue);
 }
 
-/* CARDS - Minimal, high contrast */
+/* ── CHANGE: Added .btn-outline here globally ───────────────────────────────
+   Previously only defined in work.astro as a scoped style, which meant it
+   could conflict with the global .btn mobile override (width: 100%).
+   Defining it here gives it proper global scope and the width: auto fix. */
+.btn-outline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid var(--color-jet-black);
+  color: var(--color-jet-black);
+  background: transparent;
+  border-radius: var(--radius-full);
+  font-weight: 500;
+  text-decoration: none;
+  transition: all var(--transition-base);
+}
+
+.btn-outline:hover {
+  background-color: var(--color-jet-black);
+  color: var(--color-pure-white);
+}
+
+/* ── CHANGE: Added .btn-lg here globally ────────────────────────────────────
+   Previously scoped in work.astro. Moved here so it works across any page. */
+.btn-lg {
+  padding: var(--spacing-md) var(--spacing-xl);
+  font-size: 1.125rem;
+}
+
+/* CARDS */
 .card {
   background-color: var(--color-pure-white);
   border: 1px solid rgba(17, 17, 17, 0.1);
@@ -268,9 +288,8 @@ a:focus-visible {
   box-shadow: 0 8px 24px rgba(17, 17, 17, 0.08);
 }
 
-/* VISUAL ELEMENTS - Minimal, intentional */
+/* VISUAL ELEMENTS */
 
-/* Dividers */
 .divider {
   height: 1px;
   background-color: var(--color-slate-grey);
@@ -279,7 +298,6 @@ a:focus-visible {
   margin: var(--spacing-lg) 0;
 }
 
-/* Arrows & Directional Shapes */
 .arrow {
   display: inline-block;
   width: 20px;
@@ -297,7 +315,6 @@ button:hover .arrow {
   transform: translateX(4px);
 }
 
-/* HIGH CONTRAST MODE */
 .high-contrast {
   background-color: var(--color-jet-black);
   color: var(--color-pure-white);
@@ -312,18 +329,9 @@ button:hover .arrow {
   color: var(--color-pure-white);
 }
 
-/* Text Alignment Utilities */
-.text-center {
-  text-align: center;
-}
-
-.text-left {
-  text-align: left;
-}
-
-.text-right {
-  text-align: right;
-}
+.text-center { text-align: center; }
+.text-left   { text-align: left; }
+.text-right  { text-align: right; }
 
 /* ACCESSIBILITY */
 .sr-only {
@@ -338,18 +346,487 @@ button:hover .arrow {
   border-width: 0;
 }
 
-/* Focus styles */
 :focus-visible {
   outline: 2px solid var(--color-steel-blue);
   outline-offset: 2px;
 }
 
-/* RESPONSIVE UTILITIES */
+/* =============================================
+   WORK PAGE — CARDS, FILTER, CTA
+   Moved from work.astro <style> block so these
+   classes are in global scope and not subject
+   to Astro's scoped CSS attribute selector,
+   which breaks dynamically created elements.
+   ============================================= */
 
-/* Tablet Styles */
+/* ── CHANGE: Moved from work.astro ── */
+.work-filter {
+  display: flex;
+  justify-content: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+/* ── CHANGE: Moved from work.astro ── */
+.filter-btn {
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-family: var(--font-primary);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  background-color: transparent;
+  border: 2px solid rgba(17, 17, 17, 0.1);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: all var(--transition-base);
+  color: var(--color-jet-black);
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+  background-color: var(--color-jet-black);
+  border-color: var(--color-jet-black);
+  color: var(--color-pure-white);
+}
+
+/* ── CHANGE: Moved from work.astro ── */
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: var(--spacing-2xl);
+}
+
+/* ── CHANGE: Moved from work.astro ──
+   NOTE: .work-card deliberately does NOT use .card base class to avoid
+   the global padding and border-radius conflicts. It manages its own
+   border, radius, and hover shadow independently. */
+.work-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(17, 17, 17, 0.1);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-base);
+  background-color: var(--color-pure-white);
+}
+
+.work-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(17, 17, 17, 0.12);
+  border-color: var(--color-jet-black);
+}
+
+/* ── CHANGE: Moved from work.astro ── */
+.work-image {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  position: relative;
+}
+
+.work-image > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.work-card:hover .work-image > img {
+  transform: scale(1.03);
+}
+
+/* ── CHANGE: Moved from work.astro ──
+   object-fit: cover is intentional here — cards show cropped previews.
+   The lightbox uses contain instead (see .lb-img below). */
+.work-gallery {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.work-gallery img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.work-gallery img.active {
+  opacity: 1;
+}
+
+/* ── CHANGE: Moved from work.astro ── */
+.gallery-dots {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+  z-index: 2;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  transition: background 0.3s ease;
+}
+
+.dot.active {
+  background: white;
+}
+
+/* ── CHANGE: Moved from work.astro ── */
+.work-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-mark {
+  opacity: 0.6;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+}
+
+.work-card:hover .card-mark {
+  transform: scale(1.15) rotate(6deg);
+  opacity: 0.9;
+}
+
+/* ── CHANGE: Moved from work.astro ── */
+.work-content {
+  padding: var(--spacing-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  flex: 1;
+}
+
+.work-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.875rem;
+}
+
+.work-category { font-weight: 500; }
+.work-year     { color: var(--color-slate-grey); }
+
+.work-content h3 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+/* ── CHANGE: Added max-width: 100% ─────────────────────────────────────────
+   global p { max-width: 65ch } was clipping text inside the narrow
+   .work-content and .lightbox-info panels. This override fixes that. */
+.work-content p,
+.lightbox-info p {
+  color: var(--color-slate-grey);
+  margin: 0;
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  max-width: 100%;
+}
+
+/* ── CHANGE: Moved from work.astro ── */
+.work-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: var(--spacing-xs);
+}
+
+.work-tag {
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  background-color: rgba(17, 17, 17, 0.06);
+  color: var(--color-slate-grey);
+  letter-spacing: 0.02em;
+}
+
+/* ── CHANGE: Moved from work.astro ── */
+.work-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-top: auto;
+  padding-top: var(--spacing-sm);
+  padding-left: 0;
+  font-weight: 500;
+  font-size: inherit;
+  font-family: inherit;
+  color: var(--color-steel-blue);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: gap var(--transition-base);
+}
+
+.work-link:hover {
+  gap: var(--spacing-sm);
+  /* ── CHANGE: Override global a:hover color so it stays blue, not orange ── */
+  color: var(--color-steel-blue);
+}
+
+/* ── CHANGE: Moved from work.astro ── */
+.no-results {
+  text-align: center;
+  color: var(--color-slate-grey);
+  font-size: 1rem;
+  padding: var(--spacing-2xl) 0;
+  /* ── CHANGE: max-width: 100% so it spans the full container ── */
+  max-width: 100%;
+}
+
+/* ── CHANGE: Moved from work.astro ── */
+.cta-box {
+  text-align: center;
+  padding: var(--spacing-xl);
+  background-color: rgba(47, 111, 237, 0.05);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+}
+
+.cta-box h2 { margin: 0; }
+
+/* ── CHANGE: max-width: 100% fix (same as above — global p clips this) ── */
+.cta-box p {
+  font-size: 1.125rem;
+  color: var(--color-slate-grey);
+  margin: 0;
+  max-width: 100%;
+}
+
+.cta-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+/* =============================================
+   LIGHTBOX
+   Moved entirely from work.astro because the
+   lightbox images are created via JavaScript
+   (document.createElement), which means Astro's
+   scoped CSS data-attribute never gets applied
+   to them — making ALL .lb-img styles invisible.
+   Global CSS has no scoping and reaches them.
+   ============================================= */
+
+/* ── CHANGE: Moved from work.astro ── */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.lightbox.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.lightbox-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.88);
+  backdrop-filter: blur(4px);
+}
+
+/* ── CHANGE: Moved from work.astro + spring animation upgrade ── */
+.lightbox-panel {
+  position: relative;
+  z-index: 1;
+  background: #ffffff;
+  border-radius: 16px;
+  width: min(92vw, 1040px);
+  height: min(88vh, 640px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform: scale(0.97) translateY(12px);
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lightbox.open .lightbox-panel {
+  transform: scale(1) translateY(0);
+}
+
+/* ── CHANGE: Moved from work.astro ── */
+.lightbox-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.85);
+  border: none;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 1.4rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111;
+  transition: background 0.2s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.lightbox-close:hover {
+  background: rgba(255, 255, 255, 1);
+}
+
+/* ── CHANGE: Moved from work.astro ── */
+.lightbox-body {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.lightbox-images {
+  position: relative;
+  background: #111;
+  height: 100%;
+  overflow: hidden;
+}
+
+.lightbox-img-wrap {
+  position: absolute;
+  inset: 0;
+}
+
+/* ── CHANGE: Moved from work.astro + object-fit: contain fix ────────────────
+   This is the core image display fix. object-fit: contain ensures the full
+   image is visible without cropping inside the lightbox panel. Previously
+   this style was scoped and never reached the JS-created <img> elements. */
+.lb-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.lb-img.active {
+  opacity: 1;
+}
+
+.lb-gradient {
+  position: absolute;
+  inset: 0;
+}
+
+/* ── CHANGE: Moved from work.astro + display:flex fix ──
+   display: flex ensures arrow icons are properly centred.
+   JS sets display to 'flex' or 'none' — matching this. */
+.lb-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: white;
+  font-size: 1.25rem;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s ease;
+  z-index: 2;
+}
+
+.lb-arrow:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.lb-prev { left: 12px; }
+.lb-next { right: 12px; }
+
+/* ── CHANGE: Moved from work.astro ── */
+.lightbox-counter {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 2px 10px;
+  border-radius: 20px;
+}
+
+/* ── CHANGE: Moved from work.astro ── */
+.lightbox-info {
+  padding: 40px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  overflow-y: auto;
+}
+
+.lb-category {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-steel-blue);
+  margin: 0;
+  /* ── CHANGE: max-width override — global p clips this otherwise ── */
+  max-width: 100%;
+}
+
+.lightbox-info h2 {
+  font-size: 1.6rem;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.lb-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.lb-year {
+  margin-top: auto;
+  font-size: 0.8rem;
+  color: var(--color-slate-grey);
+}
+
+/* =============================================
+   RESPONSIVE UTILITIES
+   ============================================= */
+
 @media (max-width: 1024px) {
   :root {
-    --spacing-3xl: 4rem; /* Reduce from 6rem */
+    --spacing-3xl: 4rem;
   }
 
   .container {
@@ -358,11 +835,10 @@ button:hover .arrow {
   }
 }
 
-/* Mobile Styles */
 @media (max-width: 768px) {
   :root {
-    --spacing-2xl: 3rem;  /* Reduce from 4rem */
-    --spacing-3xl: 3.5rem; /* Reduce from 6rem */
+    --spacing-2xl: 3rem;
+    --spacing-3xl: 3.5rem;
   }
 
   body {
@@ -378,7 +854,7 @@ button:hover .arrow {
     padding-top: var(--spacing-xl);
     padding-bottom: var(--spacing-xl);
   }
-  
+
   .grid-2,
   .grid-3,
   .grid-4 {
@@ -396,7 +872,11 @@ button:hover .arrow {
     padding: var(--spacing-md) var(--spacing-lg);
   }
 
-  .btn-ghost {
+  /* ── CHANGE: Added .btn-outline here alongside .btn-ghost ───────────────
+     Previously only .btn-ghost had width: auto — .btn-outline was missing
+     this override so it was being forced to width: 100% on mobile. */
+  .btn-ghost,
+  .btn-outline {
     width: auto;
   }
 
@@ -404,24 +884,58 @@ button:hover .arrow {
     padding: var(--spacing-md);
   }
 
-  h1 {
-    font-size: clamp(2rem, 8vw, 2.5rem);
-  }
-
-  h2 {
-    font-size: clamp(1.75rem, 6vw, 2rem);
-  }
-
-  h3 {
-    font-size: clamp(1.375rem, 5vw, 1.5rem);
-  }
+  h1 { font-size: clamp(2rem, 8vw, 2.5rem); }
+  h2 { font-size: clamp(1.75rem, 6vw, 2rem); }
+  h3 { font-size: clamp(1.375rem, 5vw, 1.5rem); }
 
   p {
     max-width: 100%;
   }
+
+  /* ── CHANGE: Work page mobile — moved from work.astro ── */
+  .work-filter  { gap: var(--spacing-sm); }
+  .filter-btn   { padding: var(--spacing-xs) var(--spacing-md); font-size: 0.875rem; }
+  .work-grid    { grid-template-columns: 1fr; gap: var(--spacing-xl); }
+  .work-content { padding: var(--spacing-md); }
+  .work-content h3 { font-size: 1.25rem; }
+  .cta-box      { padding: var(--spacing-2xl) var(--spacing-lg); }
+  .cta-box h2   { font-size: 1.75rem; }
+  .cta-box p    { font-size: 1rem; }
+  .cta-actions  { flex-direction: column; width: 100%; }
+  .btn-lg       { width: 100%; padding: var(--spacing-md); justify-content: center; }
+
+  /* ── CHANGE: Lightbox mobile — moved from work.astro ───────────────────
+     Full screen on mobile using 100dvh (dynamic viewport height) so the
+     browser address bar doesn't cause overflow. */
+  .lightbox-panel {
+    width: 100vw;
+    height: 100dvh;
+    border-radius: 0;
+    max-width: 100%;
+  }
+
+  /* ── CHANGE: Stack layout on mobile — moved from work.astro ──
+     Image on top, scrollable info panel below. min-height: 0 is required
+     so the image row can shrink inside the fixed-height grid container. */
+  .lightbox-body {
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr auto;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  .lightbox-images { height: 100%; min-height: 0; }
+  .lightbox-info   { padding: 18px 20px; gap: 8px; max-height: 45vh; overflow-y: auto; }
+  .lightbox-info h2 { font-size: 1.2rem; }
+  .lb-year { display: none; }
 }
 
-/* Small Mobile Styles */
+@media (min-width: 769px) and (max-width: 1024px) {
+  /* ── CHANGE: Moved from work.astro ── */
+  .work-grid    { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--spacing-xl); }
+  .lightbox-body { grid-template-columns: 1fr 280px; }
+}
+
 @media (max-width: 480px) {
   :root {
     --spacing-lg: 1.5rem;
@@ -443,9 +957,20 @@ button:hover .arrow {
   .card {
     padding: var(--spacing-sm);
   }
+
+  /* ── CHANGE: Moved from work.astro ── */
+  .filter-btn {
+    flex: 1 1 calc(50% - var(--spacing-sm));
+    min-width: 120px;
+  }
+
+  .work-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-xs);
+  }
 }
 
-/* Landscape Mobile Adjustment */
 @media (max-width: 768px) and (orientation: landscape) {
   .section {
     padding-top: var(--spacing-xl);
@@ -453,9 +978,7 @@ button:hover .arrow {
   }
 }
 
-/* Touch Device Improvements */
 @media (hover: none) and (pointer: coarse) {
-  /* Larger tap targets for mobile */
   .btn {
     min-height: 48px;
     padding: var(--spacing-md) var(--spacing-lg);
@@ -467,7 +990,6 @@ button:hover .arrow {
     align-items: center;
   }
 
-  /* Remove hover effects on touch devices */
   .btn-primary:hover {
     transform: none;
   }
@@ -477,13 +999,12 @@ button:hover .arrow {
   }
 }
 
-/* PRINT STYLES PRINT STYLES */
 @media print {
   body {
     background: white;
     color: black;
   }
-  
+
   .no-print {
     display: none !important;
   }
@@ -527,6 +1048,7 @@ button:hover .arrow {
     font-size: 1.125rem;
   }
 }
+
 /* ── Brand Dotted Lines ── */
 .brand-lines {
   position: absolute;
