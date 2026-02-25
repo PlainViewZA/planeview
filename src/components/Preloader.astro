@@ -3,16 +3,29 @@
 ---
 
 <div id="preloader" class="preloader" style="display:none" transition:persist>
+  <div id="preloader" class="preloader" style="display:none" transition:persist>
   <video
     class="preloader-animation"
-    id="preloader-video"
     autoplay
     muted
     playsinline
     disablepictureinpicture
-    preload="auto"
   >
-    <source src="/videos/plane-intro.webm" type="video/webm" />
+    <!-- Mobile-optimized version first -->
+    <source 
+      src="/videos/mobile_website.webm" 
+      type="video/webm"
+      media="(max-width: 767px)" 
+    />
+    
+    <!-- Desktop / larger screens -->
+    <source 
+      src="/videos/plane-intro.webm" 
+      type="video/webm"
+    />
+    
+    <!-- Optional fallback poster if video fails -->
+    <!-- <img src="/images/preloader-fallback.jpg" alt="Plane View Intro" slot="poster"> but not needed here -->
   </video>
 
   <button id="preloader-skip" class="preloader-skip" type="button">
@@ -251,6 +264,11 @@
     .preloader-skip {
       min-height: 44px;
       padding: 10px 20px;
+    }
+  }
+  @media (max-width: 767px) {
+    .preloader-animation {
+      object-position: center 30%;   /* ← adjust if mobile video is composed differently */
     }
   }
 </style>
