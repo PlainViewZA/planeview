@@ -10,6 +10,59 @@ import BrandLines from '../components/BrandLines.astro';
   title="Plane View Collective | Clarity, created with people in mind"
   description="We help brands get noticed, understood, and remembered through strategic clarity and creative execution."
 >
+<Fragment slot="head">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "MarketingAgency",
+    "name": "Plane View Collective",
+    "url": "https://www.planeviewcollective.co.za",
+    "logo": "https://www.planeviewcollective.co.za/logo/plane-view-logo.png",
+    "image": "https://www.planeviewcollective.co.za/logo/plane-view-logo.png",
+    "description": "Cape Town-based marketing, design, and digital agency helping brands get noticed, understood, and remembered.",
+    "telephone": "+27-83-966-9392",
+    "email": "hello@planeviewcollective.com",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Cape Town",
+      "addressRegion": "Western Cape",
+      "addressCountry": "ZA"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": -33.9249,
+      "longitude": 18.4241
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "08:00",
+        "closes": "17:00"
+      }
+    ],
+    "areaServed": {
+      "@type": "City",
+      "name": "Cape Town"
+    },
+    "sameAs": [
+      "https://www.instagram.com/plane_view_collective?igsh=MWtrODJ6M2lsMGptOA%3D%3D&utm_source=qr",
+      "https://www.linkedin.com/company/planeviewco/",
+      "https://www.facebook.com/share/1AQg4ankHx/?mibextid=wwXIfr",
+      "https://youtube.com/@planeviewcollective?si=nH-wXaomeGrJp3ZU"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Services",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Brand Strategy" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Website Design" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Digital Marketing" } }
+      ]
+    }
+  }
+  </script>
+</Fragment>
   <Navigation />
   <BrandLines />
   <Hero />

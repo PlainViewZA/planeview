@@ -35,7 +35,7 @@ const {
   <!-- Decorative dashed path -->
   <div class="hero-decoration" aria-hidden="true">
     <div class="plane-path">
-      <svg width="100%" height="200" viewBox="0 0 1200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <svg width="100%" height="200" viewBox="0 0 1200 200" fill="none" xmlns="http://www.w3.org/2000/svg" style="display:block;">
         <path 
           d="M0 100 Q 300 50, 600 100 T 1200 100" 
           stroke="var(--color-steel-blue)" 
@@ -49,30 +49,25 @@ const {
 </section>
 
 <style>
-  /*
-    FIX: No calc() with CSS variables here.
-    The nav-spacer in Navbar.astro handles clearing the fixed navbar.
-    Hero padding is purely internal breathing room — hardcoded px values
-    that never conflict with the global spacing variable changes at breakpoints.
-
-    FIX: min-height changed from 40vh to calc(100vh - 85px) so the hero
-    always fills the visible viewport below the navbar on desktop.
-    This prevents content from sitting hidden behind the nav on first load.
-  */
   .hero {
     position: relative;
     min-height: 60vh;
+    /* Reserves layout space before fonts/JS load */
+    contain: layout style;
     display: flex;
     align-items: center;
     justify-content: center;
     padding-top: 48px;
     padding-bottom: 80px;
     overflow: hidden;
+    /* Prevents any child from causing reflow */
+    isolation: isolate;
   }
 
   .container {
     position: relative;
     z-index: 1;
+    width: 100%;
   }
 
   .hero-content {
@@ -91,6 +86,12 @@ const {
     letter-spacing: -0.02em;
     color: var(--color-jet-black);
     margin: 0;
+    /* Prevents reflow from font swap or long words */
+    word-break: break-word;
+    min-height: 1lh;
+    /* Forces GPU layer — avoids text repaint triggering shift */
+    will-change: auto;
+    font-synthesis: none;
   }
 
   .hero-subtitle {
@@ -99,6 +100,8 @@ const {
     color: var(--color-slate-grey);
     max-width: 600px;
     margin: 0 auto;
+    word-break: break-word;
+    min-height: 1lh;
   }
 
   .hero-cta {
@@ -107,6 +110,8 @@ const {
     justify-content: center;
     flex-wrap: wrap;
     margin-top: var(--spacing-md);
+    /* Reserve button row height to prevent shift */
+    min-height: 52px;
   }
 
   .hero-decoration {
@@ -114,29 +119,31 @@ const {
     bottom: 0;
     left: 0;
     right: 0;
+    /* Explicit dimensions prevent reflow */
+    height: 200px;
+    width: 100%;
     pointer-events: none;
-    z-index: 1;
+    z-index: 0;
   }
 
   .plane-path {
     opacity: 0.3;
+    display: block;
+    height: 200px;
+    width: 100%;
   }
 
-  /* 
-    FIX: Mobile min-height accounts for smaller nav (70px).
-    Padding values are hardcoded — not affected by global CSS variable 
-    changes at breakpoints which was causing the layout shift.
-  */
   @media (max-width: 768px) {
     .hero {
-   min-height: 30vh;
-    padding-top: 32px;
-    padding-bottom: 60px;
+      min-height: 30vh;
+      padding-top: 32px;
+      padding-bottom: 60px;
     }
 
     .hero-cta {
       flex-direction: column;
       align-items: stretch;
+      min-height: unset;
     }
 
     .hero-cta .btn {
