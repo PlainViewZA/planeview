@@ -3,30 +3,13 @@
 ---
 
 <div id="preloader" class="preloader" style="display:none" transition:persist>
-  <div id="preloader" class="preloader" style="display:none" transition:persist>
   <video
     class="preloader-animation"
     autoplay
     muted
     playsinline
     disablepictureinpicture
-  >
-    <!-- Mobile-optimized version first -->
-    <source 
-      src="/videos/mobile_website.webm" 
-      type="video/webm"
-      media="(max-width: 767px)" 
-    />
-    
-    <!-- Desktop / larger screens -->
-    <source 
-      src="/videos/plane-intro.webm" 
-      type="video/webm"
-    />
-    
-    <!-- Optional fallback poster if video fails -->
-    <!-- <img src="/images/preloader-fallback.jpg" alt="Plane View Intro" slot="poster"> but not needed here -->
-  </video>
+  ></video>
 
   <button id="preloader-skip" class="preloader-skip" type="button">
     Skip <span class="skip-arrow">→</span>
@@ -55,7 +38,6 @@
 
     setTimeout(() => {
       preloader.style.display = 'none';
-      // Free video from memory so it stops burning CPU/GPU after dismiss
       video.pause();
       video.src = '';
       video.load();
@@ -74,6 +56,13 @@
     preloader.style.display = 'flex';
     document.body.style.overflow = 'hidden';
     document.documentElement.style.overflow = 'hidden';
+
+    // Set video source based on screen size
+    const isMobile = window.matchMedia('(max-width: 767px)').matches;
+    video.src = isMobile
+      ? '/videos/mobile_website.webm'
+      : '/videos/plane-intro.webm';
+    video.load();
 
     // Slightly reduce playback rate on mobile to ease decoder load
     if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
@@ -96,6 +85,12 @@
     });
 
     video.addEventListener('error', () => {
+      clearTimeout(fallbackTimer);
+      dismiss();
+    });
+
+    // Fallback if autoplay is blocked
+    video.play().catch(() => {
       clearTimeout(fallbackTimer);
       dismiss();
     });
@@ -204,18 +199,6 @@
     background: #2F6FED;
   }
 
-  /* ── PORTRAIT CROP FIX ─────────────────────────────────────────────────────
-     The video is 16:9 landscape. On a portrait phone:
-     - inset:0 + 100% height resolves to the CSS viewport, not the real
-       screen height — browser chrome causes gaps at top/bottom
-     - This means object-fit:cover has the wrong reference dimensions
-       and the crop doesn't fill the screen correctly
-
-     Fix: explicitly set both container and video to 100dvh in portrait mode.
-     dvh = dynamic viewport height — it accounts for browser chrome
-     showing/hiding in real time, so the video always fills the true
-     visible screen. object-fit:cover then scales the landscape video
-     to fill portrait height and crops left/right — exactly what you want. */
   @media (orientation: portrait) {
     .preloader {
       height: 100dvh;
@@ -266,9 +249,10 @@
       padding: 10px 20px;
     }
   }
+
   @media (max-width: 767px) {
     .preloader-animation {
-      object-position: center 30%;   /* ← adjust if mobile video is composed differently */
+      object-position: center 30%;
     }
   }
 </style>
