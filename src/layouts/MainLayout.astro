@@ -8,14 +8,18 @@ interface Props {
   description?: string;
   image?: string;
   url?: string;
+  type?: string;
 }
 
 const {
   title = 'Plane View Collective',
   description = 'Clarity, created with people in mind.',
-  image = '/social-preview.png',
-  url = 'https://planeview.co.za'
+  image = '/logo/plane-view-logo.png',
+  url = 'https://www.planeview.co.za',
+  type = 'website'
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
 ---
 
 <!DOCTYPE html>
@@ -28,39 +32,58 @@ const {
   <title>{title}</title>
   <meta name="description" content={description} />
 
+  <!-- Canonical URL — prevents duplicate content penalties -->
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Robots — tells Google to index and follow all links -->
+  <meta name="robots" content="index, follow" />
+
+  <!-- Author & Brand -->
+  <meta name="author" content="Plane View Collective" />
+  <meta name="copyright" content="Plane View Collective" />
+
+  <!-- Geo targeting — helps with local Cape Town SEO -->
+  <meta name="geo.region" content="ZA-WC" />
+  <meta name="geo.placename" content="Cape Town" />
+  <meta name="geo.position" content="-33.9249;18.4241" />
+  <meta name="ICBM" content="-33.9249, 18.4241" />
+
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="icon" type="image/x-icon" href="/Plane View Collective Logos-02" />
   <link rel="apple-touch-icon" href="/favicon.svg" />
 
   <!-- SEO / OpenGraph -->
+  <meta property="og:site_name" content="Plane View Collective" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content={url} />
+  <meta property="og:type" content={type} />
+  <meta property="og:url" content={canonicalURL} />
   <meta property="og:image" content={image} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Plane View Collective — Cape Town Marketing & Design Agency" />
+  <meta property="og:locale" content="en_ZA" />
 
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content={title} />
-  <meta name="twitter:description" content={description} />
-  <meta name="twitter:image" content={image} />
+
 
   <!-- Theme -->
-  <meta name="theme-color" content="#000000" />
+  <meta name="theme-color" content="#111111" />
 
-  <!-- Performance Optimizations -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-
   <link
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
     rel="stylesheet"
   />
 
-  <!-- PWA Support (Optional but Future Proof) -->
+  <!-- PWA -->
   <link rel="manifest" href="/site.webmanifest" />
 
   <ViewTransitions />
+
+  <!-- Page-specific head injection (schema, etc.) -->
+  <slot name="head" />
 </head>
 
 <body>
@@ -68,7 +91,6 @@ const {
 
   <div class="page-wrapper">
     <FloatingCanvas />
-
     <div class="page-content">
       <slot />
     </div>

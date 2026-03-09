@@ -175,9 +175,12 @@ a:focus-visible {
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
+/* SECTION — hardcoded breakpoint padding to prevent CLS
+   from CSS variable reflows mid-paint */
 .section {
   padding-top: var(--spacing-3xl);
   padding-bottom: var(--spacing-3xl);
+  contain: layout style;
 }
 
 .section-sm {
@@ -245,10 +248,6 @@ a:focus-visible {
   color: var(--color-steel-blue);
 }
 
-/* ── CHANGE: Added .btn-outline here globally ───────────────────────────────
-   Previously only defined in work.astro as a scoped style, which meant it
-   could conflict with the global .btn mobile override (width: 100%).
-   Defining it here gives it proper global scope and the width: auto fix. */
 .btn-outline {
   display: inline-flex;
   align-items: center;
@@ -267,8 +266,6 @@ a:focus-visible {
   color: var(--color-pure-white);
 }
 
-/* ── CHANGE: Added .btn-lg here globally ────────────────────────────────────
-   Previously scoped in work.astro. Moved here so it works across any page. */
 .btn-lg {
   padding: var(--spacing-md) var(--spacing-xl);
   font-size: 1.125rem;
@@ -353,13 +350,8 @@ button:hover .arrow {
 
 /* =============================================
    WORK PAGE — CARDS, FILTER, CTA
-   Moved from work.astro <style> block so these
-   classes are in global scope and not subject
-   to Astro's scoped CSS attribute selector,
-   which breaks dynamically created elements.
    ============================================= */
 
-/* ── CHANGE: Moved from work.astro ── */
 .work-filter {
   display: flex;
   justify-content: center;
@@ -367,7 +359,6 @@ button:hover .arrow {
   flex-wrap: wrap;
 }
 
-/* ── CHANGE: Moved from work.astro ── */
 .filter-btn {
   padding: var(--spacing-sm) var(--spacing-lg);
   font-family: var(--font-primary);
@@ -388,17 +379,12 @@ button:hover .arrow {
   color: var(--color-pure-white);
 }
 
-/* ── CHANGE: Moved from work.astro ── */
 .work-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
   gap: var(--spacing-2xl);
 }
 
-/* ── CHANGE: Moved from work.astro ──
-   NOTE: .work-card deliberately does NOT use .card base class to avoid
-   the global padding and border-radius conflicts. It manages its own
-   border, radius, and hover shadow independently. */
 .work-card {
   display: flex;
   flex-direction: column;
@@ -415,7 +401,6 @@ button:hover .arrow {
   border-color: var(--color-jet-black);
 }
 
-/* ── CHANGE: Moved from work.astro ── */
 .work-image {
   aspect-ratio: 16 / 10;
   overflow: hidden;
@@ -434,9 +419,6 @@ button:hover .arrow {
   transform: scale(1.03);
 }
 
-/* ── CHANGE: Moved from work.astro ──
-   object-fit: cover is intentional here — cards show cropped previews.
-   The lightbox uses contain instead (see .lb-img below). */
 .work-gallery {
   position: relative;
   width: 100%;
@@ -457,7 +439,6 @@ button:hover .arrow {
   opacity: 1;
 }
 
-/* ── CHANGE: Moved from work.astro ── */
 .gallery-dots {
   position: absolute;
   bottom: 8px;
@@ -480,7 +461,6 @@ button:hover .arrow {
   background: white;
 }
 
-/* ── CHANGE: Moved from work.astro ── */
 .work-placeholder {
   width: 100%;
   height: 100%;
@@ -499,7 +479,6 @@ button:hover .arrow {
   opacity: 0.9;
 }
 
-/* ── CHANGE: Moved from work.astro ── */
 .work-content {
   padding: var(--spacing-lg);
   display: flex;
@@ -523,9 +502,6 @@ button:hover .arrow {
   font-size: 1.5rem;
 }
 
-/* ── CHANGE: Added max-width: 100% ─────────────────────────────────────────
-   global p { max-width: 65ch } was clipping text inside the narrow
-   .work-content and .lightbox-info panels. This override fixes that. */
 .work-content p,
 .lightbox-info p {
   color: var(--color-slate-grey);
@@ -535,7 +511,6 @@ button:hover .arrow {
   max-width: 100%;
 }
 
-/* ── CHANGE: Moved from work.astro ── */
 .work-tags {
   display: flex;
   flex-wrap: wrap;
@@ -553,7 +528,6 @@ button:hover .arrow {
   letter-spacing: 0.02em;
 }
 
-/* ── CHANGE: Moved from work.astro ── */
 .work-link {
   display: inline-flex;
   align-items: center;
@@ -573,21 +547,17 @@ button:hover .arrow {
 
 .work-link:hover {
   gap: var(--spacing-sm);
-  /* ── CHANGE: Override global a:hover color so it stays blue, not orange ── */
   color: var(--color-steel-blue);
 }
 
-/* ── CHANGE: Moved from work.astro ── */
 .no-results {
   text-align: center;
   color: var(--color-slate-grey);
   font-size: 1rem;
   padding: var(--spacing-2xl) 0;
-  /* ── CHANGE: max-width: 100% so it spans the full container ── */
   max-width: 100%;
 }
 
-/* ── CHANGE: Moved from work.astro ── */
 .cta-box {
   text-align: center;
   padding: var(--spacing-xl);
@@ -601,7 +571,6 @@ button:hover .arrow {
 
 .cta-box h2 { margin: 0; }
 
-/* ── CHANGE: max-width: 100% fix (same as above — global p clips this) ── */
 .cta-box p {
   font-size: 1.125rem;
   color: var(--color-slate-grey);
@@ -618,15 +587,8 @@ button:hover .arrow {
 
 /* =============================================
    LIGHTBOX
-   Moved entirely from work.astro because the
-   lightbox images are created via JavaScript
-   (document.createElement), which means Astro's
-   scoped CSS data-attribute never gets applied
-   to them — making ALL .lb-img styles invisible.
-   Global CSS has no scoping and reaches them.
    ============================================= */
 
-/* ── CHANGE: Moved from work.astro ── */
 .lightbox {
   position: fixed;
   inset: 0;
@@ -651,7 +613,6 @@ button:hover .arrow {
   backdrop-filter: blur(4px);
 }
 
-/* ── CHANGE: Moved from work.astro + spring animation upgrade ── */
 .lightbox-panel {
   position: relative;
   z-index: 1;
@@ -670,7 +631,6 @@ button:hover .arrow {
   transform: scale(1) translateY(0);
 }
 
-/* ── CHANGE: Moved from work.astro ── */
 .lightbox-close {
   position: absolute;
   top: 14px;
@@ -695,7 +655,6 @@ button:hover .arrow {
   background: rgba(255, 255, 255, 1);
 }
 
-/* ── CHANGE: Moved from work.astro ── */
 .lightbox-body {
   display: grid;
   grid-template-columns: 1fr 320px;
@@ -715,10 +674,6 @@ button:hover .arrow {
   inset: 0;
 }
 
-/* ── CHANGE: Moved from work.astro + object-fit: contain fix ────────────────
-   This is the core image display fix. object-fit: contain ensures the full
-   image is visible without cropping inside the lightbox panel. Previously
-   this style was scoped and never reached the JS-created <img> elements. */
 .lb-img {
   position: absolute;
   inset: 0;
@@ -739,9 +694,6 @@ button:hover .arrow {
   inset: 0;
 }
 
-/* ── CHANGE: Moved from work.astro + display:flex fix ──
-   display: flex ensures arrow icons are properly centred.
-   JS sets display to 'flex' or 'none' — matching this. */
 .lb-arrow {
   position: absolute;
   top: 50%;
@@ -768,7 +720,6 @@ button:hover .arrow {
 .lb-prev { left: 12px; }
 .lb-next { right: 12px; }
 
-/* ── CHANGE: Moved from work.astro ── */
 .lightbox-counter {
   position: absolute;
   bottom: 10px;
@@ -781,7 +732,6 @@ button:hover .arrow {
   border-radius: 20px;
 }
 
-/* ── CHANGE: Moved from work.astro ── */
 .lightbox-info {
   padding: 40px 28px;
   display: flex;
@@ -797,7 +747,6 @@ button:hover .arrow {
   letter-spacing: 0.08em;
   color: var(--color-steel-blue);
   margin: 0;
-  /* ── CHANGE: max-width override — global p clips this otherwise ── */
   max-width: 100%;
 }
 
@@ -838,16 +787,17 @@ button:hover .arrow {
 @media (max-width: 768px) {
   :root {
     --spacing-2xl: 3rem;
-    --spacing-3xl: 3.5rem;
+    /* --spacing-3xl removed — .section now uses hardcoded values */
   }
 
   body {
     font-size: 0.9375rem;
   }
 
+  /* Hardcoded to avoid CLS from variable reflow */
   .section {
-    padding-top: var(--spacing-2xl);
-    padding-bottom: var(--spacing-2xl);
+    padding-top: 3.5rem;
+    padding-bottom: 3.5rem;
   }
 
   .section-sm {
@@ -872,9 +822,6 @@ button:hover .arrow {
     padding: var(--spacing-md) var(--spacing-lg);
   }
 
-  /* ── CHANGE: Added .btn-outline here alongside .btn-ghost ───────────────
-     Previously only .btn-ghost had width: auto — .btn-outline was missing
-     this override so it was being forced to width: 100% on mobile. */
   .btn-ghost,
   .btn-outline {
     width: auto;
@@ -892,7 +839,6 @@ button:hover .arrow {
     max-width: 100%;
   }
 
-  /* ── CHANGE: Work page mobile — moved from work.astro ── */
   .work-filter  { gap: var(--spacing-sm); }
   .filter-btn   { padding: var(--spacing-xs) var(--spacing-md); font-size: 0.875rem; }
   .work-grid    { grid-template-columns: 1fr; gap: var(--spacing-xl); }
@@ -904,9 +850,6 @@ button:hover .arrow {
   .cta-actions  { flex-direction: column; width: 100%; }
   .btn-lg       { width: 100%; padding: var(--spacing-md); justify-content: center; }
 
-  /* ── CHANGE: Lightbox mobile — moved from work.astro ───────────────────
-     Full screen on mobile using 100dvh (dynamic viewport height) so the
-     browser address bar doesn't cause overflow. */
   .lightbox-panel {
     width: 100vw;
     height: 100dvh;
@@ -914,9 +857,6 @@ button:hover .arrow {
     max-width: 100%;
   }
 
-  /* ── CHANGE: Stack layout on mobile — moved from work.astro ──
-     Image on top, scrollable info panel below. min-height: 0 is required
-     so the image row can shrink inside the fixed-height grid container. */
   .lightbox-body {
     grid-template-columns: 1fr;
     grid-template-rows: 1fr auto;
@@ -931,7 +871,6 @@ button:hover .arrow {
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
-  /* ── CHANGE: Moved from work.astro ── */
   .work-grid    { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--spacing-xl); }
   .lightbox-body { grid-template-columns: 1fr 280px; }
 }
@@ -941,7 +880,13 @@ button:hover .arrow {
     --spacing-lg: 1.5rem;
     --spacing-xl: 2rem;
     --spacing-2xl: 2.5rem;
-    --spacing-3xl: 3rem;
+    /* --spacing-3xl removed — .section now uses hardcoded values */
+  }
+
+  /* Hardcoded to avoid CLS from variable reflow */
+  .section {
+    padding-top: 3rem;
+    padding-bottom: 3rem;
   }
 
   .container {
@@ -958,7 +903,6 @@ button:hover .arrow {
     padding: var(--spacing-sm);
   }
 
-  /* ── CHANGE: Moved from work.astro ── */
   .filter-btn {
     flex: 1 1 calc(50% - var(--spacing-sm));
     min-width: 120px;
@@ -1024,10 +968,16 @@ button:hover .arrow {
   text-align: center;
   padding-top: 60px;
   padding-bottom: 60px;
+  contain: layout style;
+  isolation: isolate;
+  min-height: 200px;
 }
 
 .page-hero h1 {
   margin-bottom: var(--spacing-md);
+  word-break: break-word;
+  min-height: 1lh;
+  font-synthesis: none;
 }
 
 .page-hero .intro-text {
@@ -1036,17 +986,26 @@ button:hover .arrow {
   max-width: 800px;
   margin: 0 auto;
   color: var(--color-slate-grey);
+  word-break: break-word;
+  min-height: 1lh;
 }
 
 @media (max-width: 768px) {
   .page-hero {
     padding-top: 40px;
     padding-bottom: 40px;
+    min-height: 160px;
   }
 
   .page-hero .intro-text {
     font-size: 1.125rem;
   }
+}
+
+/* ── Meaning Section CLS fix ── */
+.meaning-section {
+  contain: layout style;
+  isolation: isolate;
 }
 
 /* ── Brand Dotted Lines ── */
