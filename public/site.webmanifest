@@ -1,0 +1,21 @@
+{
+  "name": "Plane View Collective",
+  "short_name": "Plane View",
+  "description": "Clarity, created with people in mind.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#ffffff",
+  "theme_color": "#111111",
+  "icons": [
+    {
+      "src": "/logo/plane-view-logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/logo/plane-view-logo.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
