@@ -3,7 +3,7 @@ import tailwindcss from '@tailwindcss/vite';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: 'https://www.planeviewcollective.co.za',
+  site: 'https://www.planeview.co.za',
   vite: {
     plugins: [tailwindcss()],
     css: {
