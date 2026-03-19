@@ -12,6 +12,18 @@ function initFloatingCanvas() {
   const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
   if (!ctx) return;
 
+  // Cancel any existing loop before starting a new one
+  if ((window as any).__pvCanvasFrame) {
+    cancelAnimationFrame((window as any).__pvCanvasFrame);
+    (window as any).__pvCanvasFrame = null;
+  }
+
+  // ─────────────────────────────────────────────
+  //   TWEAK THIS NUMBER to add or remove shapes
+  // ─────────────────────────────────────────────
+  const NODE_COUNT = 36;
+  // ─────────────────────────────────────────────
+
   // ─────────────────────────────────────────────
   // COLOURS & SHAPES
   // ─────────────────────────────────────────────
@@ -21,7 +33,7 @@ function initFloatingCanvas() {
   type Shape = typeof SHAPES[number];
 
   // ─────────────────────────────────────────────
-  // AVOID ZONES — keeps shapes away from content
+  // AVOID ZONES
   // ─────────────────────────────────────────────
   const AVOID_SELECTORS = 'h1, h2, h3, h4, h5, h6, p, a, button, input, textarea, select, label, nav, .card, section, footer, header';
   const AVOID_PADDING = 24;
@@ -261,21 +273,25 @@ function initFloatingCanvas() {
   }
 
   // ─────────────────────────────────────────────
-  // INIT NODES — wait for DOM to settle first
+  // INIT NODES
   // ─────────────────────────────────────────────
   let nodes: Node[] = [];
 
-  function initNodes() {
+  function spawnNodes() {
     refreshAvoidZones();
-    nodes = Array.from({ length: 36 }, () => new Node());
+    nodes = Array.from({ length: NODE_COUNT }, () => new Node());
   }
 
-  // Double rAF ensures layout is fully painted before we measure zones
-  requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      initNodes();
-    });
-  });
+  let alreadySeen = false;
+  try { alreadySeen = !!localStorage.getItem('pvc-intro-seen'); } catch(e) {}
+
+  if (alreadySeen) {
+    requestAnimationFrame(() => requestAnimationFrame(spawnNodes));
+  } else {
+    setTimeout(() => {
+      requestAnimationFrame(() => requestAnimationFrame(spawnNodes));
+    }, 950);
+  }
 
   window.addEventListener('scroll', refreshAvoidZones, { passive: true });
 
@@ -284,7 +300,6 @@ function initFloatingCanvas() {
   // ─────────────────────────────────────────────
   let t = 0;
   let frameCount = 0;
-  let animFrameId: number;
 
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -295,18 +310,12 @@ function initFloatingCanvas() {
       nodes.forEach(n => { n.update(t); n.draw(); });
     }
     t++;
-    animFrameId = requestAnimationFrame(animate);
+    (window as any).__pvCanvasFrame = requestAnimationFrame(animate);
   }
 
   animate();
-
-  // Cleanup on page transition to prevent multiple loops running
-  document.addEventListener('astro:before-preparation', () => {
-    cancelAnimationFrame(animFrameId);
-  }, { once: true });
 }
 
-// Run on first load and after every ViewTransition
 document.addEventListener('astro:page-load', initFloatingCanvas);
 </script>
 
