@@ -73,6 +73,7 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
   <slot name="head" />
 </head>
 
+
 <body>
   <!-- transition:persist keeps preloader and canvas mounted across navigations -->
   <Preloader transition:persist />
@@ -85,6 +86,68 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
       <slot />
     </div>
   </div>
+   <script>
+    function initScrollReveal() {
+      const REVEAL_SELECTORS = [
+        'h1', 'h2', 'h3',
+        'p.intro-text',
+        '.card',
+        '.service-card',
+        '.work-card',
+        '.pillar-item',
+        '.value-card',
+        '.process-step',
+        '.timeline-item',
+        '.meaning-item',
+        '.info-card',
+        '.cta-box',
+        '.location-box',
+        '.tone-item',
+        '.faq-item',
+        '.service-list',
+      ];
+ 
+      document.querySelectorAll('[data-reveal]').forEach(el => {
+        el.removeAttribute('data-reveal');
+        el.removeAttribute('data-reveal-delay');
+        el.classList.remove('revealed');
+      });
+ 
+      REVEAL_SELECTORS.forEach(selector => {
+        document.querySelectorAll(selector).forEach((el) => {
+          if (el.hasAttribute('data-reveal')) return;
+          if (el.closest('#lightbox, nav, .nav, footer, .preloader')) return;
+ 
+          el.setAttribute('data-reveal', '');
+ 
+          const siblings = Array.from(
+            (el.parentElement || document.body).querySelectorAll(':scope > [data-reveal]')
+          );
+          const index = siblings.indexOf(el);
+          if (index > 0) {
+            el.setAttribute('data-reveal-delay', String(Math.min(index * 80, 400)));
+          }
+        });
+      });
+ 
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          const delay = parseInt(el.getAttribute('data-reveal-delay') || '0', 10);
+          setTimeout(() => el.classList.add('revealed'), delay);
+          observer.unobserve(el);
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px',
+      });
+ 
+      document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+    }
+ 
+    document.addEventListener('astro:page-load', initScrollReveal);
+  </script>
 </body>
 
 <style is:global>
@@ -100,14 +163,17 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
 }
 
 /* Premium slide transition */
+/* ✏️ Change the duration below (desktop) — recommended: 0.3s–0.4s */
 ::view-transition-old(root) {
-  animation: slide-out 0.5s cubic-bezier(0.76, 0, 0.24, 1) both;
+  animation: slide-out 0.35s cubic-bezier(0.76, 0, 0.24, 1) both;
 }
 
 ::view-transition-new(root) {
-  animation: slide-in 0.5s cubic-bezier(0.76, 0, 0.24, 1) both;
+  animation: slide-in 0.35s cubic-bezier(0.76, 0, 0.24, 1) both;
 }
 
+/* Change translateX to increase/decrease slide distance (e.g. 16px, 32px, 48px) */
+/* Change scale to increase/decrease depth effect (e.g. 0.97, 0.98, 0.99 — or remove it) */
 @keyframes slide-out {
   from { opacity: 1; transform: translateX(0)    scale(1);    }
   to   { opacity: 0; transform: translateX(-32px) scale(0.98); }
@@ -119,14 +185,16 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
 }
 
 /* Mobile — no scale, shorter duration */
+/* Change the duration below (mobile) — recommended: 0.2s–0.3s */
 @media (max-width: 768px) {
   ::view-transition-old(root) {
-    animation-duration: 0.3s;
+    animation-duration: 0.25s;
   }
   ::view-transition-new(root) {
-    animation-duration: 0.3s;
+    animation-duration: 0.25s;
   }
 
+  /* Mobile slide distance — keep this smaller than desktop */
   @keyframes slide-out {
     from { opacity: 1; transform: translateX(0); }
     to   { opacity: 0; transform: translateX(-20px); }
