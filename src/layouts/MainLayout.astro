@@ -1,6 +1,7 @@
 ---
 import FloatingCanvas from '../components/FloatingCanvas.astro';
 import Preloader from '../components/Preloader.astro';
+import '../styles/global.css';
 import { ViewTransitions } from 'astro:transitions';
 
 interface Props {
@@ -25,34 +26,25 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Basic Meta -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <title>{title}</title>
   <meta name="description" content={description} />
 
-  <!-- Canonical URL — prevents duplicate content penalties -->
   <link rel="canonical" href={canonicalURL} />
-
-  <!-- Robots — tells Google to index and follow all links -->
   <meta name="robots" content="index, follow" />
-
-  <!-- Author & Brand -->
   <meta name="author" content="Plane View Collective" />
   <meta name="copyright" content="Plane View Collective" />
 
-  <!-- Geo targeting — helps with local Cape Town SEO -->
   <meta name="geo.region" content="ZA-WC" />
   <meta name="geo.placename" content="Cape Town" />
   <meta name="geo.position" content="-33.9249;18.4241" />
   <meta name="ICBM" content="-33.9249, 18.4241" />
 
-  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   <link rel="apple-touch-icon" href="/favicon.svg" />
 
-  <!-- SEO / OpenGraph -->
   <meta property="og:site_name" content="Plane View Collective" />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
@@ -64,12 +56,8 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
   <meta property="og:image:alt" content="Plane View Collective — Cape Town Marketing & Design Agency" />
   <meta property="og:locale" content="en_ZA" />
 
-
-
-  <!-- Theme -->
   <meta name="theme-color" content="#111111" />
 
-  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -77,29 +65,29 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
     rel="stylesheet"
   />
 
-  <!-- PWA -->
   <link rel="manifest" href="/site.webmanifest" />
 
+  <!-- Astro ViewTransitions — handles page transitions + re-runs scripts -->
   <ViewTransitions />
 
-  <!-- Page-specific head injection (schema, etc.) -->
   <slot name="head" />
 </head>
 
 <body>
-  <Preloader />
+  <!-- transition:persist keeps preloader and canvas mounted across navigations -->
+  <Preloader transition:persist />
 
   <div class="page-wrapper">
-    <FloatingCanvas />
-    <div class="page-content">
+    <FloatingCanvas transition:persist />
+
+    <!-- slide transition on the main content only -->
+    <div class="page-content" transition:animate="slide">
       <slot />
     </div>
   </div>
 </body>
 
 <style is:global>
-@import '../styles/global.css';
-
 .page-wrapper {
   position: relative;
   width: 100%;
@@ -110,4 +98,52 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
   position: relative;
   z-index: 1;
 }
+
+/* Premium slide transition */
+::view-transition-old(root) {
+  animation: slide-out 0.5s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+
+::view-transition-new(root) {
+  animation: slide-in 0.5s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+
+@keyframes slide-out {
+  from { opacity: 1; transform: translateX(0)    scale(1);    }
+  to   { opacity: 0; transform: translateX(-32px) scale(0.98); }
+}
+
+@keyframes slide-in {
+  from { opacity: 0; transform: translateX(32px)  scale(0.98); }
+  to   { opacity: 1; transform: translateX(0)     scale(1);    }
+}
+
+/* Mobile — no scale, shorter duration */
+@media (max-width: 768px) {
+  ::view-transition-old(root) {
+    animation-duration: 0.3s;
+  }
+  ::view-transition-new(root) {
+    animation-duration: 0.3s;
+  }
+
+  @keyframes slide-out {
+    from { opacity: 1; transform: translateX(0); }
+    to   { opacity: 0; transform: translateX(-20px); }
+  }
+
+  @keyframes slide-in {
+    from { opacity: 0; transform: translateX(20px); }
+    to   { opacity: 1; transform: translateX(0); }
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
 </style>
+</html>
