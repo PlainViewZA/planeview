@@ -6,7 +6,6 @@ const navItems = [
   { href: '/FAQ', label: 'FAQs' },
   { href: '/pricing', label: 'Pricing' },
   { href: '/contact', label: 'Contact' },
-  
 ];
 ---
 
@@ -14,14 +13,12 @@ const navItems = [
 <nav class="nav">
   <div class="container">
     <div class="nav-wrapper">
-      <!-- Logo -->
       <a href="/" class="logo">
         <div class="logo-icon">
           <img src="/logo/navbar_logo_dark.webp" alt="Plane View Collective" width="180" height="32" />
         </div>
       </a>
 
-      <!-- Mobile Menu Toggle -->
       <button class="mobile-menu-toggle" aria-label="Toggle menu" aria-expanded="false">
         <span class="burger" aria-hidden="true">
           <span class="bar bar1"></span>
@@ -31,7 +28,6 @@ const navItems = [
         <span class="sr-only">Toggle menu</span>
       </button>
 
-      <!-- Navigation Links -->
       <div class="nav-menu">
         <ul class="nav-links">
           {navItems.map((item) => (
@@ -42,15 +38,12 @@ const navItems = [
             </li>
           ))}
         </ul>
-
-        <!-- Mobile CTA -->
         <a href="/contact" class="btn btn-primary mobile-nav-cta">
           Get in Touch
           <span class="arrow">→</span>
         </a>
       </div>
 
-      <!-- Desktop CTA -->
       <div class="nav-cta-wrapper">
         <a href="/contact" class="btn btn-primary nav-cta">
           Get in Touch
@@ -61,86 +54,91 @@ const navItems = [
   </div>
 </nav>
 
-<!-- 
-  FIX: Spacer is OUTSIDE the nav element, not inside nav-wrapper.
-  This pushes page content below the fixed navbar naturally.
-  Height is synced to actual nav height by the updateNavHeight() function.
--->
 <div class="nav-spacer" aria-hidden="true"></div>
 
 <script>
-function initNav() {
-  const nav = document.querySelector('.nav');
-  const menuToggle = document.querySelector('.mobile-menu-toggle');
-  const navMenu = document.querySelector('.nav-menu');
-  const body = document.body;
+  // Store cleanup functions so we can tear down on next navigation
+  let navCleanup: (() => void) | null = null;
 
-  // Guard — if nav not found, bail out
-  if (!nav) return;
-
-  // Scroll effect — add glass effect on scroll
-  window.addEventListener('scroll', () => {
-    if (window.pageYOffset > 50) {
-      nav.classList.add('scrolled');
-    } else {
-      nav.classList.remove('scrolled');
+  function initNav() {
+    // Run previous cleanup before re-initialising
+    if (navCleanup) {
+      navCleanup();
+      navCleanup = null;
     }
-  });
 
-  // Mobile menu toggle
-  menuToggle?.addEventListener('click', () => {
-    const isActive = menuToggle.classList.toggle('active');
-    navMenu?.classList.toggle('active');
-    body.classList.toggle('menu-open');
-    // FIX: Keep aria-expanded in sync for accessibility
-    menuToggle.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-  });
+    const nav = document.querySelector('.nav');
+    const menuToggle = document.querySelector<HTMLButtonElement>('.mobile-menu-toggle');
+    const navMenu = document.querySelector<HTMLElement>('.nav-menu');
+    const body = document.body;
 
-  // Close menu on nav link click
-  document.querySelectorAll('.nav-link, .mobile-nav-cta').forEach(link => {
-    link.addEventListener('click', () => {
+    if (!nav) return;
+
+    // ── Scroll handler ──
+    const onScroll = () => {
+      nav.classList.toggle('scrolled', window.pageYOffset > 50);
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+
+    // ── Mobile menu toggle ──
+    const onToggleClick = () => {
+      const isActive = menuToggle!.classList.toggle('active');
+      navMenu?.classList.toggle('active');
+      body.classList.toggle('menu-open');
+      menuToggle!.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+    };
+    menuToggle?.addEventListener('click', onToggleClick);
+
+    // ── Close on nav link click ──
+    const closeMenu = () => {
       menuToggle?.classList.remove('active');
       menuToggle?.setAttribute('aria-expanded', 'false');
       navMenu?.classList.remove('active');
       body.classList.remove('menu-open');
-    });
-  });
+    };
 
-  // Close menu on outside click
-  document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
-    if (!target.closest('.nav-wrapper') && navMenu?.classList.contains('active')) {
-      menuToggle?.classList.remove('active');
-      menuToggle?.setAttribute('aria-expanded', 'false');
-      navMenu?.classList.remove('active');
-      body.classList.remove('menu-open');
-    }
-  });
+    const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-cta');
+    navLinks.forEach(link => link.addEventListener('click', closeMenu));
 
-  // FIX: updateNavHeight syncs both the CSS variable AND the spacer element
-  // so the hero always clears the navbar correctly on every screen size
-  function updateNavHeight() {
-    const navEl = document.querySelector('.nav');
-    const spacer = document.querySelector('.nav-spacer') as HTMLElement | null;
-    if (!navEl) return;
-    const h = Math.ceil(navEl.getBoundingClientRect().height);
-    document.documentElement.style.setProperty('--nav-height', h + 'px');
-    if (spacer) spacer.style.height = h + 'px';
+    // ── Close on outside click ──
+    const onOutsideClick = (e: Event) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.nav-wrapper') && navMenu?.classList.contains('active')) {
+        closeMenu();
+      }
+    };
+    document.addEventListener('click', onOutsideClick);
+
+    // ── Nav height sync ──
+    const updateNavHeight = () => {
+      const h = Math.ceil(nav.getBoundingClientRect().height);
+      document.documentElement.style.setProperty('--nav-height', h + 'px');
+      const spacer = document.querySelector<HTMLElement>('.nav-spacer');
+      if (spacer) spacer.style.height = h + 'px';
+    };
+
+    const onResize = () => requestAnimationFrame(updateNavHeight);
+    window.addEventListener('resize', onResize);
+    updateNavHeight();
+
+    // ── Mutation observer for nav height changes ──
+    const mutationObserver = new MutationObserver(() => updateNavHeight());
+    mutationObserver.observe(nav, { attributes: true, childList: false, subtree: false });
+
+    // ── Cleanup function — called before next initNav run ──
+    navCleanup = () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onResize);
+      menuToggle?.removeEventListener('click', onToggleClick);
+      navLinks.forEach(link => link.removeEventListener('click', closeMenu));
+      document.removeEventListener('click', onOutsideClick);
+      mutationObserver.disconnect();
+      // Make sure menu state is reset on navigation
+      closeMenu();
+    };
   }
 
-  // Run immediately, on resize, and on menu open/close
-  updateNavHeight();
-  window.addEventListener('resize', () => requestAnimationFrame(updateNavHeight));
-
-  // FIX: MutationObserver watches for class changes on nav (scrolled, etc)
-  // and re-measures height in case it changes
-  const observer = new MutationObserver(() => updateNavHeight());
-  observer.observe(nav, { attributes: true, childList: false, subtree: false });
-}
-
-// FIX: Use astro:page-load instead of DOMContentLoaded so this
-// re-runs after every ViewTransition page navigation
-document.addEventListener('astro:page-load', initNav);
+  document.addEventListener('astro:page-load', initNav);
 </script>
 
 <style>
@@ -174,17 +172,12 @@ document.addEventListener('astro:page-load', initNav);
     gap: var(--spacing-lg);
   }
 
-  /* 
-    FIX: Spacer is outside nav, sized to match nav height.
-    JS keeps this in sync via updateNavHeight().
-  */
   .nav-spacer {
     display: block;
     width: 100%;
-    height: 85px; /* default — JS overrides this with exact measured height */
+    height: 85px;
   }
 
-  /* Logo */
   .logo {
     display: flex;
     align-items: center;
@@ -213,7 +206,6 @@ document.addEventListener('astro:page-load', initNav);
     object-fit: contain;
   }
 
-  /* Mobile Menu Toggle */
   .mobile-menu-toggle {
     display: none;
     background: none;
@@ -261,7 +253,6 @@ document.addEventListener('astro:page-load', initNav);
     clip: rect(0,0,0,0); white-space: nowrap; border: 0;
   }
 
-  /* Nav menu — centered desktop */
   .nav-menu {
     display: flex;
     align-items: center;
@@ -307,19 +298,11 @@ document.addEventListener('astro:page-load', initNav);
   .nav-link:hover::after { width: 100%; }
 
   .nav-cta { white-space: nowrap; }
-
   .mobile-nav-cta { display: none; }
 
-  /* ── Mobile ── */
   @media (max-width: 768px) {
-    .nav {
-      --nav-height: 70px;
-    }
-
-    /* FIX: Spacer height reduced on mobile to match smaller nav */
-    .nav-spacer {
-      height: 70px;
-    }
+    .nav { --nav-height: 70px; }
+    .nav-spacer { height: 70px; }
 
     .nav-wrapper {
       display: flex;
@@ -406,7 +389,6 @@ document.addEventListener('astro:page-load', initNav);
     }
   }
 
-  /* Tablet */
   @media (min-width: 769px) and (max-width: 1024px) {
     .nav-links { gap: var(--spacing-md); }
     .nav-link { font-size: 0.875rem; }
