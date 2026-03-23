@@ -2,7 +2,8 @@
 import FloatingCanvas from '../components/FloatingCanvas.astro';
 import Preloader from '../components/Preloader.astro';
 import '../styles/global.css';
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
+import OrganizationSchema from '../seo/OrganizationSchema.astro';
 
 interface Props {
   title?: string;
@@ -67,26 +68,27 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
 
   <link rel="manifest" href="/site.webmanifest" />
 
-  <!-- Astro ViewTransitions — handles page transitions + re-runs scripts -->
-  <ViewTransitions />
+  <ClientRouter />
+  <OrganizationSchema />
 
   <slot name="head" />
 </head>
 
-
 <body>
-  <!-- transition:persist keeps preloader and canvas mounted across navigations -->
   <Preloader transition:persist />
 
   <div class="page-wrapper">
     <FloatingCanvas transition:persist />
 
-    <!-- slide transition on the main content only -->
     <div class="page-content" transition:animate="slide">
       <slot />
     </div>
   </div>
-   <script>
+
+  <script>
+    // ── Scroll Reveal ──────────────────────────────────────────
+    let scrollObserver: IntersectionObserver | null = null;
+
     function initScrollReveal() {
       const REVEAL_SELECTORS = [
         'h1', 'h2', 'h3',
@@ -106,20 +108,27 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
         '.faq-item',
         '.service-list',
       ];
- 
+
+      // Disconnect stale observer before creating a new one
+      if (scrollObserver) {
+        scrollObserver.disconnect();
+        scrollObserver = null;
+      }
+
+      // Clean up previous reveal state
       document.querySelectorAll('[data-reveal]').forEach(el => {
         el.removeAttribute('data-reveal');
         el.removeAttribute('data-reveal-delay');
         el.classList.remove('revealed');
       });
- 
+
       REVEAL_SELECTORS.forEach(selector => {
         document.querySelectorAll(selector).forEach((el) => {
           if (el.hasAttribute('data-reveal')) return;
           if (el.closest('#lightbox, nav, .nav, footer, .preloader')) return;
- 
+
           el.setAttribute('data-reveal', '');
- 
+
           const siblings = Array.from(
             (el.parentElement || document.body).querySelectorAll(':scope > [data-reveal]')
           );
@@ -129,24 +138,67 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
           }
         });
       });
- 
-      const observer = new IntersectionObserver((entries) => {
+
+      scrollObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (!entry.isIntersecting) return;
           const el = entry.target as HTMLElement;
           const delay = parseInt(el.getAttribute('data-reveal-delay') || '0', 10);
           setTimeout(() => el.classList.add('revealed'), delay);
-          observer.unobserve(el);
+          scrollObserver?.unobserve(el);
         });
       }, {
         threshold: 0.12,
         rootMargin: '0px 0px -40px 0px',
       });
- 
-      document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+
+      document.querySelectorAll('[data-reveal]').forEach(el => scrollObserver!.observe(el));
     }
- 
-    document.addEventListener('astro:page-load', initScrollReveal);
+
+    // ── Contact form pre-fill ──────────────────────────────────
+    function initContactPrefill() {
+      const params = new URLSearchParams(window.location.search);
+      const pkg = params.get('package');
+      if (!pkg) return;
+
+      const select = document.getElementById('service') as HTMLSelectElement;
+      if (select) select.value = pkg;
+
+      const labels: Record<string, string> = {
+        'website-starter':      'Website — Starter (R4,500)',
+        'website-growth':       'Website — Growth (R8,500)',
+        'website-professional': 'Website — Professional (R12,000)',
+        'store-starter':        'Online Store — Starter (R14,500)',
+        'store-growth':         'Online Store — Growth (R18,000)',
+        'maintenance-basic':    'Website Maintenance — Basic Care (R750/mo)',
+        'maintenance-growth':   'Website Maintenance — Growth Care (R1,500/mo)',
+        'social-starter':       'Social Media — Starter (R4,500/mo)',
+        'social-growth':        'Social Media — Growth (R7,500/mo)',
+        'social-authority':     'Social Media — Authority (R11,000–R12,500/mo)',
+        'ads-meta':             'Meta Ads (R2,500/mo)',
+        'ads-google':           'Google Ads (R3,500/mo)',
+        'ads-linkedin':         'LinkedIn Ads (R3,000/mo)',
+        'seo-local':            'SEO — Local (R5,000/mo)',
+        'seo-growth':           'SEO — Growth (R9,500/mo)',
+        'seo-advanced':         'SEO — Advanced (R13,000/mo)',
+        'standalone':           'Standalone Services',
+        'combo':                'Combination Package',
+      };
+
+      const label = labels[pkg];
+      if (!label) return;
+
+      const message = document.getElementById('message') as HTMLTextAreaElement;
+      if (message && !message.value) {
+        message.value = `Hi, I'm interested in the ${label} package. I'd like to discuss next steps.`;
+      }
+    }
+
+    // ── Run both on every page load ────────────────────────────
+    document.addEventListener('astro:page-load', () => {
+      initScrollReveal();
+      initContactPrefill();
+    });
   </script>
 </body>
 
@@ -162,19 +214,6 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
   z-index: 1;
 }
 
-/* ✏️ Change duration (desktop) — recommended: 0.3s–0.4s */
-::view-transition-old(root) {
-  animation: slide-out 0.35s cubic-bezier(0.76, 0, 0.24, 1) both;
-}
-
-::view-transition-new(root) {
-  animation: slide-in 0.35s cubic-bezier(0.76, 0, 0.24, 1) both;
-}
-
-/*  Change translateX for slide distance (e.g. 16px, 32px, 48px) */
-/*  Change scale for depth effect (e.g. 0.97, 0.98, 0.99 — or remove it) */
-/* Seamless fade — out fast, in smooth */
-/* Seamless crossfade with subtle vertical drift */
 ::view-transition-old(root) {
   animation: page-fade-out 0.2s ease-in both;
 }
