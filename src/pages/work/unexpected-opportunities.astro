@@ -1,0 +1,722 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import Navigation from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
+
+// ============================================================
+//  EDIT THIS SECTION ONLY — everything else stays the same
+// ============================================================
+
+const project = {
+  metaTitle: "Unexpected Opportunities Case Study | Plane View Collective",
+  metaDescription: "How we built a complete digital presence for a Cape Town community movement — brand identity, website design, and content strategy.",
+
+  tags: ["Web Design", "Branding", "Content Strategy"],
+  title: "Unexpected Opportunities — Digital presence for a community movement built on dignity and care",
+  subheading: "A Cape Town community NPO had a powerful mission but no digital home to carry it. We built the brand identity and website that gave their movement a voice and a place to invite people in.",
+
+  client: "Unexpected Opportunities",
+  industry: "Non-Profit / Community",
+  location: "Cape Town, SA",
+  services: "Brand & Web",
+  year: "2026",
+
+  heroImage: "",
+  heroImageAlt: "Unexpected Opportunities website design mockup",
+
+  challengeHeading: "A movement with heart but no digital home",
+  challenge: [
+    "Unexpected Opportunities had been showing up for their community long before they had a website. Food support, youth mentorship, community storytelling — the work was real, the care was genuine, and the trust had been earned on the ground. But none of that was visible online. There was no digital presence that could carry the warmth of the mission, explain the programs clearly, or give donors and volunteers a way to find and trust them.",
+    "The risk wasn't just invisibility — it was that a generic charity website would flatten everything that made this movement different. They didn't need a polished donor funnel. They needed something that felt like them: human, honest, and close to the people they serve.",
+  ],
+
+  approachHeading: "Dignity first. Design second.",
+  approach: [
+    "We started by listening — which felt right for a client whose entire philosophy is built on listening first. The brand had to communicate warmth and trust before anything else. That meant the visual identity needed to feel grounded, not corporate; the typography had to be readable and calm; and the copy had to sound like a neighbour, not a press release.",
+    "The website was structured around three questions a first-time visitor would ask: What do you do? Why should I trust you? How do I get involved? Every section — from the mission statement to the program pages to the stories — was written and designed to answer those questions in the order someone would actually ask them.",
+    "We treated the Stories section as a core product of the site, not an afterthought — because for a movement like this, lived experience is the evidence.",
+  ],
+
+  deliverables: [
+    {
+      number: "01",
+      service: "Brand Identity",
+      heading: "A visual identity built around warmth and trust",
+      description: "We developed a brand system that balanced warmth with credibility — grounded tones, clean typography, and a mark that felt human without being naive. The identity was designed to work across digital, print, and social from day one.",
+    },
+    {
+      number: "02",
+      service: "Website Design & Build",
+      heading: "A site that invites people in, clearly and quickly",
+      description: "The website was built to explain the mission, showcase the programs, and give people a clear path to donate or get involved. Clean layout, strong visual hierarchy, and a Stories section treated as a first-class feature — because real stories are the most powerful trust signal a community organisation has.",
+    },
+    {
+      number: "03",
+      service: "Content Strategy",
+      heading: "Storytelling as a strategic asset",
+      description: "Every page was written to feel close rather than distant. The stories framework was built so the team could add and publish new community stories without needing a developer — keeping the content engine running long after launch.",
+    },
+  ],
+
+  resultHeading: "A community movement, now visible",
+  result: [
+    "Unexpected Opportunities now has a digital presence that carries the same warmth and honesty as the work they do on the ground. A donor landing on the site for the first time understands the mission within seconds and has a clear, frictionless path to contribute.",
+    "The site gave the team more than a website — it gave them a frame for how to talk about their work consistently, a content engine in the Stories section, and a brand they can grow into as the movement expands.",
+  ],
+  stats: [
+    { number: "3",   unit: "",   label: "core programs clearly communicated for the first time" },
+    { number: "15+", unit: "",   label: "local partnerships supported by the new digital presence" },
+    { number: "0",   unit: "→1", label: "from no brand identity to a complete movement presence" },
+  ],
+
+  quote: "Plane View understood immediately that we didn't want something that looked like a charity. They built something that feels like us — honest, warm, and built for the people we serve.",
+  quoteAuthor: "Unexpected Opportunities",
+};
+// ============================================================
+---
+
+<MainLayout title={project.metaTitle} description={project.metaDescription}>
+  <Navigation />
+
+  <!-- Breadcrumb -->
+  <div class="breadcrumb-bar">
+    <div class="container">
+      <a href="/work" class="breadcrumb-link">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        Work
+      </a>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <section class="cs-hero section">
+    <div class="container container-narrow">
+
+      <div class="cs-tags">
+        {project.tags.map((tag) => (
+          <span class="cs-tag">{tag}</span>
+        ))}
+      </div>
+
+      <h1 class="cs-title">{project.title}</h1>
+      <p class="cs-sub">{project.subheading}</p>
+
+      <dl class="cs-meta">
+        <div class="cs-meta-item"><dt>Client</dt><dd>{project.client}</dd></div>
+        <div class="cs-meta-item"><dt>Industry</dt><dd>{project.industry}</dd></div>
+        <div class="cs-meta-item"><dt>Location</dt><dd>{project.location}</dd></div>
+        <div class="cs-meta-item"><dt>Services</dt><dd>{project.services}</dd></div>
+        <div class="cs-meta-item"><dt>Year</dt><dd>{project.year}</dd></div>
+      </dl>
+
+    </div>
+  </section>
+
+  <!-- Hero Image -->
+  <section class="cs-hero-image-section">
+    <div class="container">
+      <div class="cs-hero-image">
+        {project.heroImage ? (
+          <img src={project.heroImage} alt={project.heroImageAlt} />
+        ) : (
+          <div class="cs-hero-placeholder" aria-label={project.heroImageAlt}>
+            <div class="placeholder-screen">
+              <div class="placeholder-nav">
+                <div class="ph-logo"></div>
+                <div class="ph-nav-links"><span></span><span></span><span></span></div>
+              </div>
+              <div class="placeholder-hero-block">
+                <div class="ph-headline"></div>
+                <div class="ph-sub"></div>
+                <div class="ph-btn"></div>
+              </div>
+              <div class="placeholder-grid">
+                <div class="ph-card"></div>
+                <div class="ph-card"></div>
+                <div class="ph-card"></div>
+              </div>
+            </div>
+            <span class="placeholder-label">{project.client} — Hero Image</span>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Body -->
+  <div class="cs-body">
+    <div class="container">
+      <div class="cs-content-grid">
+
+        <!-- Main content -->
+        <main class="cs-main">
+
+          <!-- Challenge -->
+          <section class="cs-section" id="challenge">
+            <span class="cs-section-label">The Challenge</span>
+            <h2>{project.challengeHeading}</h2>
+            {project.challenge.map((para) => <p>{para}</p>)}
+          </section>
+
+          <!-- Approach -->
+          <section class="cs-section" id="approach">
+            <span class="cs-section-label">Our Approach</span>
+            <h2>{project.approachHeading}</h2>
+            {project.approach.map((para) => <p>{para}</p>)}
+          </section>
+
+          <!-- The Work -->
+          <section class="cs-section" id="work">
+            <span class="cs-section-label">The Work</span>
+            <h2>What we delivered</h2>
+            {project.deliverables.map((d) => (
+              <div class="cs-deliverable">
+                <div class="cs-deliverable-label">{d.number} — {d.service}</div>
+                <h3>{d.heading}</h3>
+                <p>{d.description}</p>
+              </div>
+            ))}
+          </section>
+
+          <!-- Result -->
+          <section class="cs-section" id="result">
+            <span class="cs-section-label">The Result</span>
+            <h2>{project.resultHeading}</h2>
+            {project.result.map((para) => <p>{para}</p>)}
+            <div class="cs-result-stats">
+              {project.stats.map((s) => (
+                <div class="cs-stat">
+                  <span class="cs-stat-number">
+                    {s.number}
+                    {s.unit && <span class="cs-stat-unit">{s.unit}</span>}
+                  </span>
+                  <span class="cs-stat-label">{s.label}</span>
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <!-- Quote — hidden if empty -->
+          {project.quote && (
+            <section class="cs-section">
+              <blockquote class="cs-quote">
+                <p class="cs-quote-text">"{project.quote}"</p>
+                <footer class="cs-quote-footer">
+                  <span class="cs-quote-author">{project.quoteAuthor}</span>
+                </footer>
+              </blockquote>
+            </section>
+          )}
+
+        </main>
+
+        <!-- Sidebar -->
+        <aside class="cs-sidebar">
+          <div class="cs-sidebar-inner">
+
+            <div class="cs-sidebar-block">
+              <h4 class="cs-sidebar-heading">Project Details</h4>
+              <ul class="cs-sidebar-list">
+                <li><span class="sidebar-label">Client</span><span class="sidebar-value">{project.client}</span></li>
+                <li><span class="sidebar-label">Industry</span><span class="sidebar-value">{project.industry}</span></li>
+                <li><span class="sidebar-label">Location</span><span class="sidebar-value">{project.location}</span></li>
+                <li><span class="sidebar-label">Year</span><span class="sidebar-value">{project.year}</span></li>
+                <li><span class="sidebar-label">Services</span><span class="sidebar-value">{project.services}</span></li>
+              </ul>
+            </div>
+
+            <div class="cs-sidebar-block cs-sidebar-nav-block">
+              <h4 class="cs-sidebar-heading">On this page</h4>
+              <nav aria-label="Case study sections">
+                <a href="#challenge" class="cs-nav-link">The Challenge</a>
+                <a href="#approach" class="cs-nav-link">Our Approach</a>
+                <a href="#work" class="cs-nav-link">The Work</a>
+                <a href="#result" class="cs-nav-link">The Result</a>
+              </nav>
+            </div>
+
+          </div>
+        </aside>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <section class="cs-cta-strip section">
+    <div class="container">
+      <div class="cs-cta-inner">
+        <div class="cs-cta-text">
+          <h2>Want results like this?</h2>
+          <p>Let's talk about your project.</p>
+        </div>
+        <a href="/contact" class="btn btn-primary btn-lg">
+          Get in Touch
+          <span class="arrow">→</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</MainLayout>
+
+<style>
+  /* ── Breadcrumb ── */
+  .breadcrumb-bar {
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+  }
+
+  .breadcrumb-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--color-slate-grey);
+    text-decoration: none;
+    transition: color var(--transition-base);
+  }
+
+  .breadcrumb-link:hover { color: var(--color-jet-black); }
+
+  /* ── Hero ── */
+  .cs-hero { padding-bottom: var(--spacing-xl); }
+
+  .cs-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .cs-tag {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    border: 1.5px solid rgba(47, 111, 237, 0.3);
+    color: var(--color-steel-blue);
+    letter-spacing: 0.02em;
+  }
+
+  .cs-title {
+    font-size: clamp(2rem, 4.5vw, 3.25rem);
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .cs-sub {
+    font-size: 1.25rem;
+    line-height: 1.65;
+    color: var(--color-slate-grey);
+    max-width: 680px;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .cs-meta {
+    display: flex;
+    flex-wrap: wrap;
+    border-top: 1px solid rgba(17, 17, 17, 0.1);
+    border-bottom: 1px solid rgba(17, 17, 17, 0.1);
+    padding: var(--spacing-md) 0;
+  }
+
+  .cs-meta-item {
+    flex: 1 1 120px;
+    padding: var(--spacing-sm) var(--spacing-md) var(--spacing-sm) 0;
+  }
+
+  .cs-meta-item:not(:last-child) {
+    border-right: 1px solid rgba(17, 17, 17, 0.1);
+    margin-right: var(--spacing-md);
+  }
+
+  .cs-meta-item dt {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-slate-grey);
+    margin-bottom: 4px;
+  }
+
+  .cs-meta-item dd {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-jet-black);
+  }
+
+  /* ── Hero Image ── */
+  .cs-hero-image-section { padding-bottom: var(--spacing-3xl); }
+
+  .cs-hero-image {
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: #111;
+  }
+
+  .cs-hero-image img { width: 100%; display: block; }
+
+  .cs-hero-placeholder {
+    background: linear-gradient(135deg, #1a2035 0%, #2a3a52 100%);
+    aspect-ratio: 16 / 9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-xl);
+    padding: var(--spacing-2xl);
+  }
+
+  .placeholder-screen {
+    width: 100%;
+    max-width: 860px;
+    background: #f5f5f0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+  }
+
+  .placeholder-nav {
+    background: #1a2035;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .ph-logo { width: 100px; height: 10px; background: rgba(255,255,255,0.3); border-radius: 4px; }
+  .ph-nav-links { display: flex; gap: 14px; }
+  .ph-nav-links span { width: 48px; height: 8px; background: rgba(255,255,255,0.15); border-radius: 3px; display: block; }
+
+  .placeholder-hero-block {
+    background: #1a2035;
+    padding: 40px 24px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ph-headline { width: 70%; height: 18px; background: rgba(255,255,255,0.85); border-radius: 4px; }
+  .ph-sub      { width: 50%; height: 12px; background: rgba(255,255,255,0.3);  border-radius: 4px; }
+  .ph-btn      { width: 120px; height: 32px; background: var(--color-steel-blue); border-radius: 20px; margin-top: 8px; }
+
+  .placeholder-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 20px;
+    background: #f5f5f0;
+  }
+
+  .ph-card { background: #fff; height: 80px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.06); }
+
+  .placeholder-label {
+    font-size: 0.8125rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  /* ── Body layout ── */
+  .cs-body { padding-bottom: var(--spacing-3xl); }
+
+  .cs-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: var(--spacing-3xl);
+    align-items: start;
+  }
+
+  /* ── Sections ── */
+  .cs-section { margin-bottom: var(--spacing-3xl); }
+  .cs-section:last-child { margin-bottom: 0; }
+
+  .cs-section-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-steel-blue);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .cs-section h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: var(--spacing-md); }
+
+  .cs-section p {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: #2a2a2a;
+    margin-bottom: var(--spacing-md);
+    max-width: 70ch;
+  }
+
+  .cs-section p:last-child { margin-bottom: 0; }
+
+  /* ── Deliverables ── */
+  .cs-deliverable {
+    margin-top: var(--spacing-2xl);
+    padding-top: var(--spacing-2xl);
+    border-top: 1px solid rgba(17,17,17,0.08);
+  }
+
+  .cs-deliverable-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-slate-grey);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .cs-deliverable h3 { font-size: 1.375rem; margin-bottom: var(--spacing-md); }
+
+  .cs-deliverable p {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: #2a2a2a;
+    max-width: 70ch;
+  }
+
+  /* ── Stats ── */
+  .cs-result-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+    margin-top: var(--spacing-2xl);
+    padding: var(--spacing-xl);
+    background: rgba(47, 111, 237, 0.04);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(47, 111, 237, 0.1);
+  }
+
+  .cs-stat { display: flex; flex-direction: column; gap: 6px; }
+
+  .cs-stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-jet-black);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .cs-stat-unit { font-size: 1.25rem; color: var(--color-steel-blue); }
+  .cs-stat-label { font-size: 0.875rem; color: var(--color-slate-grey); line-height: 1.4; }
+
+  /* ── Quote ── */
+  .cs-quote {
+    margin: 0;
+    padding: var(--spacing-2xl);
+    background: var(--color-jet-black);
+    border-radius: var(--radius-lg);
+    position: relative;
+  }
+
+  .cs-quote::before {
+    content: '"';
+    position: absolute;
+    top: var(--spacing-lg);
+    left: var(--spacing-xl);
+    font-size: 5rem;
+    line-height: 1;
+    color: rgba(47, 111, 237, 0.2);
+    font-family: Georgia, serif;
+    pointer-events: none;
+  }
+
+  .cs-quote-text {
+    font-size: 1.25rem;
+    line-height: 1.65;
+    color: var(--color-pure-white) !important;
+    font-style: italic;
+    margin-bottom: var(--spacing-lg) !important;
+    padding-top: var(--spacing-md);
+    max-width: 100% !important;
+  }
+
+  .cs-quote-footer { display: flex; flex-direction: column; gap: 4px; }
+  .cs-quote-author { font-size: 0.9375rem; font-weight: 600; color: var(--color-pure-white); }
+
+  /* ── Sidebar ── */
+  .cs-sidebar {
+    position: sticky;
+    top: calc(var(--nav-height, 85px) + var(--spacing-lg));
+  }
+
+  .cs-sidebar-inner {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(17, 17, 17, 0.1);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: #fafafa;
+  }
+
+  .cs-sidebar-block { padding: var(--spacing-xl); }
+  .cs-sidebar-block + .cs-sidebar-block { border-top: 1px solid rgba(17, 17, 17, 0.08); }
+
+  .cs-sidebar-heading {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--color-slate-grey);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .cs-sidebar-list { list-style: none; display: flex; flex-direction: column; gap: var(--spacing-md); }
+  .cs-sidebar-list li { display: flex; flex-direction: column; gap: 3px; }
+
+  .sidebar-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-slate-grey);
+  }
+
+  .sidebar-value { font-size: 0.9rem; font-weight: 500; color: var(--color-jet-black); line-height: 1.5; }
+
+  .cs-sidebar-nav-block nav { display: flex; flex-direction: column; gap: 2px; }
+
+  .cs-nav-link {
+    display: block;
+    padding: 8px 10px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-slate-grey);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+  }
+
+  .cs-nav-link:hover { color: var(--color-jet-black); background: rgba(17,17,17,0.04); }
+  .cs-nav-link.active { color: var(--color-steel-blue); background: rgba(47, 111, 237, 0.06); }
+
+  /* ── CTA ── */
+  .cs-cta-strip { background: var(--color-jet-black); }
+
+  .cs-cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-xl);
+    flex-wrap: wrap;
+  }
+
+  .cs-cta-text h2 {
+    color: var(--color-pure-white);
+    margin-bottom: var(--spacing-xs);
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .cs-cta-text p { color: var(--color-slate-grey); font-size: 1.125rem; margin: 0; }
+
+  .cs-cta-strip .btn-primary {
+    background: var(--color-steel-blue);
+    border-color: var(--color-steel-blue);
+    flex-shrink: 0;
+  }
+
+  /* ─────────────────────────────────────────
+     RESPONSIVE — same fixes as Chemcrete
+  ───────────────────────────────────────── */
+
+  @media (max-width: 1024px) {
+    .cs-content-grid { grid-template-columns: 1fr; }
+    .cs-sidebar { position: static; order: -1; }
+    .cs-sidebar-inner { flex-direction: row; flex-wrap: wrap; }
+    .cs-sidebar-block { flex: 1 1 200px; }
+    .cs-sidebar-nav-block { display: none; }
+  }
+
+  @media (max-width: 768px) {
+    .cs-title { font-size: clamp(1.625rem, 6vw, 2.25rem); }
+    .cs-sub { font-size: 1.0625rem; }
+
+    /* FIX: meta items colliding — clean 2-col grid */
+    .cs-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding: 0;
+    }
+
+    .cs-meta-item {
+      flex: unset;
+      padding: var(--spacing-sm);
+      border-right: none !important;
+      margin-right: 0 !important;
+      border-bottom: 1px solid rgba(17,17,17,0.07);
+    }
+
+    .cs-meta-item:nth-child(even) {
+      border-left: 1px solid rgba(17,17,17,0.07);
+    }
+
+    .cs-meta-item:nth-last-child(-n+2) {
+      border-bottom: none;
+    }
+
+    /* FIX: fixed aspect-ratio crushed placeholder */
+    .cs-hero-placeholder {
+      aspect-ratio: unset;
+      min-height: 220px;
+      padding: var(--spacing-lg);
+    }
+
+    /* FIX: nav links in placeholder overflow */
+    .ph-nav-links { display: none; }
+
+    /* FIX: 3-col grids stack to 1 */
+    .placeholder-grid { grid-template-columns: 1fr; }
+
+    /* FIX: stats stack vertically */
+    .cs-result-stats { grid-template-columns: 1fr; gap: var(--spacing-md); }
+
+    /* FIX: quote padding reduced */
+    .cs-quote { padding: var(--spacing-xl) var(--spacing-lg); }
+    .cs-quote::before { font-size: 3.5rem; }
+    .cs-quote-text { font-size: 1.0625rem; }
+
+    /* FIX: sidebar stacks */
+    .cs-sidebar-inner { flex-direction: column; }
+
+    /* FIX: CTA stacks, button full width */
+    .cs-cta-inner { flex-direction: column; text-align: center; }
+    .cs-cta-strip .btn-primary { width: 100%; justify-content: center; }
+  }
+
+  @media (max-width: 480px) {
+    .cs-tag { font-size: 0.75rem; padding: 3px 10px; }
+    .cs-stat-number { font-size: 2rem; }
+  }
+</style>
+
+<script>
+  const sections = document.querySelectorAll<HTMLElement>('#challenge, #approach, #work, #result');
+  const navLinks = document.querySelectorAll<HTMLAnchorElement>('.cs-nav-link');
+
+  if (navLinks.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            navLinks.forEach((link) => {
+              link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
+            });
+          }
+        });
+      },
+      { rootMargin: '-20% 0px -70% 0px' }
+    );
+    sections.forEach((s) => observer.observe(s));
+  }
+</script>
