@@ -12,13 +12,13 @@ const project = {
   metaDescription: "How we built a complete digital presence for a Cape Town community movement — brand identity, website design, and content strategy.",
 
   tags: ["Web Design", "Branding", "Content Strategy"],
-  title: "Unexpected Opportunities — Digital presence for a community movement built on dignity and care",
-  subheading: "A Cape Town community NPO had a powerful mission but no digital home to carry it. We built the brand identity and website that gave their movement a voice and a place to invite people in.",
+  title: "Unexpected Opportunities",
+  tagline: "Building a digital home for a Cape Town community movement built on dignity, care, and showing up — brand identity, website, and content strategy from the ground up.",
 
   client: "Unexpected Opportunities",
   industry: "Non-Profit / Community",
   location: "Cape Town, SA",
-  services: "Brand & Web",
+  services: ["Brand Identity", "Website Design", "Content Strategy"],
   year: "2026",
 
   heroImage: "",
@@ -64,9 +64,9 @@ const project = {
     "The site gave the team more than a website — it gave them a frame for how to talk about their work consistently, a content engine in the Stories section, and a brand they can grow into as the movement expands.",
   ],
   stats: [
-    { number: "3",   unit: "",   label: "core programs clearly communicated for the first time" },
-    { number: "15+", unit: "",   label: "local partnerships supported by the new digital presence" },
-    { number: "0",   unit: "→1", label: "from no brand identity to a complete movement presence" },
+    { figure: "3",   label: "Core programs clearly communicated for the first time" },
+    { figure: "15+", label: "Local partnerships supported by the new digital presence" },
+    { figure: "0→1", label: "From no brand identity to a complete movement presence" },
   ],
 
   quote: "Plane View understood immediately that we didn't want something that looked like a charity. They built something that feels like us — honest, warm, and built for the people we serve.",
@@ -78,50 +78,55 @@ const project = {
 <MainLayout title={project.metaTitle} description={project.metaDescription}>
   <Navigation />
 
-  <!-- Breadcrumb -->
-  <div class="breadcrumb-bar">
+  <!-- ═══════════════════════════════════════════
+       1. HERO — Case Study Intro
+  ═══════════════════════════════════════════ -->
+  <section class="cs-hero">
     <div class="container">
-      <a href="/work" class="breadcrumb-link">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-          <path d="M10 12L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        Work
-      </a>
-    </div>
-  </div>
 
-  <!-- Hero -->
-  <section class="cs-hero section">
-    <div class="container container-narrow">
+      <div class="cs-hero-inner">
+        <div class="cs-hero-left">
+          <div class="cs-tags">
+            {project.tags.map((tag) => (
+              <span class="cs-tag">{tag}</span>
+            ))}
+          </div>
+          <h1 class="cs-hero-title">{project.title}</h1>
+          <p class="cs-hero-tagline">{project.tagline}</p>
+        </div>
 
-      <div class="cs-tags">
-        {project.tags.map((tag) => (
-          <span class="cs-tag">{tag}</span>
-        ))}
+        <div class="cs-hero-meta">
+          <div class="meta-item">
+            <span class="meta-label">Client</span>
+            <span class="meta-value">{project.client}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Industry</span>
+            <span class="meta-value">{project.industry}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Location</span>
+            <span class="meta-value">{project.location}</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Services</span>
+            {project.services.map((s) => (
+              <span class="meta-value">{s}</span>
+            ))}
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Year</span>
+            <span class="meta-value">{project.year}</span>
+          </div>
+        </div>
       </div>
 
-      <h1 class="cs-title">{project.title}</h1>
-      <p class="cs-sub">{project.subheading}</p>
-
-      <dl class="cs-meta">
-        <div class="cs-meta-item"><dt>Client</dt><dd>{project.client}</dd></div>
-        <div class="cs-meta-item"><dt>Industry</dt><dd>{project.industry}</dd></div>
-        <div class="cs-meta-item"><dt>Location</dt><dd>{project.location}</dd></div>
-        <div class="cs-meta-item"><dt>Services</dt><dd>{project.services}</dd></div>
-        <div class="cs-meta-item"><dt>Year</dt><dd>{project.year}</dd></div>
-      </dl>
-
-    </div>
-  </section>
-
-  <!-- Hero Image -->
-  <section class="cs-hero-image-section">
-    <div class="container">
-      <div class="cs-hero-image">
+      <!-- Hero cover -->
+      <div class="cs-hero-cover">
         {project.heroImage ? (
           <img src={project.heroImage} alt={project.heroImageAlt} />
         ) : (
-          <div class="cs-hero-placeholder" aria-label={project.heroImageAlt}>
+          <div class="cover-placeholder" aria-label={project.heroImageAlt}>
             <div class="placeholder-screen">
               <div class="placeholder-nav">
                 <div class="ph-logo"></div>
@@ -138,123 +143,368 @@ const project = {
                 <div class="ph-card"></div>
               </div>
             </div>
-            <span class="placeholder-label">{project.client} — Hero Image</span>
+            <span class="cover-hint">{project.client} — Hero Image</span>
           </div>
         )}
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       2. BRAND IDENTITY
+  ═══════════════════════════════════════════ -->
+  <section class="brand-section">
+
+    <div class="container">
+      <div class="section-label-block">
+        <span class="eyebrow">Brand Identity</span>
+        <h2 class="section-heading">The {project.client} Identity</h2>
+        <p class="section-subheading">A visual system built on warmth, trust, and community dignity.</p>
+      </div>
+    </div>
+
+    <!-- Brand Board -->
+    <div class="brand-board">
+      <div class="brand-board-left">
+        <div class="logo-on-light">
+          <div class="logo-placeholder">
+            <div class="logo-icon-placeholder">UO</div>
+            <span class="logo-wordmark">UNEXPECTED<br>OPPORTUNITIES</span>
+          </div>
+          <span class="logo-variant-label">Primary — Light Background</span>
+        </div>
+        <div class="logo-on-dark">
+          <div class="logo-placeholder">
+            <div class="logo-icon-placeholder reversed">UO</div>
+            <span class="logo-wordmark reversed">UNEXPECTED<br>OPPORTUNITIES</span>
+          </div>
+          <span class="logo-variant-label light">Primary — Dark Background</span>
+        </div>
+        <div class="logo-on-brand">
+          <div class="logo-placeholder">
+            <div class="logo-icon-placeholder brand">UO</div>
+            <span class="logo-wordmark brand">UNEXPECTED<br>OPPORTUNITIES</span>
+          </div>
+          <span class="logo-variant-label light">Primary — Brand Colour</span>
+        </div>
+      </div>
+
+      <div class="brand-board-right">
+        <div class="colour-column" style="background:#ffffff; border:1px solid #e0dbd1;">
+          <div class="colour-info dark">
+            <span class="colour-name">White</span>
+            <span class="colour-hex">#ffffff</span>
+            <span class="colour-role">Background</span>
+          </div>
+        </div>
+        <div class="colour-column" style="background:#f2ede6;">
+          <div class="colour-info dark">
+            <span class="colour-name">Linen</span>
+            <span class="colour-hex">#f2ede6</span>
+            <span class="colour-role">Secondary BG</span>
+          </div>
+        </div>
+        <div class="colour-column" style="background:#6b7280;">
+          <div class="colour-info light">
+            <span class="colour-name">Warm Grey</span>
+            <span class="colour-hex">#6b7280</span>
+            <span class="colour-role">Body Text</span>
+          </div>
+        </div>
+        <div class="colour-column" style="background:#c47c3e;">
+          <div class="colour-info light">
+            <span class="colour-name">Terracotta</span>
+            <span class="colour-hex">#c47c3e</span>
+            <span class="colour-role">Secondary</span>
+          </div>
+        </div>
+        <div class="colour-column" style="background:#1f3a2e;">
+          <div class="colour-info light">
+            <span class="colour-name">Deep Moss</span>
+            <span class="colour-hex">#1f3a2e</span>
+            <span class="colour-role">Primary</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Typography Strip -->
+    <div class="type-strip">
+      <div class="container">
+        <div class="type-grid">
+
+          <div class="type-block">
+            <span class="type-label">Display — Playfair Display</span>
+            <div class="type-specimen-display" style="font-family:'Playfair Display',serif;">Aa</div>
+            <div class="type-weights">
+              <span style="font-family:'Playfair Display',serif;font-weight:400;">Regular</span>
+              <span style="font-family:'Playfair Display',serif;font-weight:700;">Bold</span>
+            </div>
+            <p class="type-usage">Used for headlines, pull quotes, and all display text.</p>
+          </div>
+
+          <div class="type-divider"></div>
+
+          <div class="type-block">
+            <span class="type-label">Body — Source Sans 3</span>
+            <div class="type-specimen-body" style="font-family:'Source Sans 3',sans-serif;">Aa</div>
+            <div class="type-weights">
+              <span style="font-family:'Source Sans 3',sans-serif;font-weight:400;">Regular</span>
+              <span style="font-family:'Source Sans 3',sans-serif;font-weight:600;">SemiBold</span>
+            </div>
+            <p class="type-usage">Used for body copy, captions, and UI labels.</p>
+          </div>
+
+          <div class="type-divider"></div>
+
+          <div class="type-block">
+            <span class="type-label">In Use</span>
+            <p class="specimen-headline" style="font-family:'Playfair Display',serif;">Showing up for community.</p>
+            <p class="specimen-body" style="font-family:'Source Sans 3',sans-serif;">Serving Cape Town's most vulnerable residents through food support, youth mentorship, and community storytelling — because dignity is not a privilege.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Brand Values -->
+    <div class="brand-values-strip">
+      <div class="container">
+        <div class="values-grid">
+          <div class="value-pill">Human</div>
+          <div class="value-pill">Grounded</div>
+          <div class="value-pill">Warm</div>
+          <div class="value-pill">Community-first</div>
+          <div class="value-pill">Honest</div>
+          <div class="value-pill accent">Dignity &amp; Care</div>
+          <div class="value-pill accent">Radical Welcome</div>
+          <div class="value-pill accent">Lived Experience</div>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       3. MOCKUPS — Visual Application
+  ═══════════════════════════════════════════ -->
+  <section class="mockups-section">
+    <div class="container">
+
+      <div class="section-label-block">
+        <span class="eyebrow">Application</span>
+        <h2 class="section-heading">The Work in Context</h2>
+        <p class="section-subheading">Brand applied across digital and community touchpoints.</p>
+      </div>
+
+      <!-- Feature desktop -->
+      <div class="mockup-feature">
+        <div class="mockup-frame mockup-frame--desktop">
+          <div class="mockup-browser-bar">
+            <div class="browser-dots"><span></span><span></span><span></span></div>
+            <div class="browser-url">unexpectedopportunities.org.za</div>
+          </div>
+          <div class="mockup-screen">
+            <div class="screen-placeholder">
+              <!-- Replace: <img src="/images/uo/desktop-home.jpg" alt="Homepage" /> -->
+              <span class="screen-hint">[ Desktop — Homepage ]</span>
+            </div>
+          </div>
+        </div>
+        <p class="mockup-caption">Homepage Design</p>
+      </div>
+
+      <!-- Two-col -->
+      <div class="mockup-grid mockup-grid--2col">
+        <div class="mockup-item">
+          <div class="mockup-frame mockup-frame--mobile">
+            <div class="mockup-screen">
+              <div class="screen-placeholder screen-placeholder--tall">
+                <!-- Replace: <img src="/images/uo/mobile-home.jpg" alt="Mobile" /> -->
+                <span class="screen-hint">[ Mobile — Homepage ]</span>
+              </div>
+            </div>
+          </div>
+          <p class="mockup-caption">Mobile Experience</p>
+        </div>
+        <div class="mockup-item">
+          <div class="mockup-frame mockup-frame--desktop">
+            <div class="mockup-browser-bar">
+              <div class="browser-dots"><span></span><span></span><span></span></div>
+              <div class="browser-url">unexpectedopportunities.org.za/stories</div>
+            </div>
+            <div class="mockup-screen">
+              <div class="screen-placeholder">
+                <!-- Replace: <img src="/images/uo/desktop-stories.jpg" alt="Stories" /> -->
+                <span class="screen-hint">[ Desktop — Stories Section ]</span>
+              </div>
+            </div>
+          </div>
+          <p class="mockup-caption">Community Stories</p>
+        </div>
+      </div>
+
+      <!-- Three-col collateral -->
+      <div class="mockup-grid mockup-grid--3col">
+        <div class="mockup-item">
+          <div class="mockup-frame mockup-frame--card">
+            <div class="screen-placeholder screen-placeholder--card">
+              <!-- Replace: <img src="/images/uo/business-card.jpg" alt="Card" /> -->
+              <span class="screen-hint">[ Business Card ]</span>
+            </div>
+          </div>
+          <p class="mockup-caption">Business Card</p>
+        </div>
+        <div class="mockup-item">
+          <div class="mockup-frame mockup-frame--card">
+            <div class="screen-placeholder screen-placeholder--card">
+              <!-- Replace: <img src="/images/uo/social-post.jpg" alt="Social" /> -->
+              <span class="screen-hint">[ Social Media Post ]</span>
+            </div>
+          </div>
+          <p class="mockup-caption">Social Media</p>
+        </div>
+        <div class="mockup-item">
+          <div class="mockup-frame mockup-frame--card">
+            <div class="screen-placeholder screen-placeholder--card">
+              <!-- Replace: <img src="/images/uo/letterhead.jpg" alt="Letterhead" /> -->
+              <span class="screen-hint">[ Letterhead &amp; Print ]</span>
+            </div>
+          </div>
+          <p class="mockup-caption">Letterhead &amp; Print</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════
+       4. CASE STUDY — The Story
+  ═══════════════════════════════════════════ -->
+  <section class="story-section">
+    <div class="container story-container">
+
+      <nav class="story-sidenav" aria-label="Case study navigation">
+        <a href="#challenge" class="cs-nav-link">Challenge</a>
+        <a href="#approach"  class="cs-nav-link">Approach</a>
+        <a href="#execution" class="cs-nav-link">Execution</a>
+        <a href="#result"    class="cs-nav-link">Result</a>
+      </nav>
+
+      <div class="story-body">
+
+        <!-- Challenge -->
+        <article id="challenge" class="story-chapter">
+          <div class="chapter-marker">
+            <span class="chapter-number">01</span>
+            <span class="chapter-title">The Challenge</span>
+          </div>
+          <h3 class="chapter-heading">{project.challengeHeading}</h3>
+          <div class="chapter-content">
+            {project.challenge.map((para) => <p>{para}</p>)}
+          </div>
+        </article>
+
+        <!-- Approach -->
+        <article id="approach" class="story-chapter">
+          <div class="chapter-marker">
+            <span class="chapter-number">02</span>
+            <span class="chapter-title">The Approach</span>
+          </div>
+          <h3 class="chapter-heading">{project.approachHeading}</h3>
+          <div class="chapter-content">
+            {project.approach.map((para) => <p>{para}</p>)}
+            <div class="approach-pillars">
+              <div class="pillar">
+                <span class="pillar-label">Brand Direction</span>
+                <p>Warmth without naivety. Grounded in the community it serves, never corporate or distant.</p>
+              </div>
+              <div class="pillar">
+                <span class="pillar-label">Content Strategy</span>
+                <p>Stories as evidence. Lived experience treated as the most powerful trust signal the organisation has.</p>
+              </div>
+              <div class="pillar">
+                <span class="pillar-label">Digital Strategy</span>
+                <p>Answer three questions in order: What do you do? Why trust you? How do I get involved?</p>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Execution -->
+        <article id="execution" class="story-chapter">
+          <div class="chapter-marker">
+            <span class="chapter-number">03</span>
+            <span class="chapter-title">The Execution</span>
+          </div>
+          <h3 class="chapter-heading">
+            Built to feel like them.<br>Every touchpoint considered.
+          </h3>
+          <div class="chapter-content">
+            <p>
+              We delivered a complete brand system and digital presence in a single focused engagement — identity, digital, and collateral working together so the movement has a coherent voice wherever it shows up.
+            </p>
+            <div class="execution-deliverables">
+              {project.deliverables.map((d) => (
+                <div class="deliverable-row">
+                  <div class="deliverable-icon">—</div>
+                  <div class="deliverable-detail">
+                    <span class="deliverable-name">{d.number} — {d.service}</span>
+                    <span class="deliverable-heading">{d.heading}</span>
+                    <p>{d.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </article>
+
+        <!-- Result -->
+        <article id="result" class="story-chapter story-chapter--last">
+          <div class="chapter-marker">
+            <span class="chapter-number">04</span>
+            <span class="chapter-title">The Result</span>
+          </div>
+          <h3 class="chapter-heading">{project.resultHeading}</h3>
+          <div class="chapter-content">
+            {project.result.map((para) => <p>{para}</p>)}
+          </div>
+
+          <div class="result-stats">
+            {project.stats.map((s) => (
+              <div class="stat-card">
+                <span class="stat-figure">{s.figure}</span>
+                <span class="stat-desc">{s.label}</span>
+              </div>
+            ))}
+          </div>
+
+          {project.quote && (
+            <blockquote class="story-quote">
+              <p class="story-quote-text">"{project.quote}"</p>
+              <footer>
+                <span class="story-quote-author">— {project.quoteAuthor}</span>
+              </footer>
+            </blockquote>
+          )}
+
+        </article>
+
       </div>
     </div>
   </section>
 
-  <!-- Body -->
-  <div class="cs-body">
+  <!-- ═══════════════════════════════════════════
+       5. NEXT PROJECT CTA
+  ═══════════════════════════════════════════ -->
+  <section class="next-project">
     <div class="container">
-      <div class="cs-content-grid">
-
-        <!-- Main content -->
-        <main class="cs-main">
-
-          <!-- Challenge -->
-          <section class="cs-section" id="challenge">
-            <span class="cs-section-label">The Challenge</span>
-            <h2>{project.challengeHeading}</h2>
-            {project.challenge.map((para) => <p>{para}</p>)}
-          </section>
-
-          <!-- Approach -->
-          <section class="cs-section" id="approach">
-            <span class="cs-section-label">Our Approach</span>
-            <h2>{project.approachHeading}</h2>
-            {project.approach.map((para) => <p>{para}</p>)}
-          </section>
-
-          <!-- The Work -->
-          <section class="cs-section" id="work">
-            <span class="cs-section-label">The Work</span>
-            <h2>What we delivered</h2>
-            {project.deliverables.map((d) => (
-              <div class="cs-deliverable">
-                <div class="cs-deliverable-label">{d.number} — {d.service}</div>
-                <h3>{d.heading}</h3>
-                <p>{d.description}</p>
-              </div>
-            ))}
-          </section>
-
-          <!-- Result -->
-          <section class="cs-section" id="result">
-            <span class="cs-section-label">The Result</span>
-            <h2>{project.resultHeading}</h2>
-            {project.result.map((para) => <p>{para}</p>)}
-            <div class="cs-result-stats">
-              {project.stats.map((s) => (
-                <div class="cs-stat">
-                  <span class="cs-stat-number">
-                    {s.number}
-                    {s.unit && <span class="cs-stat-unit">{s.unit}</span>}
-                  </span>
-                  <span class="cs-stat-label">{s.label}</span>
-                </div>
-              ))}
-            </div>
-          </section>
-
-          <!-- Quote — hidden if empty -->
-          {project.quote && (
-            <section class="cs-section">
-              <blockquote class="cs-quote">
-                <p class="cs-quote-text">"{project.quote}"</p>
-                <footer class="cs-quote-footer">
-                  <span class="cs-quote-author">{project.quoteAuthor}</span>
-                </footer>
-              </blockquote>
-            </section>
-          )}
-
-        </main>
-
-        <!-- Sidebar -->
-        <aside class="cs-sidebar">
-          <div class="cs-sidebar-inner">
-
-            <div class="cs-sidebar-block">
-              <h4 class="cs-sidebar-heading">Project Details</h4>
-              <ul class="cs-sidebar-list">
-                <li><span class="sidebar-label">Client</span><span class="sidebar-value">{project.client}</span></li>
-                <li><span class="sidebar-label">Industry</span><span class="sidebar-value">{project.industry}</span></li>
-                <li><span class="sidebar-label">Location</span><span class="sidebar-value">{project.location}</span></li>
-                <li><span class="sidebar-label">Year</span><span class="sidebar-value">{project.year}</span></li>
-                <li><span class="sidebar-label">Services</span><span class="sidebar-value">{project.services}</span></li>
-              </ul>
-            </div>
-
-            <div class="cs-sidebar-block cs-sidebar-nav-block">
-              <h4 class="cs-sidebar-heading">On this page</h4>
-              <nav aria-label="Case study sections">
-                <a href="#challenge" class="cs-nav-link">The Challenge</a>
-                <a href="#approach" class="cs-nav-link">Our Approach</a>
-                <a href="#work" class="cs-nav-link">The Work</a>
-                <a href="#result" class="cs-nav-link">The Result</a>
-              </nav>
-            </div>
-
-          </div>
-        </aside>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- CTA -->
-  <section class="cs-cta-strip section">
-    <div class="container">
-      <div class="cs-cta-inner">
-        <div class="cs-cta-text">
-          <h2>Want results like this?</h2>
-          <p>Let's talk about your project.</p>
-        </div>
-        <a href="/contact" class="btn btn-primary btn-lg">
-          Get in Touch
-          <span class="arrow">→</span>
+      <div class="next-project-inner">
+        <span class="eyebrow">Next Project</span>
+        <a href="/work/chemcrete" class="next-project-link">
+          <span class="next-project-name">Chemcrete</span>
+          <span class="next-arrow">→</span>
         </a>
       </div>
     </div>
@@ -264,139 +514,175 @@ const project = {
 </MainLayout>
 
 <style>
-  /* ── Breadcrumb ── */
-  .breadcrumb-bar {
-    padding: var(--spacing-md) 0;
-    border-bottom: 1px solid rgba(17, 17, 17, 0.08);
+  /* ── Shared Utilities ── */
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
   }
 
-  .breadcrumb-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--color-slate-grey);
-    text-decoration: none;
-    transition: color var(--transition-base);
+  .eyebrow {
+    display: inline-block;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #c47c3e;
+    margin-bottom: 0.75rem;
   }
 
-  .breadcrumb-link:hover { color: var(--color-jet-black); }
+  .section-label-block {
+    max-width: 640px;
+    margin-bottom: 3.5rem;
+  }
 
-  /* ── Hero ── */
-  .cs-hero { padding-bottom: var(--spacing-xl); }
+  .section-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #1a1a1a;
+    margin: 0 0 0.75rem;
+    line-height: 1.1;
+  }
+
+  .section-subheading {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.0625rem;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ════════════════════════════════════════
+     1. HERO
+  ════════════════════════════════════════ */
+  .cs-hero {
+    background: #f2ede6;
+    padding: 7rem 0 0;
+    overflow: hidden;
+  }
+
+  .cs-hero-inner {
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 4rem;
+    align-items: start;
+    padding-bottom: 4rem;
+  }
+
+  .cs-hero-left { display: flex; flex-direction: column; }
 
   .cs-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: var(--spacing-lg);
+    margin-bottom: 1.25rem;
   }
 
   .cs-tag {
+    font-family: 'Open Sans', sans-serif;
     font-size: 0.8125rem;
-    font-weight: 500;
-    padding: 4px 12px;
-    border-radius: var(--radius-full);
-    border: 1.5px solid rgba(47, 111, 237, 0.3);
-    color: var(--color-steel-blue);
-    letter-spacing: 0.02em;
-  }
-
-  .cs-title {
-    font-size: clamp(2rem, 4.5vw, 3.25rem);
-    font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.02em;
-    margin-bottom: var(--spacing-lg);
-  }
-
-  .cs-sub {
-    font-size: 1.25rem;
-    line-height: 1.65;
-    color: var(--color-slate-grey);
-    max-width: 680px;
-    margin-bottom: var(--spacing-xl);
-  }
-
-  .cs-meta {
-    display: flex;
-    flex-wrap: wrap;
-    border-top: 1px solid rgba(17, 17, 17, 0.1);
-    border-bottom: 1px solid rgba(17, 17, 17, 0.1);
-    padding: var(--spacing-md) 0;
-  }
-
-  .cs-meta-item {
-    flex: 1 1 120px;
-    padding: var(--spacing-sm) var(--spacing-md) var(--spacing-sm) 0;
-  }
-
-  .cs-meta-item:not(:last-child) {
-    border-right: 1px solid rgba(17, 17, 17, 0.1);
-    margin-right: var(--spacing-md);
-  }
-
-  .cs-meta-item dt {
-    font-size: 0.75rem;
     font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 4px 14px;
+    border-radius: 9999px;
+    border: 1.5px solid rgba(196, 124, 62, 0.4);
+    color: #c47c3e;
+  }
+
+  .cs-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: #1a1a1a;
+    line-height: 0.95;
+    margin: 0.5rem 0 1.5rem;
+  }
+
+  .cs-hero-tagline {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.125rem;
+    color: #6b7280;
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0;
+  }
+
+  .cs-hero-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    padding-top: 1.25rem;
+    border-left: 1px solid rgba(0,0,0,0.1);
+    padding-left: 2.5rem;
+  }
+
+  .meta-item { display: flex; flex-direction: column; gap: 0.375rem; }
+
+  .meta-label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-slate-grey);
-    margin-bottom: 4px;
+    color: #c47c3e;
   }
 
-  .cs-meta-item dd {
+  .meta-value {
+    font-family: 'Open Sans', sans-serif;
     font-size: 0.9375rem;
+    color: #1a1a1a;
     font-weight: 500;
-    color: var(--color-jet-black);
+    line-height: 1.5;
   }
 
-  /* ── Hero Image ── */
-  .cs-hero-image-section { padding-bottom: var(--spacing-3xl); }
-
-  .cs-hero-image {
-    border-radius: var(--radius-lg);
+  .cs-hero-cover {
+    width: 100%;
+    aspect-ratio: 16 / 7;
     overflow: hidden;
-    background: #111;
+    border-top: 1px solid rgba(0,0,0,0.08);
   }
 
-  .cs-hero-image img { width: 100%; display: block; }
+  .cs-hero-cover img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
-  .cs-hero-placeholder {
-    background: linear-gradient(135deg, #1a2035 0%, #2a3a52 100%);
-    aspect-ratio: 16 / 9;
+  .cover-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #1f3a2e 0%, #2d5240 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: var(--spacing-xl);
-    padding: var(--spacing-2xl);
+    gap: 2rem;
+    padding: 3rem 2rem;
   }
 
   .placeholder-screen {
     width: 100%;
     max-width: 860px;
-    background: #f5f5f0;
+    background: #f2ede6;
     border-radius: 10px;
     overflow: hidden;
-    box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+    box-shadow: 0 32px 80px rgba(0,0,0,0.4);
   }
 
   .placeholder-nav {
-    background: #1a2035;
+    background: #1f3a2e;
     padding: 14px 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
 
-  .ph-logo { width: 100px; height: 10px; background: rgba(255,255,255,0.3); border-radius: 4px; }
+  .ph-logo { width: 140px; height: 10px; background: rgba(255,255,255,0.3); border-radius: 4px; }
   .ph-nav-links { display: flex; gap: 14px; }
   .ph-nav-links span { width: 48px; height: 8px; background: rgba(255,255,255,0.15); border-radius: 3px; display: block; }
 
   .placeholder-hero-block {
-    background: #1a2035;
+    background: #1f3a2e;
     padding: 40px 24px 48px;
     display: flex;
     flex-direction: column;
@@ -404,307 +690,334 @@ const project = {
   }
 
   .ph-headline { width: 70%; height: 18px; background: rgba(255,255,255,0.85); border-radius: 4px; }
-  .ph-sub      { width: 50%; height: 12px; background: rgba(255,255,255,0.3);  border-radius: 4px; }
-  .ph-btn      { width: 120px; height: 32px; background: var(--color-steel-blue); border-radius: 20px; margin-top: 8px; }
+  .ph-sub      { width: 50%; height: 12px; background: rgba(255,255,255,0.3); border-radius: 4px; }
+  .ph-btn      { width: 120px; height: 32px; background: #c47c3e; border-radius: 20px; margin-top: 8px; }
 
-  .placeholder-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    padding: 20px;
-    background: #f5f5f0;
-  }
-
+  .placeholder-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; padding: 20px; }
   .ph-card { background: #fff; height: 80px; border-radius: 6px; border: 1px solid rgba(0,0,0,0.06); }
+  .cover-hint { font-family: 'Open Sans', sans-serif; font-size: 0.8125rem; color: rgba(255,255,255,0.35); letter-spacing: 0.06em; text-transform: uppercase; }
 
-  .placeholder-label {
-    font-size: 0.8125rem;
-    font-weight: 500;
-    color: rgba(255,255,255,0.3);
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
+  /* ════════════════════════════════════════
+     2. BRAND IDENTITY
+  ════════════════════════════════════════ */
+  .brand-section {
+    background: #f9f8f5;
+    padding: 6rem 0 0;
+    overflow: hidden;
   }
 
-  /* ── Body layout ── */
-  .cs-body { padding-bottom: var(--spacing-3xl); }
-
-  .cs-content-grid {
+  .brand-board {
     display: grid;
-    grid-template-columns: 1fr 280px;
-    gap: var(--spacing-3xl);
-    align-items: start;
+    grid-template-columns: 1fr 1fr;
+    min-height: 480px;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    margin-top: 1rem;
   }
 
-  /* ── Sections ── */
-  .cs-section { margin-bottom: var(--spacing-3xl); }
-  .cs-section:last-child { margin-bottom: 0; }
-
-  .cs-section-label {
-    display: block;
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-steel-blue);
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .cs-section h2 { font-size: clamp(1.5rem, 3vw, 2rem); margin-bottom: var(--spacing-md); }
-
-  .cs-section p {
-    font-size: 1.0625rem;
-    line-height: 1.75;
-    color: #2a2a2a;
-    margin-bottom: var(--spacing-md);
-    max-width: 70ch;
-  }
-
-  .cs-section p:last-child { margin-bottom: 0; }
-
-  /* ── Deliverables ── */
-  .cs-deliverable {
-    margin-top: var(--spacing-2xl);
-    padding-top: var(--spacing-2xl);
-    border-top: 1px solid rgba(17,17,17,0.08);
-  }
-
-  .cs-deliverable-label {
-    font-size: 0.75rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-slate-grey);
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .cs-deliverable h3 { font-size: 1.375rem; margin-bottom: var(--spacing-md); }
-
-  .cs-deliverable p {
-    font-size: 1.0625rem;
-    line-height: 1.75;
-    color: #2a2a2a;
-    max-width: 70ch;
-  }
-
-  /* ── Stats ── */
-  .cs-result-stats {
+  .brand-board-left {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-lg);
-    margin-top: var(--spacing-2xl);
-    padding: var(--spacing-xl);
-    background: rgba(47, 111, 237, 0.04);
-    border-radius: var(--radius-md);
-    border: 1px solid rgba(47, 111, 237, 0.1);
+    grid-template-rows: 1fr 1fr 1fr;
+    border-right: 1px solid rgba(0,0,0,0.08);
   }
 
-  .cs-stat { display: flex; flex-direction: column; gap: 6px; }
-
-  .cs-stat-number {
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--color-jet-black);
-    line-height: 1;
-    letter-spacing: -0.02em;
-  }
-
-  .cs-stat-unit { font-size: 1.25rem; color: var(--color-steel-blue); }
-  .cs-stat-label { font-size: 0.875rem; color: var(--color-slate-grey); line-height: 1.4; }
-
-  /* ── Quote ── */
-  .cs-quote {
-    margin: 0;
-    padding: var(--spacing-2xl);
-    background: var(--color-jet-black);
-    border-radius: var(--radius-lg);
-    position: relative;
-  }
-
-  .cs-quote::before {
-    content: '"';
-    position: absolute;
-    top: var(--spacing-lg);
-    left: var(--spacing-xl);
-    font-size: 5rem;
-    line-height: 1;
-    color: rgba(47, 111, 237, 0.2);
-    font-family: Georgia, serif;
-    pointer-events: none;
-  }
-
-  .cs-quote-text {
-    font-size: 1.25rem;
-    line-height: 1.65;
-    color: var(--color-pure-white) !important;
-    font-style: italic;
-    margin-bottom: var(--spacing-lg) !important;
-    padding-top: var(--spacing-md);
-    max-width: 100% !important;
-  }
-
-  .cs-quote-footer { display: flex; flex-direction: column; gap: 4px; }
-  .cs-quote-author { font-size: 0.9375rem; font-weight: 600; color: var(--color-pure-white); }
-
-  /* ── Sidebar ── */
-  .cs-sidebar {
-    position: sticky;
-    top: calc(var(--nav-height, 85px) + var(--spacing-lg));
-  }
-
-  .cs-sidebar-inner {
+  .logo-on-light,
+  .logo-on-dark,
+  .logo-on-brand {
     display: flex;
     flex-direction: column;
-    border: 1px solid rgba(17, 17, 17, 0.1);
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    background: #fafafa;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    padding: 2.5rem;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
   }
 
-  .cs-sidebar-block { padding: var(--spacing-xl); }
-  .cs-sidebar-block + .cs-sidebar-block { border-top: 1px solid rgba(17, 17, 17, 0.08); }
+  .logo-on-light { background: #ffffff; }
+  .logo-on-dark  { background: #1a1a1a; }
+  .logo-on-brand { background: #1f3a2e; border-bottom: none; }
 
-  .cs-sidebar-heading {
-    font-size: 0.7rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    color: var(--color-slate-grey);
-    margin-bottom: var(--spacing-md);
-  }
+  .logo-placeholder { display: flex; align-items: center; gap: 0.75rem; }
 
-  .cs-sidebar-list { list-style: none; display: flex; flex-direction: column; gap: var(--spacing-md); }
-  .cs-sidebar-list li { display: flex; flex-direction: column; gap: 3px; }
-
-  .sidebar-label {
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--color-slate-grey);
-  }
-
-  .sidebar-value { font-size: 0.9rem; font-weight: 500; color: var(--color-jet-black); line-height: 1.5; }
-
-  .cs-sidebar-nav-block nav { display: flex; flex-direction: column; gap: 2px; }
-
-  .cs-nav-link {
-    display: block;
-    padding: 8px 10px;
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: var(--color-slate-grey);
-    text-decoration: none;
-    border-radius: var(--radius-sm);
-    transition: all var(--transition-fast);
-  }
-
-  .cs-nav-link:hover { color: var(--color-jet-black); background: rgba(17,17,17,0.04); }
-  .cs-nav-link.active { color: var(--color-steel-blue); background: rgba(47, 111, 237, 0.06); }
-
-  /* ── CTA ── */
-  .cs-cta-strip { background: var(--color-jet-black); }
-
-  .cs-cta-inner {
+  .logo-icon-placeholder {
+    width: 52px;
+    height: 52px;
+    border: 2px solid #1f3a2e;
+    border-radius: 50%;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-xl);
-    flex-wrap: wrap;
-  }
-
-  .cs-cta-text h2 {
-    color: var(--color-pure-white);
-    margin-bottom: var(--spacing-xs);
-    font-size: clamp(1.5rem, 3vw, 2rem);
-  }
-
-  .cs-cta-text p { color: var(--color-slate-grey); font-size: 1.125rem; margin: 0; }
-
-  .cs-cta-strip .btn-primary {
-    background: var(--color-steel-blue);
-    border-color: var(--color-steel-blue);
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1f3a2e;
     flex-shrink: 0;
   }
 
-  /* ─────────────────────────────────────────
-     RESPONSIVE — same fixes as Chemcrete
-  ───────────────────────────────────────── */
+  .logo-icon-placeholder.reversed { border-color: #ffffff; color: #ffffff; }
+  .logo-icon-placeholder.brand    { border-color: #f2ede6; color: #f2ede6; }
 
+  .logo-wordmark {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #1f3a2e;
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
+  .logo-wordmark.reversed { color: #ffffff; }
+  .logo-wordmark.brand    { color: #f2ede6; }
+
+  .logo-variant-label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #6b7280;
+  }
+
+  .logo-variant-label.light { color: rgba(255,255,255,0.4); }
+
+  .brand-board-right { display: grid; grid-template-columns: repeat(5, 1fr); }
+
+  .colour-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.25rem 1rem;
+    min-height: 480px;
+  }
+
+  .colour-column:not(:last-child) { border-right: 1px solid rgba(255,255,255,0.12); }
+  .colour-info { display: flex; flex-direction: column; gap: 3px; }
+
+  .colour-name { font-family: 'Playfair Display', serif; font-size: 0.8125rem; font-weight: 700; line-height: 1.2; }
+  .colour-hex  { font-family: 'Open Sans', sans-serif; font-size: 0.75rem; font-weight: 600; opacity: 0.7; }
+  .colour-role { font-family: 'Open Sans', sans-serif; font-size: 0.6875rem; opacity: 0.5; margin-top: 2px; }
+
+  .colour-info.dark  .colour-name,
+  .colour-info.dark  .colour-hex,
+  .colour-info.dark  .colour-role { color: #1a1a1a; }
+  .colour-info.light .colour-name,
+  .colour-info.light .colour-hex,
+  .colour-info.light .colour-role { color: #ffffff; }
+
+  .type-strip { background: #ffffff; border-top: 1px solid rgba(0,0,0,0.08); padding: 4rem 0; }
+
+  .type-grid { display: grid; grid-template-columns: 1fr 1px 1fr 1px 1.4fr; gap: 0; align-items: start; }
+
+  .type-divider { background: rgba(0,0,0,0.08); height: 100%; min-height: 200px; }
+
+  .type-block { padding: 0 2.5rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .type-block:first-child { padding-left: 0; }
+  .type-block:last-child  { padding-right: 0; }
+
+  .type-label { font-family: 'Open Sans', sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #c47c3e; }
+
+  .type-specimen-display { font-size: clamp(4rem, 8vw, 7rem); font-weight: 700; color: #1a1a1a; line-height: 0.9; }
+  .type-specimen-body    { font-size: clamp(4rem, 8vw, 7rem); font-weight: 400; color: #1a1a1a; line-height: 0.9; }
+
+  .type-weights { display: flex; gap: 1.25rem; flex-wrap: wrap; }
+  .type-weights span { font-size: 0.875rem; color: #6b7280; }
+  .type-usage { font-family: 'Open Sans', sans-serif; font-size: 0.875rem; color: #6b7280; margin: 0; line-height: 1.6; max-width: 260px; }
+
+  .specimen-headline { font-size: clamp(1.375rem, 2.5vw, 1.875rem); font-weight: 700; color: #1f3a2e; line-height: 1.2; margin: 0 0 0.75rem; }
+  .specimen-body { font-family: 'Open Sans', sans-serif; font-size: 0.9375rem; color: #6b7280; line-height: 1.7; margin: 0; }
+
+  .brand-values-strip { background: #1f3a2e; padding: 2rem 0; border-top: 1px solid rgba(0,0,0,0.1); }
+  .values-grid { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+
+  .value-pill {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 6px 14px;
+    border-radius: 9999px;
+    border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.65);
+    background: transparent;
+  }
+
+  .value-pill.accent { border-color: rgba(242,237,230,0.3); color: #f2ede6; background: rgba(242,237,230,0.07); }
+
+  /* ════════════════════════════════════════
+     3. MOCKUPS
+  ════════════════════════════════════════ */
+  .mockups-section { background: #1a1a1a; padding: 6rem 0; }
+  .mockups-section .section-label-block { margin-bottom: 4rem; }
+  .mockups-section .section-heading { color: #ffffff; }
+  .mockups-section .section-subheading { color: rgba(255,255,255,0.5); }
+  .mockups-section .eyebrow { color: #c47c3e; }
+
+  .mockup-feature { margin-bottom: 3rem; }
+  .mockup-grid { display: grid; gap: 1.5rem; margin-bottom: 3rem; }
+  .mockup-grid--2col { grid-template-columns: 1fr 1fr; }
+  .mockup-grid--3col { grid-template-columns: repeat(3, 1fr); }
+
+  .mockup-frame { background: #242424; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.06); }
+  .mockup-frame--mobile { max-width: 280px; margin: 0 auto; border-radius: 24px; border-width: 2px; }
+
+  .mockup-browser-bar { display: flex; align-items: center; gap: 0.75rem; padding: 0.625rem 1rem; background: #2e2e2e; border-bottom: 1px solid rgba(255,255,255,0.06); }
+
+  .browser-dots { display: flex; gap: 5px; }
+  .browser-dots span { width: 10px; height: 10px; border-radius: 50%; background: rgba(255,255,255,0.15); display: block; }
+
+  .browser-url { font-family: 'Open Sans', sans-serif; font-size: 0.75rem; color: rgba(255,255,255,0.3); background: rgba(255,255,255,0.06); padding: 3px 12px; border-radius: 4px; flex: 1; max-width: 320px; }
+
+  .screen-placeholder { width: 100%; aspect-ratio: 16/9; background: #f2ede6; display: flex; align-items: center; justify-content: center; }
+  .screen-placeholder--tall { aspect-ratio: 9/16; }
+  .screen-placeholder--card { aspect-ratio: 3/2; }
+
+  .screen-hint { font-family: 'Open Sans', sans-serif; font-size: 0.75rem; color: #6b7280; letter-spacing: 0.06em; text-align: center; padding: 0 1rem; }
+
+  .mockup-caption { font-family: 'Open Sans', sans-serif; font-size: 0.8125rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin: 0.875rem 0 0; }
+
+  /* ════════════════════════════════════════
+     4. STORY
+  ════════════════════════════════════════ */
+  .story-section { background: #f9f8f5; padding: 6rem 0 7rem; }
+
+  .story-container { display: grid; grid-template-columns: 180px 1fr; gap: 6rem; align-items: start; }
+
+  .story-sidenav { position: sticky; top: 5rem; display: flex; flex-direction: column; gap: 0.25rem; padding-top: 0.25rem; }
+
+  .cs-nav-link {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: #6b7280;
+    padding: 0.5rem 0 0.5rem 1rem;
+    border-left: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .cs-nav-link:hover,
+  .cs-nav-link.active { color: #1f3a2e; border-left-color: #1f3a2e; }
+
+  .story-body { display: flex; flex-direction: column; }
+
+  .story-chapter { padding: 4rem 0; border-bottom: 1px solid rgba(0,0,0,0.08); }
+  .story-chapter--last { border-bottom: none; }
+
+  .chapter-marker { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.5rem; }
+  .chapter-number { font-family: 'Open Sans', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; color: rgba(0,0,0,0.18); }
+  .chapter-title  { font-family: 'Open Sans', sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #c47c3e; }
+
+  .chapter-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: #1a1a1a;
+    line-height: 1.1;
+    margin: 0 0 2rem;
+  }
+
+  .chapter-content { display: flex; flex-direction: column; gap: 1.25rem; max-width: 640px; }
+
+  .chapter-content p { font-family: 'Open Sans', sans-serif; font-size: 1rem; color: #4a4a4a; line-height: 1.8; margin: 0; }
+
+  .approach-pillars { display: flex; flex-direction: column; border: 1px solid rgba(0,0,0,0.08); border-radius: 4px; overflow: hidden; margin-top: 1rem; }
+
+  .pillar { padding: 1.25rem 1.5rem; border-bottom: 1px solid rgba(0,0,0,0.08); display: flex; flex-direction: column; gap: 0.375rem; }
+  .pillar:last-child { border-bottom: none; }
+  .pillar-label { font-family: 'Open Sans', sans-serif; font-size: 0.6875rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #c47c3e; }
+  .pillar p { font-family: 'Open Sans', sans-serif; font-size: 0.9375rem; color: #6b7280; margin: 0; line-height: 1.6; }
+
+  .execution-deliverables { display: flex; flex-direction: column; gap: 1.75rem; margin-top: 1rem; }
+
+  .deliverable-row { display: grid; grid-template-columns: 24px 1fr; gap: 1.25rem; align-items: start; }
+  .deliverable-icon { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: #c47c3e; line-height: 1.4; margin-top: 2px; }
+  .deliverable-detail { display: flex; flex-direction: column; gap: 0.25rem; }
+  .deliverable-name { font-family: 'Open Sans', sans-serif; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #c47c3e; }
+  .deliverable-heading { font-family: 'Playfair Display', serif; font-size: 1.125rem; font-weight: 700; color: #1a1a1a; line-height: 1.3; }
+  .deliverable-detail p { font-family: 'Open Sans', sans-serif; font-size: 0.9375rem; color: #6b7280; margin: 0.25rem 0 0; line-height: 1.6; }
+
+  .result-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2.5rem; padding-top: 2.5rem; border-top: 1px solid rgba(0,0,0,0.08); }
+  .stat-card { display: flex; flex-direction: column; gap: 0.5rem; }
+  .stat-figure { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 3.5vw, 2.75rem); font-weight: 700; color: #1f3a2e; letter-spacing: -0.02em; line-height: 1; }
+  .stat-desc { font-family: 'Open Sans', sans-serif; font-size: 0.875rem; color: #6b7280; line-height: 1.5; }
+
+  .story-quote { margin: 2.5rem 0 0; padding: 2rem 2.5rem; background: #1f3a2e; border-radius: 6px; }
+  .story-quote-text { font-family: 'Playfair Display', serif; font-size: 1.1875rem; font-weight: 400; font-style: italic; color: #f2ede6; line-height: 1.65; margin: 0 0 1rem; }
+  .story-quote-author { font-family: 'Open Sans', sans-serif; font-size: 0.875rem; font-weight: 600; color: rgba(242,237,230,0.5); letter-spacing: 0.06em; text-transform: uppercase; }
+
+  /* ════════════════════════════════════════
+     5. NEXT PROJECT
+  ════════════════════════════════════════ */
+  .next-project { background: #1f3a2e; padding: 4rem 0; }
+  .next-project-inner { display: flex; flex-direction: column; gap: 0.75rem; }
+  .next-project-inner .eyebrow { color: rgba(242,237,230,0.45); }
+
+  .next-project-link { display: flex; align-items: center; justify-content: space-between; text-decoration: none; border-top: 1px solid rgba(242,237,230,0.15); padding-top: 1.5rem; }
+
+  .next-project-name { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 700; color: #f2ede6; transition: color 0.2s; }
+  .next-arrow { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); color: rgba(242,237,230,0.3); transition: color 0.2s, transform 0.2s; }
+
+  .next-project-link:hover .next-project-name { color: #ffffff; }
+  .next-project-link:hover .next-arrow { color: #ffffff; transform: translateX(8px); }
+
+  /* ════════════════════════════════════════
+     RESPONSIVE
+  ════════════════════════════════════════ */
   @media (max-width: 1024px) {
-    .cs-content-grid { grid-template-columns: 1fr; }
-    .cs-sidebar { position: static; order: -1; }
-    .cs-sidebar-inner { flex-direction: row; flex-wrap: wrap; }
-    .cs-sidebar-block { flex: 1 1 200px; }
-    .cs-sidebar-nav-block { display: none; }
+    .cs-hero-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .cs-hero-meta { border-left: none; padding-left: 0; border-top: 1px solid rgba(0,0,0,0.1); padding-top: 2rem; flex-direction: row; flex-wrap: wrap; column-gap: 2.5rem; row-gap: 1.5rem; }
+
+    .brand-board { grid-template-columns: 1fr; }
+    .brand-board-left { grid-template-rows: auto; grid-template-columns: repeat(3, 1fr); border-right: none; border-bottom: 1px solid rgba(0,0,0,0.08); }
+    .logo-on-light, .logo-on-dark, .logo-on-brand { border-bottom: none; }
+    .logo-on-light, .logo-on-dark { border-right: 1px solid rgba(0,0,0,0.08); }
+    .colour-column { min-height: 200px; }
+
+    .type-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .type-divider { display: none; }
+    .type-block { padding: 0; }
+
+    .story-container { grid-template-columns: 1fr; gap: 0; }
+    .story-sidenav { position: static; flex-direction: row; flex-wrap: wrap; gap: 0; border-bottom: 1px solid rgba(0,0,0,0.08); padding: 0 0 1.5rem; margin-bottom: 2rem; }
+    .cs-nav-link { border-left: none; border-bottom: 2px solid transparent; padding: 0.5rem 1rem 0.5rem 0; }
+    .cs-nav-link:hover, .cs-nav-link.active { border-left-color: transparent; border-bottom-color: #1f3a2e; }
+
+    .mockup-grid--2col { grid-template-columns: 1fr; }
+    .mockup-grid--3col { grid-template-columns: 1fr 1fr; }
+    .result-stats { grid-template-columns: 1fr 1fr; }
   }
 
   @media (max-width: 768px) {
-    .cs-title { font-size: clamp(1.625rem, 6vw, 2.25rem); }
-    .cs-sub { font-size: 1.0625rem; }
+    .brand-board-left { grid-template-columns: 1fr; }
+    .logo-on-light, .logo-on-dark { border-right: none; border-bottom: 1px solid rgba(0,0,0,0.08); }
+    .brand-board-right { grid-template-columns: repeat(3, 1fr); grid-template-rows: auto auto; }
+    .colour-column { min-height: 140px; }
 
-    /* FIX: meta items colliding — clean 2-col grid */
-    .cs-meta {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      padding: 0;
-    }
+    .cs-hero { padding: 5rem 0 0; }
+    .cs-hero-meta { flex-direction: column; }
+    .cs-hero-cover { aspect-ratio: 4/3; }
 
-    .cs-meta-item {
-      flex: unset;
-      padding: var(--spacing-sm);
-      border-right: none !important;
-      margin-right: 0 !important;
-      border-bottom: 1px solid rgba(17,17,17,0.07);
-    }
+    .brand-section, .story-section { padding-top: 4rem; }
+    .mockups-section { padding: 4rem 0; }
+    .story-section { padding-bottom: 5rem; }
 
-    .cs-meta-item:nth-child(even) {
-      border-left: 1px solid rgba(17,17,17,0.07);
-    }
-
-    .cs-meta-item:nth-last-child(-n+2) {
-      border-bottom: none;
-    }
-
-    /* FIX: fixed aspect-ratio crushed placeholder */
-    .cs-hero-placeholder {
-      aspect-ratio: unset;
-      min-height: 220px;
-      padding: var(--spacing-lg);
-    }
-
-    /* FIX: nav links in placeholder overflow */
     .ph-nav-links { display: none; }
-
-    /* FIX: 3-col grids stack to 1 */
     .placeholder-grid { grid-template-columns: 1fr; }
 
-    /* FIX: stats stack vertically */
-    .cs-result-stats { grid-template-columns: 1fr; gap: var(--spacing-md); }
-
-    /* FIX: quote padding reduced */
-    .cs-quote { padding: var(--spacing-xl) var(--spacing-lg); }
-    .cs-quote::before { font-size: 3.5rem; }
-    .cs-quote-text { font-size: 1.0625rem; }
-
-    /* FIX: sidebar stacks */
-    .cs-sidebar-inner { flex-direction: column; }
-
-    /* FIX: CTA stacks, button full width */
-    .cs-cta-inner { flex-direction: column; text-align: center; }
-    .cs-cta-strip .btn-primary { width: 100%; justify-content: center; }
-  }
-
-  @media (max-width: 480px) {
-    .cs-tag { font-size: 0.75rem; padding: 3px 10px; }
-    .cs-stat-number { font-size: 2rem; }
+    .mockup-grid--3col { grid-template-columns: 1fr; }
+    .result-stats { grid-template-columns: 1fr; gap: 2rem; }
+    .story-quote { padding: 1.5rem; }
   }
 </style>
 
 <script>
-  const sections = document.querySelectorAll<HTMLElement>('#challenge, #approach, #work, #result');
+  const sections = document.querySelectorAll<HTMLElement>('#challenge, #approach, #execution, #result');
   const navLinks = document.querySelectorAll<HTMLAnchorElement>('.cs-nav-link');
 
-  if (navLinks.length > 0) {
+  if (sections.length > 0 && navLinks.length > 0) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {

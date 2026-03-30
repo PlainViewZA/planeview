@@ -4,70 +4,66 @@ import Navigation from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 
 const projects = [
-  {
-    id: 1,
-    client: "DAC's Transport Services",
-    category: "Branding",
-    year: "2024",
-    description: "Logo design, brand identity, social media content, email campaigns, and a full website for a Cape Town-based transport company.",
-    images: ["/images/2.webp", "/images/3.webp", "/images/4.webp", "/images/5.webp", ],
-    gradient: "linear-gradient(135deg, #1a1f5e 0%, #6b70b8 100%)",
-    accentColor: "#6b70b8",
-    tags: ["Logo Design", "Social Media", "Web Design"],
-  },
-  {
-    id: 2,
-    client: "Tendr Buddi",
-    category: "Branding",
-    year: "2024",
-    description: "Full brand identity system — wordmark, figure mark, combination mark, business cards, and poster design for a tender-matching platform.",
-    images: ["/images/10.webp", "/images/11.webp", "/images/12.webp", "/images/13.webp", "/images/14.webp", "/images/15.webp", "/images/16.webp", "/images/17.webp", "/images/18.webp", "/images/19.webp", "/images/20.webp", "/images/21.webp","/images/22.webp","/images/23.webp","/images/24.webp","/images/25.webp","/images/26.webp","/images/27.webp","/images/28.webp","/images/29.webp"],
-    gradient: "linear-gradient(135deg, #111111 0%, #3a2c00 100%)",
-    accentColor: "#f5c400",
-    tags: ["Brand Identity", "Print Design", "Guidelines"],
-  },
-  {
-    id: 3,
-    client: "WebNexo",
-    category: "Web Design",
-    year: "2024",
-    description: "Logo, brand identity, colour system, typography guide, and full brand rollout across digital and physical touchpoints.",
-    images: ["/images/34.webp", "/images/35.webp", "/images/36.webp", "/images/37.webp", "/images/38.webp", "/images/39.webp", "/images/40.webp"],
-    gradient: "linear-gradient(135deg, #212121 0%, #005f6b 100%)",
-    accentColor: "#00a5b5",
-    tags: ["Web Design", "Brand Identity", "UI/UX"],
-    
-  
-  },
-
- // CHANGE: Chemcrete case study added, with placeholder image and URL. Update these when ready.
-  {
-  id: 4,
-  client: "Chemcrete",
+{
+  id: 1,
+  client: "DAC's Transport Services",
   category: "Branding",
   year: "2024",
-  description: "Gave a 35-year-old Cape Town concrete specialist a brand and digital presence that matched their industry standing.",
-  images: ["/images/Chemcrete Logos.pdf (3).webp"], // your actual image paths
-  gradient: "linear-gradient(135deg, #1A1A2E 0%, #2F4858 100%)",
-  accentColor: "#C8A951",
-  tags: ["Web Design", "Branding", "Digital Marketing"],
-  caseStudyUrl: "/work/chemcrete",
- },
+  description: "Logo design, brand identity, social media content, email campaigns, and a full website for a Cape Town-based transport company.",
+  images: ["/images/2.webp", "/images/3.webp", "/images/4.webp", "/images/5.webp"],
+  gradient: "linear-gradient(135deg, #1a1f5e 0%, #6b70b8 100%)",
+  accentColor: "#6b70b8",
+  tags: ["Logo Design", "Social Media", "Web Design"],
+},
+{
+  id: 2,
+  client: "Tendr Buddi",
+  category: "Branding",
+  year: "2024",
+  description: "Full brand identity system — wordmark, figure mark, combination mark, business cards, and poster design for a tender-matching platform.",
+  images: ["/images/10.webp", "/images/11.webp", "/images/12.webp", "/images/13.webp", "/images/14.webp", "/images/15.webp", "/images/16.webp", "/images/17.webp", "/images/18.webp", "/images/19.webp", "/images/20.webp", "/images/21.webp","/images/22.webp","/images/23.webp","/images/24.webp","/images/25.webp","/images/26.webp","/images/27.webp","/images/28.webp","/images/29.webp"],
+  gradient: "linear-gradient(135deg, #111111 0%, #3a2c00 100%)",
+  accentColor: "#f5c400",
+  tags: ["Brand Identity", "Print Design", "Guidelines"],
+},
+{
+  id: 3,
+  client: "WebNexo",
+  category: "Web Design",
+  year: "2024",
+  description: "Logo, brand identity, colour system, typography guide, and full brand rollout across digital and physical touchpoints.",
+  images: ["/images/34.webp", "/images/35.webp", "/images/36.webp", "/images/37.webp", "/images/38.webp", "/images/39.webp", "/images/40.webp"],
+  gradient: "linear-gradient(135deg, #212121 0%, #005f6b 100%)",
+  accentColor: "#00a5b5",
+  tags: ["Web Design", "Brand Identity", "UI/UX"],
+},
 
- {
-   id: 5,
-   client: "Unexpected Opportunities",
-   category: "NGO Digital Presence",
-   year: "2025",
-   description: "Developed a compassionate digital platform for a Cape Town NGO supporting families affected by aviation disasters, creating space for healing and advocacy.",
-   images: ["/images/planeview-1.webp"], // your actual image paths
-   gradient: "linear-gradient(135deg, #1B4B6B 0%, #2C5F7E 100%)",
-   accentColor: "#7FB3D5",
-   tags: ["Web Design", "NGO Branding", "Digital Strategy"],
-   caseStudyUrl: "/work/unexpected-opportunities",
- },
+// {
+//   id: 4,
+//   client: "Chemcrete",
+//   category: "Branding",
+//   year: "2024",
+//   description: "Gave a 35-year-old Cape Town concrete specialist a brand and digital presence that matched their industry standing.",
+//   images: ["/images/Chemcrete Logos.pdf (3).webp"],
+//   gradient: "linear-gradient(135deg, #1A1A2E 0%, #2F4858 100%)",
+//   accentColor: "#C8A951",
+//   tags: ["Web Design", "Branding", "Digital Marketing"],
+//   caseStudyUrl: "/work/chemcrete",
+// },
 
-]
+// {
+//   id: 5,
+//   client: "Unexpected Opportunities",
+//   category: "NGO Digital Presence",
+//   year: "2025",
+//   description: "Developed a compassionate digital platform for a Cape Town NGO supporting families affected by aviation disasters, creating space for healing and advocacy.",
+//   images: ["/images/planeview-1.webp"],
+//   gradient: "linear-gradient(135deg, #1B4B6B 0%, #2C5F7E 100%)",
+//   accentColor: "#7FB3D5",
+//   tags: ["Web Design", "NGO Branding", "Digital Strategy"],
+//   caseStudyUrl: "/work/unexpected-opportunities",
+// },
+];
 ---
 
 <MainLayout
@@ -189,7 +185,7 @@ const projects = [
     </div>
   </section>
 
-  <!-- Lightbox -->
+ 
   <!-- CHANGE: All lightbox CSS is now in global.css — styles here were scoped
        by Astro and never reached the JS-created <img> elements inside imgWrap -->
   <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Project viewer">

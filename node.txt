@@ -1,0 +1,12 @@
+✅ 1. Lock Node version with .nvmrc (MOST IMPORTANT)
+
+Since you're already using nvm, do this:
+
+In your project root:
+echo "22.12.0" > .nvmrc
+
+Now anytime you (or anyone else) runs:
+
+nvm use 22
+
+It will automatically switch to Node 22.12.0.
