@@ -9,7 +9,7 @@ import BrandLines from '../components/BrandLines.astro';
   title="Contact | Plane View Collective"
   description="Get in touch to discuss your project. Let's create something clear and impactful together."
 >
-  <Navigation />
+<Navigation />
  <BrandLines />
 
   <!-- Hero Section -->
@@ -55,16 +55,40 @@ import BrandLines from '../components/BrandLines.astro';
               </div>
 
               <div class="form-group">
-                <label for="service">What are you interested in?</label>
-                <select id="service" name="service" required>
-                  <option value="">Select a service</option>
-                  <option value="brand-strategy">Brand Strategy</option>
-                  <option value="website-design">Website Design</option>
-                  <option value="digital-marketing">Digital Marketing</option>
-                  <option value="social-content">Social Media & Content</option>
-                  <option value="other">Something Else</option>
-                </select>
-              </div>
+              <label for="service">What are you interested in?</label>
+              <select id="service" name="service" required>
+              <option value="">Select a service</option>
+              <optgroup label="Websites">
+              <option value="website-starter"> Starter (R4,500)</option>
+              <option value="website-growth"> Growth (R8,500)</option>
+              <option value="website-professional">Professional (R12,000)</option>
+              <option value="store-starter">Online Store Starter (R14,500)</option>
+              <option value="store-growth">Online Store Growth (R18,000)</option>
+              <option value="maintenance-basic">Basic Care (R750/mo)</option>
+              <option value="maintenance-growth">Growth Care (R1,500/mo)</option>
+             </optgroup>
+          <optgroup label="Social Media">
+              <option value="social-starter">Starter (R4,500/mo)</option>
+              <option value="social-growth">Growth (R7,500/mo)</option>
+              <option value="social-authority">Authority (R11,000–R12,500/mo)</option>
+            </optgroup>
+              <optgroup label="Paid Ads">
+              <option value="ads-meta">Meta Ads (R2,500/mo)</option>
+              <option value="ads-google">Google Ads (R3,500/mo)</option>
+              <option value="ads-linkedin">LinkedIn Ads (R3,000/mo)</option>
+            </optgroup>
+            <optgroup label="SEO">
+            <option value="seo-local">Local (R5,000/mo)</option>
+            <option value="seo-growth">Growth (R9,500/mo)</option>
+            <option value="seo-advanced">Advanced (R13,000/mo)</option>
+            </optgroup>
+            <optgroup label="Other">
+            <option value="standalone">Standalone Services</option>
+            <option value="combo">Combination Package</option>
+            <option value="other">Something Else</option>
+         </optgroup>
+  </select>
+</div>
 
               <div class="form-group">
                 <label for="message">Tell us about your project</label>
