@@ -12,29 +12,17 @@ function initFloatingCanvas() {
   const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
   if (!ctx) return;
 
-  // Cancel any existing loop before starting a new one
   if ((window as any).__pvCanvasFrame) {
     cancelAnimationFrame((window as any).__pvCanvasFrame);
     (window as any).__pvCanvasFrame = null;
   }
 
-  // ─────────────────────────────────────────────
-  // ✏️  TWEAK THIS NUMBER to add or remove shapes
-  // ─────────────────────────────────────────────
   const NODE_COUNT = 36;
-  // ─────────────────────────────────────────────
-
-  // ─────────────────────────────────────────────
-  // COLOURS & SHAPES
-  // ─────────────────────────────────────────────
   const COLORS: string[] = ['#2F6FED', '#2F6FED', '#6B6B6B', '#111111'];
   const PLANE_COLOR = '#0a0a0a';
   const SHAPES = ['plane', 'triangle', 'diamond', 'circle', 'cross'] as const;
   type Shape = typeof SHAPES[number];
 
-  // ─────────────────────────────────────────────
-  // AVOID ZONES
-  // ─────────────────────────────────────────────
   const AVOID_SELECTORS = 'h1, h2, h3, h4, h5, h6, p, a, button, input, textarea, select, label, nav, .card, section, footer, header';
   const AVOID_PADDING = 24;
   let avoidZones: { x: number; y: number; w: number; h: number }[] = [];
@@ -61,10 +49,9 @@ function initFloatingCanvas() {
     return false;
   }
 
-  // ─────────────────────────────────────────────
-  // MOUSE TRACKING
-  // ─────────────────────────────────────────────
-  let mouse = { x: -999, y: -999 };
+  // FIX: Start mouse off-canvas with null sentinel instead of -999,-999
+  // so nodes feel zero repulsion force before mouse enters
+  let mouse = { x: null as number | null, y: null as number | null };
 
   window.addEventListener('mousemove', (e) => {
     mouse.x = e.clientX;
@@ -72,12 +59,10 @@ function initFloatingCanvas() {
   });
 
   document.addEventListener('mouseleave', () => {
-    mouse = { x: -999, y: -999 };
+    mouse.x = null;
+    mouse.y = null;
   });
 
-  // ─────────────────────────────────────────────
-  // CANVAS RESIZE
-  // ─────────────────────────────────────────────
   function resize() {
     canvas.width  = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -95,9 +80,6 @@ function initFloatingCanvas() {
     return a + Math.random() * (b - a);
   }
 
-  // ─────────────────────────────────────────────
-  // NODE CLASS
-  // ─────────────────────────────────────────────
   class Node {
     homeX = 0; homeY = 0;
     x = 0; y = 0;
@@ -127,7 +109,6 @@ function initFloatingCanvas() {
 
       this.x = this.homeX;
       this.y = this.homeY;
-
       this.size      = rand(7, 19);
       this.shape     = SHAPES[Math.floor(Math.random() * SHAPES.length)];
       this.color     = COLORS[Math.floor(Math.random() * COLORS.length)];
@@ -148,18 +129,19 @@ function initFloatingCanvas() {
       this.vx += (tx - this.x) * this.springK;
       this.vy += (ty - this.y) * this.springK;
 
-      // Cursor repulsion
-      const dx   = this.x - mouse.x;
-      const dy   = this.y - mouse.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < this.repelRadius && dist > 0) {
-        const force = (1 - dist / this.repelRadius);
-        const angle = Math.atan2(dy, dx);
-        this.vx += Math.cos(angle) * force * this.repelStrength;
-        this.vy += Math.sin(angle) * force * this.repelStrength;
+      // FIX: Only apply cursor repulsion if mouse is actually on screen
+      if (mouse.x !== null && mouse.y !== null) {
+        const dx   = this.x - mouse.x;
+        const dy   = this.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < this.repelRadius && dist > 0) {
+          const force = (1 - dist / this.repelRadius);
+          const angle = Math.atan2(dy, dx);
+          this.vx += Math.cos(angle) * force * this.repelStrength;
+          this.vy += Math.sin(angle) * force * this.repelStrength;
+        }
       }
 
-      // Content zone repulsion
       for (const z of avoidZones) {
         const cx    = z.x + z.w / 2;
         const cy    = z.y + z.h / 2;
@@ -188,12 +170,10 @@ function initFloatingCanvas() {
       ctx.globalAlpha = this.shape === 'plane'
         ? Math.min(this.alpha * 1.7, 0.28)
         : this.alpha;
-
       ctx.translate(this.x, this.y);
       ctx.rotate(this.rotation);
       ctx.strokeStyle = this.shape === 'plane' ? PLANE_COLOR : this.color;
       ctx.lineWidth   = this.shape === 'plane' ? 1.5 : 1.1;
-
       const s = this.size;
 
       switch (this.shape) {
@@ -241,14 +221,10 @@ function initFloatingCanvas() {
           ctx.stroke();
           break;
       }
-
       ctx.restore();
     }
   }
 
-  // ─────────────────────────────────────────────
-  // CONNECTORS
-  // ─────────────────────────────────────────────
   function drawConnectors(nodes: Node[]) {
     const MAX_DIST = 150;
     for (let i = 0; i < nodes.length; i++) {
@@ -272,12 +248,10 @@ function initFloatingCanvas() {
     }
   }
 
-  // ─────────────────────────────────────────────
-  // INIT NODES
-  // ─────────────────────────────────────────────
   let nodes: Node[] = [];
 
   function spawnNodes() {
+    // FIX: Always do a fresh avoid zone read right before spawning
     refreshAvoidZones();
     nodes = Array.from({ length: NODE_COUNT }, () => new Node());
   }
@@ -286,18 +260,24 @@ function initFloatingCanvas() {
   try { alreadySeen = !!localStorage.getItem('pvc-intro-seen'); } catch(e) {}
 
   if (alreadySeen) {
-    requestAnimationFrame(() => requestAnimationFrame(spawnNodes));
+    // No preloader — spawn after a single rAF to let DOM settle
+    requestAnimationFrame(() => {
+      refreshAvoidZones();
+      requestAnimationFrame(spawnNodes);
+    });
   } else {
-    setTimeout(() => {
-      requestAnimationFrame(() => requestAnimationFrame(spawnNodes));
-    }, 950);
+    // FIX: Wait for preloader dismiss signal instead of a hardcoded timeout
+    // This fires exactly when the preloader fade-out completes (800ms into dismiss())
+    window.addEventListener('pvc:preloader-done', () => {
+      requestAnimationFrame(() => {
+        refreshAvoidZones();
+        requestAnimationFrame(spawnNodes);
+      });
+    }, { once: true });
   }
 
   window.addEventListener('scroll', refreshAvoidZones, { passive: true });
 
-  // ─────────────────────────────────────────────
-  // ANIMATION LOOP
-  // ─────────────────────────────────────────────
   let t = 0;
   let frameCount = 0;
 
@@ -318,7 +298,6 @@ function initFloatingCanvas() {
 
 document.addEventListener('astro:page-load', initFloatingCanvas);
 </script>
-
 <style>
   #floating-canvas {
     position: fixed;

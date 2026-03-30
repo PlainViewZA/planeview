@@ -1,0 +1,854 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Navigation from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<MainLayout
+  title="Pricing | Plane View Collective"
+  description="Clear, transparent pricing for website design, social media management, paid ads, SEO and more. Based in Cape Town, serving South Africa and beyond."
+>
+  <Navigation />
+
+  <!-- Hero -->
+  <section class="section page-hero">
+    <div class="container container-narrow">
+      <h1>Clear pricing.<br/>No surprises.</h1>
+      <p class="intro-text">
+        Every project starts with a custom proposal but here's exactly what to expect. All prices in ZAR.
+      </p>
+    </div>
+  </section>
+
+  <!-- Filter Bar -->
+  <section class="filter-section">
+    <div class="container">
+      <div class="price-filter">
+        <button class="pf-btn active" data-filter="all">All Services</button>
+        <button class="pf-btn" data-filter="websites">Websites</button>
+        <button class="pf-btn" data-filter="social">Social Media</button>
+        <button class="pf-btn" data-filter="ads">Paid Ads</button>
+        <button class="pf-btn" data-filter="seo">SEO</button>
+        <button class="pf-btn" data-filter="quick">Quick Wins</button>
+        <button class="pf-btn" data-filter="combo">Combo Deal</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Sections -->
+  <div class="pricing-wrapper">
+    <div class="container">
+      <div class="pricing-stack">
+
+        <!-- 01 Websites -->
+        <article class="p-block" data-section="websites">
+          <div class="p-block-header">
+            <div>
+              <span class="p-label">01 — Websites</span>
+              <h2 class="p-title">Website Design & Build</h2>
+              <p class="p-desc">Fast, clean, mobile ready websites built to convert visitors into enquiries.</p>
+            </div>
+            <span class="p-type">Once-off</span>
+          </div>
+
+          <div class="p-rows">
+            <div class="p-row">
+              <div class="p-row-info">
+                <span class="p-row-name">Starter</span>
+                <span class="p-row-sub">Best for small businesses getting online for the first time</span>
+                <span class="p-row-includes">Up to 5 pages · Mobile-ready · Contact form · Basic SEO</span>
+                <a href="/contact?package=website-starter" class="p-row-cta">Get Started →</a>
+              </div>
+              <span class="p-row-price">R4,500</span>
+            </div>
+            <div class="p-row">
+              <div class="p-row-info">
+                <span class="p-row-name">Growth</span>
+                <span class="p-row-sub">For businesses ready to scale their online presence</span>
+                <span class="p-row-includes">Up to 10 pages · Blog setup · Enhanced layout · 2 revision rounds</span>
+                <a href="/contact?package=website-growth" class="p-row-cta">Get Started →</a>
+              </div>
+              <span class="p-row-price">R8,500</span>
+            </div>
+            <div class="p-row">
+              <div class="p-row-info">
+                <span class="p-row-name">Professional</span>
+                <span class="p-row-sub">Full-featured site with performance and SEO built in</span>
+                <span class="p-row-includes">Up to 15 pages · Speed optimisation · Full on-page SEO</span>
+                <a href="/contact?package=website-professional" class="p-row-cta">Get Started →</a>
+              </div>
+              <span class="p-row-price">R12,000</span>
+            </div>
+            <div class="p-row">
+              <div class="p-row-info">
+                <span class="p-row-name">Online Store — Starter</span>
+                <span class="p-row-sub">Start selling online fast</span>
+                <span class="p-row-includes">Up to 20 products · Payment integration · Mobile checkout</span>
+                <a href="/contact?package=store-starter" class="p-row-cta">Get Started →</a>
+              </div>
+              <span class="p-row-price">R14,500</span>
+            </div>
+            <div class="p-row">
+              <div class="p-row-info">
+                <span class="p-row-name">Online Store — Growth</span>
+                <span class="p-row-sub">Larger catalogue with full e-commerce features</span>
+                <span class="p-row-includes">Up to 40 products · Coupons · Shipping rules · Full setup</span>
+                <a href="/contact?package=store-growth" class="p-row-cta">Get Started →</a>
+              </div>
+              <span class="p-row-price">R18,000</span>
+            </div>
+          </div>
+
+          <div class="p-sub-block">
+            <div class="p-sub-header">
+              <span class="p-label" style="color:var(--color-slate-grey);">Maintenance Plans</span>
+              <span class="p-type">Monthly</span>
+            </div>
+            <div class="p-rows">
+              <div class="p-row">
+                <div class="p-row-info">
+                  <span class="p-row-name">Basic Care</span>
+                  <span class="p-row-includes">CMS updates · Backups · Security monitoring · Minor edits</span>
+                  <a href="/contact?package=maintenance-basic" class="p-row-cta">Get Started →</a>
+                </div>
+                <div class="p-row-price">R750 <span class="p-per">/ month</span></div>
+              </div>
+              <div class="p-row">
+                <div class="p-row-info">
+                  <span class="p-row-name">Growth Care</span>
+                  <span class="p-row-includes">Everything in Basic + 1 hour of changes per month + monthly report</span>
+                  <a href="/contact?package=maintenance-growth" class="p-row-cta">Get Started →</a>
+                </div>
+                <div class="p-row-price">R1,500 <span class="p-per">/ month</span></div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 02 Social -->
+        <article class="p-block" data-section="social">
+          <div class="p-block-header">
+            <div>
+              <span class="p-label">02 — Social Media</span>
+              <h2 class="p-title">Social Media Management</h2>
+              <p class="p-desc">Content, visuals, and captions — done for you every month. No templates, no shortcuts.</p>
+            </div>
+            <span class="p-type">Monthly</span>
+          </div>
+          <div class="p-rows">
+            <div class="p-row">
+              <div class="p-row-info">
+                <span class="p-row-name">Starter</span>
+                <span class="p-row-sub">Entry-level, still premium — filters low-budget enquiries immediately</span>
+                <span class="p-row-includes">6–8 posts · Branded visuals · Caption writing · Hashtag strategy</span>
+                <a href="/contact?package=social-starter" class="p-row-cta">Get Started →</a>
+              </div>
+              <div class="p-row-price">R4,500 <span class="p-per">/ month</span></div>
+            </div>
+            <div class="p-row p-row--featured">
+              <div class="p-row-info">
+                <span class="p-row-name">Growth <span class="p-badge">Most Popular</span></span>
+                <span class="p-row-sub">Our main seller — the sweet spot for most businesses</span>
+                <span class="p-row-includes">10–12 posts · Custom design + brand alignment · Caption strategy + CTAs · Basic engagement · Monthly report</span>
+                <a href="/contact?package=social-growth" class="p-row-cta">Get Started →</a>
+              </div>
+              <div class="p-row-price">R7,500 <span class="p-per">/ month</span></div>
+            </div>
+            <div class="p-row">
+              <div class="p-row-info">
+                <span class="p-row-name">Authority</span>
+                <span class="p-row-sub">Full management — positions you as a growth partner, not just a content poster</span>
+                <span class="p-row-includes">14–16 posts · Content calendar · Full engagement · Stories (2–4/week) · Report + strategy call</span>
+                <a href="/contact?package=social-authority" class="p-row-cta">Get Started →</a>
+              </div>
+              <div class="p-row-price">R11,000–<br/>R12,500 <span class="p-per">/ month</span></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- 03 Ads -->
+        <article class="p-block" data-section="ads">
+          <div class="p-block-header">
+            <div>
+              <span class="p-label">03 — Paid Ads</span>
+              <h2 class="p-title">Paid Ads Management</h2>
+              <p class="p-desc">We run your campaigns. Ad spend is paid directly to the platform — it's not included in our fee.</p>
+            </div>
+            <span class="p-type">Monthly</span>
+          </div>
+          <div class="p-rows">
+            <div class="p-row">
+              <div class="p-row-info">
+                <span class="p-row-name">Meta Ads</span>
+                <span class="p-row-sub">Facebook & Instagram · Ad spend billed separately by Meta</span>
+                <a href="/contact?package=ads-meta" class="p-row-cta">Get Started →</a>
+              </div>
+              <div class="p-row-price">R2,500 <span class="p-per">/ month</span></div>
+            </div>
+            <div class="p-row">
+              <div class="p-row-info">
+                <span class="p-row-name">Google Ads</span>
+                <span class="p-row-sub">Ad spend billed separately by Google</span>
+                <a href="/contact?package=ads-google" class="p-row-cta">Get Started →</a>
+              </div>
+              <div class="p-row-price">R3,500 <span class="p-per">/ month</span></div>
+            </div>
+            <div class="p-row">
+              <div class="p-row-info">
+                <span class="p-row-name">LinkedIn Ads</span>
+                <span class="p-row-sub">Ad spend billed separately by LinkedIn</span>
+                <a href="/contact?package=ads-linkedin" class="p-row-cta">Get Started →</a>
+              </div>
+              <div class="p-row-price">R3,000 <span class="p-per">/ month</span></div>
+            </div>
+          </div>
+          <div class="p-note">
+            <strong>What is ad spend?</strong> It's the budget you pay directly to Facebook, Google, or LinkedIn to show your ads. We recommend a minimum of R3,000–R5,000/month in ad spend to see meaningful results. This is separate from our management fee.
+          </div>
+        </article>
+
+        <!-- 04 SEO -->
+        <article class="p-block" data-section="seo">
+          <div class="p-block-header">
+            <div>
+              <span class="p-label">04 — SEO</span>
+              <h2 class="p-title">SEO & Search Rankings</h2>
+              <p class="p-desc">Monthly work to get your business found on Google — and keep it there.</p>
+            </div>
+            <span class="p-type">Monthly</span>
+          </div>
+          <div class="p-rows">
+            <div class="p-row">
+              <div class="p-row-info">
+                <span class="p-row-name">Local SEO</span>
+                <span class="p-row-sub">Ideal for businesses serving a specific city or region</span>
+                <span class="p-row-includes">On-page optimisation · Local citations · Google Business setup</span>
+                <a href="/contact?package=seo-local" class="p-row-cta">Get Started →</a>
+              </div>
+              <div class="p-row-price">R5,000 <span class="p-per">/ month</span></div>
+            </div>
+            <div class="p-row">
+              <div class="p-row-info">
+                <span class="p-row-name">Growth SEO</span>
+                <span class="p-row-sub">For businesses competing nationally</span>
+                <span class="p-row-includes">Everything in Local + backlink building + content + reporting</span>
+                <a href="/contact?package=seo-growth" class="p-row-cta">Get Started →</a>
+              </div>
+              <div class="p-row-price">R9,500 <span class="p-per">/ month</span></div>
+            </div>
+            <div class="p-row">
+              <div class="p-row-info">
+                <span class="p-row-name">Advanced SEO</span>
+                <span class="p-row-sub">Full-scale strategy for competitive markets</span>
+                <span class="p-row-includes">Full strategy + monthly content creation + advanced reporting</span>
+                <a href="/contact?package=seo-advanced" class="p-row-cta">Get Started →</a>
+              </div>
+              <div class="p-row-price">R13,000 <span class="p-per">/ month</span></div>
+            </div>
+          </div>
+          <div class="p-note">
+            <strong>SEO takes time.</strong> Most businesses start seeing meaningful movement in 3–6 months. We report progress monthly so you always know what's happening.
+          </div>
+        </article>
+
+        <!-- 05 Quick Wins -->
+        <article class="p-block" data-section="quick">
+          <div class="p-block-header">
+            <div>
+              <span class="p-label">05 — Quick Wins</span>
+              <h2 class="p-title">Standalone Services</h2>
+              <p class="p-desc">Fast turnaround on focused deliverables.</p>
+            </div>
+            <span class="p-type">Once-off & Monthly</span>
+          </div>
+          <div class="p-addon-grid">
+            <div class="p-addon">
+              <div><span class="p-addon-name">Landing Page</span><span class="p-addon-sub">Standard single-page build</span></div>
+              <span class="p-addon-price">R2,000</span>
+            </div>
+            <div class="p-addon">
+              <div><span class="p-addon-name">Landing Page — Premium</span><span class="p-addon-sub">Conversion-focused with copy</span></div>
+              <span class="p-addon-price">R3,500</span>
+            </div>
+            <div class="p-addon">
+              <div><span class="p-addon-name">Email Marketing Setup</span><span class="p-addon-sub">Once-off campaign setup</span></div>
+              <span class="p-addon-price">R2,000</span>
+            </div>
+            <div class="p-addon">
+              <div><span class="p-addon-name">Monthly Email Campaign</span><span class="p-addon-sub">Per campaign, per month</span></div>
+              <span class="p-addon-price">R2,500</span>
+            </div>
+            <div class="p-addon">
+              <div><span class="p-addon-name">Extra Revision Round</span><span class="p-addon-sub">Per round, any project</span></div>
+              <span class="p-addon-price">R500</span>
+            </div>
+            <div class="p-addon">
+              <div><span class="p-addon-name">Rush Delivery</span><span class="p-addon-sub">Under 5 working days</span></div>
+              <span class="p-addon-price">+20%</span>
+            </div>
+          </div>
+          <a href="/contact?package=standalone" class="p-addon-cta">Enquire about standalone services →</a>
+        </article>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Combo — full width dark -->
+  <section class="combo-section" data-section="combo">
+    <div class="container">
+      <div class="combo-inner">
+        <div class="combo-left">
+          <span class="combo-eyebrow">Best Value</span>
+          <h2 class="combo-title">Combination Package</h2>
+          <p class="combo-desc">Take any website package together with a social media management plan and get R6,300 worth of work included free. Everything you need to launch, in one package.</p>
+
+          <div class="combo-free-list">
+            <div class="combo-free-item">
+              <span class="combo-free-name">Logo Design</span>
+              <span class="combo-free-val">R2,000</span>
+            </div>
+            <div class="combo-free-item">
+              <span class="combo-free-name">Brand Style Guide</span>
+              <span class="combo-free-val">R3,500</span>
+            </div>
+            <div class="combo-free-item">
+              <span class="combo-free-name">Copywriting (up to 1 page)</span>
+              <span class="combo-free-val">R800</span>
+            </div>
+          </div>
+
+          <a href="/contact?package=combo" class="btn btn-primary btn-lg" style="margin-top:var(--spacing-xl);">
+            Claim This Package
+            <span class="arrow">→</span>
+          </a>
+        </div>
+
+        <div class="combo-right">
+          <div class="combo-value-card">
+            <span class="combo-value-label">Total Free Value</span>
+            <span class="combo-value-number">R6,300</span>
+            <span class="combo-value-sub">Included at no extra cost when you combine any website package with a social media management plan.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="section">
+    <div class="container container-narrow">
+      <div class="section-header">
+        <h2>How it works</h2>
+        <p class="lead">Simple process, clear expectations on both sides.</p>
+      </div>
+      <div class="how-steps">
+        <div class="how-step">
+          <span class="how-num">01</span>
+          <h4>We talk</h4>
+          <p>Tell us what you need. No forms, no automated quotes, just a real conversation about your business.</p>
+        </div>
+        <div class="how-step">
+          <span class="how-num">02</span>
+          <h4>We propose</h4>
+          <p>You get a clear, itemised proposal with exact pricing before anything is agreed.</p>
+        </div>
+        <div class="how-step">
+          <span class="how-num">03</span>
+          <h4>We start</h4>
+          <p>50% deposit to begin, balance on delivery. Larger projects can use milestone payments.</p>
+        </div>
+        <div class="how-step">
+          <span class="how-num">04</span>
+          <h4>You own it</h4>
+          <p>Once paid, everything is yours. Files, code, accounts are all transferred to you on final payment.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</MainLayout>
+
+<style>
+  /* ── Filter ── */
+  .filter-section {
+    padding: var(--spacing-md) 0 var(--spacing-xl);
+  }
+
+  .price-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .pf-btn {
+    padding: 0.5rem 1.25rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    font-family: var(--font-primary);
+    border-radius: var(--radius-full);
+    border: 1.5px solid rgba(17,17,17,0.18);
+    background: transparent;
+    color: var(--color-slate-grey);
+    cursor: pointer;
+    transition: all var(--transition-base);
+  }
+
+  .pf-btn:hover,
+  .pf-btn.active {
+    background: var(--color-jet-black);
+    border-color: var(--color-jet-black);
+    color: var(--color-pure-white);
+  }
+
+  /* ── Pricing Stack ── */
+  .pricing-wrapper {
+    padding-bottom: 0;
+  }
+
+  .pricing-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: rgba(17,17,17,0.09);
+    border: 1px solid rgba(17,17,17,0.09);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    margin-bottom: 1px;
+  }
+
+  /* ── Price Block ── */
+  .p-block {
+    background: var(--color-pure-white);
+    padding: var(--spacing-2xl);
+  }
+
+  .p-block-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    flex-wrap: wrap;
+  }
+
+  .p-label {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-steel-blue);
+    margin-bottom: 0.5rem;
+  }
+
+  .p-title {
+    font-size: clamp(1.375rem, 3vw, 1.75rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.5rem;
+  }
+
+  .p-desc {
+    font-size: 0.9375rem;
+    color: var(--color-slate-grey);
+    margin: 0;
+    max-width: 520px;
+  }
+
+  .p-type {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-slate-grey);
+    background: rgba(17,17,17,0.05);
+    padding: 4px 12px;
+    border-radius: var(--radius-full);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* ── Price Rows ── */
+  .p-rows {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(17,17,17,0.09);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .p-row {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: var(--spacing-lg);
+    align-items: center;
+    padding: var(--spacing-md) var(--spacing-lg);
+    border-bottom: 1px solid rgba(17,17,17,0.07);
+    transition: background var(--transition-base);
+  }
+
+  .p-row:last-child { border-bottom: none; }
+  .p-row:hover { background: #F6F5F4; }
+
+  .p-row--featured {
+    background: rgba(47,111,237,0.04);
+    border-left: 3px solid var(--color-steel-blue);
+  }
+
+  .p-row--featured:hover { background: rgba(47,111,237,0.08); }
+
+  .p-row-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .p-row-name {
+    font-size: 0.9375rem;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .p-row-sub {
+    font-size: 0.8125rem;
+    color: var(--color-slate-grey);
+  }
+
+  .p-row-includes {
+    font-size: 0.8125rem;
+    color: var(--color-slate-grey);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+
+  .p-row-price {
+    font-size: 1.125rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--color-jet-black);
+    text-align: right;
+    white-space: nowrap;
+  }
+
+  .p-per {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--color-slate-grey);
+    display: block;
+    margin-top: 1px;
+  }
+
+  .p-badge {
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: var(--radius-full);
+    background: var(--color-steel-blue);
+    color: white;
+  }
+
+  .p-row-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: var(--spacing-sm);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-steel-blue);
+    text-decoration: none;
+    transition: gap var(--transition-base);
+  }
+
+  .p-row-cta:hover { gap: 10px; }
+
+  .p-note {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(47,111,237,0.06);
+    border-left: 3px solid var(--color-steel-blue);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 0.875rem;
+    color: #444;
+    line-height: 1.6;
+  }
+
+  .p-note strong { color: var(--color-jet-black); }
+
+  /* ── Sub block (maintenance) ── */
+  .p-sub-block { margin-top: var(--spacing-xl); }
+
+  .p-sub-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-md);
+  }
+
+  /* ── Addon grid ── */
+  .p-addon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+    gap: 10px;
+  }
+
+  .p-addon {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    border: 1px solid rgba(17,17,17,0.09);
+    border-radius: var(--radius-md);
+    background: #FAFAFA;
+    transition: border-color var(--transition-base), background var(--transition-base);
+  }
+
+  .p-addon:hover {
+    border-color: var(--color-jet-black);
+    background: var(--color-pure-white);
+  }
+
+  .p-addon-name {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .p-addon-sub {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--color-slate-grey);
+    margin-top: 2px;
+  }
+
+  .p-addon-price {
+    font-size: 0.9375rem;
+    font-weight: 800;
+    color: var(--color-jet-black);
+    white-space: nowrap;
+  }
+
+  .p-addon-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: var(--spacing-md);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--color-steel-blue);
+    text-decoration: none;
+    transition: gap var(--transition-base);
+  }
+
+  .p-addon-cta:hover { gap: 10px; }
+
+  /* ── Combo ── */
+  .combo-section {
+    background: var(--color-jet-black);
+    padding: var(--spacing-3xl) 0;
+    margin-top: 1px;
+  }
+
+  .combo-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-3xl);
+    align-items: center;
+  }
+
+  .combo-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-signal-orange);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .combo-eyebrow::before {
+    content: '';
+    width: 18px;
+    height: 2px;
+    background: var(--color-signal-orange);
+  }
+
+  .combo-title {
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: var(--color-pure-white);
+    line-height: 1.1;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .combo-desc {
+    font-size: 1.0625rem;
+    color: rgba(255,255,255,0.5);
+    max-width: 520px;
+    margin-bottom: var(--spacing-xl);
+    line-height: 1.65;
+  }
+
+  .combo-free-list {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+
+  .combo-free-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .combo-free-item:last-child { border-bottom: none; }
+
+  .combo-free-name {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .combo-free-val {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.3);
+    text-decoration: line-through;
+  }
+
+  .combo-value-card {
+    padding: var(--spacing-xl);
+    background: rgba(255,106,0,0.1);
+    border: 1px solid rgba(255,106,0,0.25);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .combo-value-label {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-signal-orange);
+  }
+
+  .combo-value-number {
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    color: var(--color-pure-white);
+    line-height: 1;
+  }
+
+  .combo-value-sub {
+    font-size: 0.9rem;
+    color: rgba(255,255,255,0.45);
+    line-height: 1.6;
+  }
+
+  /* ── How it works ── */
+  .section-header {
+    text-align: center;
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .lead {
+    font-size: 1.125rem;
+    color: var(--color-slate-grey);
+    margin: 0 auto;
+  }
+
+  .how-steps {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--spacing-xl);
+  }
+
+  .how-step {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  .how-num {
+    font-size: 2.75rem;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    color: var(--color-steel-blue);
+    line-height: 1;
+  }
+
+  .how-step h4 {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    margin-bottom: 0;
+  }
+
+  .how-step p {
+    font-size: 0.9rem;
+    color: var(--color-slate-grey);
+    margin: 0;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 1024px) {
+    .combo-inner {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-2xl);
+    }
+  }
+
+  @media (max-width: 768px) {
+    .p-block { padding: var(--spacing-lg); }
+    .p-row { grid-template-columns: 1fr; gap: var(--spacing-xs); }
+    .p-row-price { text-align: left; }
+    .p-addon-grid { grid-template-columns: 1fr; }
+    .combo-section { padding: var(--spacing-2xl) 0; }
+    .p-block-header { flex-direction: column; gap: var(--spacing-sm); }
+  }
+</style>
+
+<script>
+  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.pf-btn');
+  const pricingStack = document.querySelector('.pricing-stack');
+  const comboSection = document.querySelector<HTMLElement>('.combo-section');
+
+  filterBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      const filter = btn.dataset.filter ?? 'all';
+
+      document.querySelectorAll<HTMLElement>('.p-block').forEach(block => {
+        if (filter === 'all' || block.dataset.section === filter) {
+          block.style.display = '';
+        } else {
+          block.style.display = 'none';
+        }
+      });
+
+      if (comboSection) {
+        comboSection.style.display = (filter === 'all' || filter === 'combo') ? '' : 'none';
+      }
+
+      if (pricingStack instanceof HTMLElement) {
+        pricingStack.style.display = filter === 'combo' ? 'none' : '';
+      }
+    });
+  });
+</script>

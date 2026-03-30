@@ -16,7 +16,7 @@ const projects = [
     tags: ["Logo Design", "Social Media", "Web Design"],
   },
   {
-    id: 3,
+    id: 2,
     client: "Tendr Buddi",
     category: "Branding",
     year: "2024",
@@ -27,7 +27,7 @@ const projects = [
     tags: ["Brand Identity", "Print Design", "Guidelines"],
   },
   {
-    id: 4,
+    id: 3,
     client: "WebNexo",
     category: "Web Design",
     year: "2024",
@@ -41,33 +41,32 @@ const projects = [
   },
 
  // CHANGE: Chemcrete case study added, with placeholder image and URL. Update these when ready.
-  //{
-  //id: 2,
-  //client: "Chemcrete",
-  //category: "Branding",
+ // {
+ // id: 4,
+ // client: "Chemcrete",
+ // category: "Branding",
   //year: "2024",
   //description: "Gave a 35-year-old Cape Town concrete specialist a brand and digital presence that matched their industry standing.",
- // images: ["/images/Chemcrete Logos.pdf (3).webp"], // your actual image paths
-  //gradient: "linear-gradient(135deg, #1A1A2E 0%, #2F4858 100%)",
-  //accentColor: "#C8A951",
-  //tags: ["Web Design", "Branding", "Digital Marketing"],
-  //caseStudyUrl: "/work/chemcrete",
-//},
-];
-  // {
-//   id: 3,
-//   client: "PlaneView",
+//  images: ["/images/Chemcrete Logos.pdf (3).webp"], // your actual image paths
+//  gradient: "linear-gradient(135deg, #1A1A2E 0%, #2F4858 100%)",
+//  accentColor: "#C8A951",
+//  tags: ["Web Design", "Branding", "Digital Marketing"],
+//  caseStudyUrl: "/work/chemcrete",
+// },
+
+// {
+//   id: 5,
+//   client: "Unexpected Opportunities",
 //   category: "NGO Digital Presence",
 //   year: "2025",
 //   description: "Developed a compassionate digital platform for a Cape Town NGO supporting families affected by aviation disasters, creating space for healing and advocacy.",
-//   images: ["/images/planeview-1.webp"], // your actual image paths
+//   images: ["/images/planeview-1.webp"],
 //   gradient: "linear-gradient(135deg, #1B4B6B 0%, #2C5F7E 100%)",
 //   accentColor: "#7FB3D5",
 //   tags: ["Web Design", "NGO Branding", "Digital Strategy"],
-//   caseStudyUrl: "/work/planeview",
-// }
-
-
+//   caseStudyUrl: "/work/unexpected-opportunities",
+// },
+];
 ---
 
 <MainLayout
@@ -189,7 +188,7 @@ const projects = [
     </div>
   </section>
 
-  <!-- Lightbox -->
+ 
   <!-- CHANGE: All lightbox CSS is now in global.css — styles here were scoped
        by Astro and never reached the JS-created <img> elements inside imgWrap -->
   <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Project viewer">
