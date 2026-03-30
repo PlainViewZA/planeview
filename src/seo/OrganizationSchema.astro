@@ -1,0 +1,27 @@
+---
+import { businessInfo } from '../data/business-info';
+const socialLinks = Object.values(businessInfo.socialMedia).filter(link => link);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "MarketingAgency",
+  "name": businessInfo.name,
+  "legalName": businessInfo.legalName,
+  "url": businessInfo.url,
+  "logo": businessInfo.logo,
+  "description": businessInfo.description,
+  "slogan": businessInfo.slogan,
+  "email": businessInfo.email,
+  "areaServed": businessInfo.areaServed,
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": businessInfo.geo.latitude,
+    "longitude": businessInfo.geo.longitude
+  },
+  "sameAs": socialLinks,
+  "serviceType": businessInfo.services,
+  "priceRange": businessInfo.priceRange
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema, null, 2)} />
