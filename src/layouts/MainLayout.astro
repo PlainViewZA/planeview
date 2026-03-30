@@ -1,31 +1,208 @@
 ---
+import FloatingCanvas from '../components/FloatingCanvas.astro';
+import Preloader from '../components/Preloader.astro';
+import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  url?: string;
+  type?: string;
 }
 
-const { 
-  title = 'Plane View Collective', 
-  description = 'Clarity, created with people in mind.' 
+const {
+  title = 'Plane View Collective',
+  description = 'Clarity, created with people in mind.',
+  image = '/logo/plane-view-logo.png',
+  url = 'https://www.planeview.co.za',
+  type = 'website'
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
 ---
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content={description} />
-    <title>{title}</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  </head>
-  <body>
-    <slot />
-  </body>
-</html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>{title}</title>
+  <meta name="description" content={description} />
+
+  <link rel="canonical" href={canonicalURL} />
+  <meta name="robots" content="index, follow" />
+  <meta name="author" content="Plane View Collective" />
+  <meta name="copyright" content="Plane View Collective" />
+
+  <meta name="geo.region" content="ZA-WC" />
+  <meta name="geo.placename" content="Cape Town" />
+  <meta name="geo.position" content="-33.9249;18.4241" />
+  <meta name="ICBM" content="-33.9249, 18.4241" />
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+
+  <meta property="og:site_name" content="Plane View Collective" />
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content={type} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:image" content={image} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Plane View Collective — Cape Town Marketing & Design Agency" />
+  <meta property="og:locale" content="en_ZA" />
+
+  <meta name="theme-color" content="#111111" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="manifest" href="/site.webmanifest" />
+
+  <!-- Astro ViewTransitions — handles page transitions + re-runs scripts -->
+  <ViewTransitions />
+
+  <slot name="head" />
+</head>
+
+
+<body>
+  <!-- transition:persist keeps preloader and canvas mounted across navigations -->
+  <Preloader transition:persist />
+
+  <div class="page-wrapper">
+    <FloatingCanvas transition:persist />
+
+    <!-- slide transition on the main content only -->
+    <div class="page-content" transition:animate="slide">
+      <slot />
+    </div>
+  </div>
+   <script>
+    function initScrollReveal() {
+      const REVEAL_SELECTORS = [
+        'h1', 'h2', 'h3',
+        'p.intro-text',
+        '.card',
+        '.service-card',
+        '.work-card',
+        '.pillar-item',
+        '.value-card',
+        '.process-step',
+        '.timeline-item',
+        '.meaning-item',
+        '.info-card',
+        '.cta-box',
+        '.location-box',
+        '.tone-item',
+        '.faq-item',
+        '.service-list',
+      ];
+ 
+      document.querySelectorAll('[data-reveal]').forEach(el => {
+        el.removeAttribute('data-reveal');
+        el.removeAttribute('data-reveal-delay');
+        el.classList.remove('revealed');
+      });
+ 
+      REVEAL_SELECTORS.forEach(selector => {
+        document.querySelectorAll(selector).forEach((el) => {
+          if (el.hasAttribute('data-reveal')) return;
+          if (el.closest('#lightbox, nav, .nav, footer, .preloader')) return;
+ 
+          el.setAttribute('data-reveal', '');
+ 
+          const siblings = Array.from(
+            (el.parentElement || document.body).querySelectorAll(':scope > [data-reveal]')
+          );
+          const index = siblings.indexOf(el);
+          if (index > 0) {
+            el.setAttribute('data-reveal-delay', String(Math.min(index * 80, 400)));
+          }
+        });
+      });
+ 
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          const delay = parseInt(el.getAttribute('data-reveal-delay') || '0', 10);
+          setTimeout(() => el.classList.add('revealed'), delay);
+          observer.unobserve(el);
+        });
+      }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px',
+      });
+ 
+      document.querySelectorAll('[data-reveal]').forEach(el => observer.observe(el));
+    }
+ 
+    document.addEventListener('astro:page-load', initScrollReveal);
+  </script>
+</body>
 
 <style is:global>
-  @import '../styles/global.css';
+.page-wrapper {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+}
+
+.page-content {
+  position: relative;
+  z-index: 1;
+}
+
+/* ✏️ Change duration (desktop) — recommended: 0.3s–0.4s */
+::view-transition-old(root) {
+  animation: slide-out 0.35s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+
+::view-transition-new(root) {
+  animation: slide-in 0.35s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+
+/*  Change translateX for slide distance (e.g. 16px, 32px, 48px) */
+/*  Change scale for depth effect (e.g. 0.97, 0.98, 0.99 — or remove it) */
+/* Seamless fade — out fast, in smooth */
+/* Seamless crossfade with subtle vertical drift */
+::view-transition-old(root) {
+  animation: page-fade-out 0.2s ease-in both;
+}
+
+::view-transition-new(root) {
+  animation: page-fade-in 0.3s ease-out both;
+}
+
+@keyframes page-fade-out {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-4px); }
+}
+
+@keyframes page-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 768px) {
+  ::view-transition-old(root) { animation-duration: 0.15s; }
+  ::view-transition-new(root) { animation-duration: 0.2s; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
 </style>
+</html>
