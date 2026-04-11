@@ -2,56 +2,130 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 import Navigation from '../../components/Navbar.astro';
 import Footer from '../../components/Footer.astro';
----
 
-<MainLayout
-  title="Chemcrete Case Study | Plane View Collective"
-  description="How we built a complete digital presence for a 35-year-old Cape Town concrete specialist — brand identity, website design, and digital strategy."
->
+// ============================================================
+//  EDIT THIS SECTION ONLY — everything else stays the same
+// ============================================================
+
+const project = {
+  metaTitle: "Chemcrete Case Study | Plane View Collective",
+  metaDescription: "How we built a complete digital presence for a 35-year-old Cape Town concrete specialist — brand identity, website design, and digital strategy.",
+
+  tags: ["Web Design", "Branding", "Digital Strategy"],
+  title: "Chemcrete",
+  tagline: "Building a digital foundation for a 35-year-old concrete specialist — complete brand identity, website, and market positioning from the ground up.",
+
+  client: "Chemcrete",
+  industry: "Construction & Civil Engineering",
+  location: "Cape Town, South Africa",
+  services: ["Brand Identity", "Website Design", "Digital Strategy"],
+  year: "2024",
+
+  heroImage: "/chemcrete/Section.webp",
+  heroImageAlt: "Chemcrete website mockup",
+
+  challengeHeading: "A 35-year legacy, invisible online.",
+  challenge: [
+    "Chemcrete has been supplying the Cape Town construction and civil engineering sectors with SABS-compliant concrete products for over three decades. The quality of their work speaks for itself on job sites across the Western Cape — but online, they simply didn't exist.",
+    "No website. No cohesive brand. No way for potential clients to verify who they were or what they stood for. In an industry where trust and credibility are everything, this was a significant commercial liability.",
+  ],
+
+  approachHeading: "Industrial strength. Refined presentation.",
+  approach: [
+    "We began with a brand audit and stakeholder conversations to understand how Chemcrete sees itself — and how its best clients describe them. Two words emerged consistently: reliable and no-nonsense.",
+    "The strategy was not to reinvent the company, but to finally express it properly. The brand direction drew on industrial visual language — honest materials, strong structure, confident typography — while avoiding the clichés of construction marketing.",
+    "The website was structured to prioritise credibility, product clarity, and fast decision-making for contractors, specifiers, and civil engineering clients.",
+  ],
+
+  deliverables: [
+    {
+      number: "01",
+      service: "Brand Identity",
+      heading: "A visual identity built on strength and trust",
+      description: "We developed a brand system rooted in industrial confidence — logo suite, colour palette, typography system, and brand guidelines designed to feel established, robust, and credible.",
+    },
+    {
+      number: "02",
+      service: "Website Design & Build",
+      heading: "A site built for credibility and product clarity",
+      description: "The website was designed to help contractors and specifiers understand the product range quickly, verify the company's legitimacy, and make contact with ease.",
+    },
+    {
+      number: "03",
+      service: "Collateral & Application",
+      heading: "A brand that carries across every touchpoint",
+      description: "We extended the system into physical and digital collateral including business cards, signage, and branded applications to ensure consistency wherever Chemcrete appears.",
+    },
+  ],
+
+  resultHeading: "A 35-year business, finally positioned to grow.",
+  result: [
+    "Chemcrete now has a digital and brand presence that reflects the quality and experience they've built over three decades. Contractors and civil engineers can find them, understand their offering, and make contact — all within seconds.",
+    "The new identity distinguishes them sharply from competitors. The oxblood palette and industrial typographic system communicate authority and longevity without saying a word.",
+  ],
+
+  stats: [
+    { figure: "35+", label: "Years of expertise, now properly represented" },
+    { figure: "0→1", label: "From no digital presence to a complete brand system" },
+    { figure: "Full", label: "End-to-end: identity, digital, collateral" },
+  ],
+
+  quote: "Contractors were Googling competitors and making decisions before they ever picked up the phone.",
+  quoteAuthor: "Project Insight",
+};
+// ============================================================
+---
+<MainLayout title={project.metaTitle} description={project.metaDescription}>
   <Navigation />
 
-  <!-- ═══════════════════════════════════════════
-       1. HERO — Case Study Intro
-  ═══════════════════════════════════════════ -->
   <section class="cs-hero">
     <div class="container">
-
       <div class="cs-hero-inner">
         <div class="cs-hero-left">
-          <span class="eyebrow">Case Study</span>
-          <h1 class="cs-hero-title">Chemcrete</h1>
-          <p class="cs-hero-tagline">
-            Building a digital foundation for a 35-year-old concrete specialist — complete brand identity, website, and market positioning from the ground up.
-          </p>
+          <div class="cs-tags">
+            {project.tags.map((tag) => (
+              <span class="cs-tag">{tag}</span>
+            ))}
+          </div>
+          <h1 class="cs-hero-title">{project.title}</h1>
+          <p class="cs-hero-tagline">{project.tagline}</p>
         </div>
 
         <div class="cs-hero-meta">
           <div class="meta-item">
+            <span class="meta-label">Client</span>
+            <span class="meta-value">{project.client}</span>
+          </div>
+          <div class="meta-item">
             <span class="meta-label">Industry</span>
-            <span class="meta-value">Construction &amp; Civil Engineering</span>
+            <span class="meta-value">{project.industry}</span>
           </div>
           <div class="meta-item">
             <span class="meta-label">Location</span>
-            <span class="meta-value">Cape Town, South Africa</span>
+            <span class="meta-value">{project.location}</span>
           </div>
           <div class="meta-item">
             <span class="meta-label">Services</span>
-            <span class="meta-value">Brand Identity</span>
-            <span class="meta-value">Website Design</span>
-            <span class="meta-value">Digital Strategy</span>
+            {project.services.map((s) => (
+              <span class="meta-value">{s}</span>
+            ))}
           </div>
           <div class="meta-item">
             <span class="meta-label">Year</span>
-            <span class="meta-value">2024</span>
+            <span class="meta-value">{project.year}</span>
           </div>
         </div>
       </div>
 
-      <!-- Hero cover image -->
       <div class="cs-hero-cover">
-        <span class="cover-hint">[ Hero — Chemcrete Brand / Site Hero Shot ]</span>
+        {project.heroImage ? (
+          <img src={project.heroImage} alt={project.heroImageAlt} />
+        ) : (
+          <div class="cover-placeholder" aria-label={project.heroImageAlt}>
+            <span class="cover-hint">Hero Image — {project.client}</span>
+          </div>
+        )}
       </div>
-
     </div>
   </section>
 
@@ -60,7 +134,6 @@ import Footer from '../../components/Footer.astro';
   ═══════════════════════════════════════════ -->
   <section class="brand-section">
 
-    <!-- Label -->
     <div class="container">
       <div class="section-label-block">
         <span class="eyebrow">Brand Identity</span>
@@ -174,7 +247,6 @@ import Footer from '../../components/Footer.astro';
 
           <div class="type-divider"></div>
 
-          <!-- Live type specimen -->
           <div class="type-block type-specimen-live">
             <span class="type-label">In Use</span>
             <p class="specimen-headline">Top of the range concrete products.</p>
@@ -224,7 +296,6 @@ import Footer from '../../components/Footer.astro';
             </div>
             <div class="browser-url">https://chemcrete-v1.netlify.app/</div>
           </div>
-          <!-- img directly in mockup-screen, no wrapper -->
           <div class="mockup-screen mockup-screen--16-9">
             <img src="/images/Section.webp" alt="Chemcrete Homepage" />
           </div>
@@ -232,64 +303,26 @@ import Footer from '../../components/Footer.astro';
         <p class="mockup-caption">Homepage Design</p>
       </div>
 
-      <!-- Two-col: Mobile + Interior Page -->
-      <div class="mockup-grid mockup-grid--2col">
-
-        <div class="mockup-item">
-          <div class="mockup-frame mockup-frame--mobile">
-            <!-- img directly in mockup-screen, ratio set via modifier class -->
-            <div class="mockup-screen mockup-screen--9-16">
-              <img src="/images/Section.webp" alt="Mobile Homepage" />
-            </div>
-          </div>
-          <p class="mockup-caption">Mobile Experience</p>
-        </div>
-
-        <div class="mockup-item">
-          <div class="mockup-frame mockup-frame--desktop">
-            <div class="mockup-browser-bar">
-              <div class="browser-dots">
-                <span></span><span></span><span></span>
-              </div>
-              <div class="browser-url">chemcrete.co.za/products</div>
-            </div>
-            <!-- img directly in mockup-screen, no wrapper -->
-            <div class="mockup-screen mockup-screen--16-9">
-              <img src="/images/chemcrete/desktop-products.jpg" alt="Products Page" />
-            </div>
-          </div>
-          <p class="mockup-caption">Products Catalogue</p>
-        </div>
-
-      </div>
-
       <!-- Three-col: Collateral -->
       <div class="mockup-grid mockup-grid--3col">
 
         <div class="mockup-item">
           <div class="mockup-frame mockup-frame--card">
-            <!-- card uses screen-placeholder for contain behaviour -->
-            <div class="screen-placeholder screen-placeholder--card">
-              <img src="/images/PHOTO-2026-03-28-15-04-06_2.webp" alt="Business Card" />
-            </div>
+            <img src="/chemcrete/card.webp" alt="Business Card" />
           </div>
           <p class="mockup-caption">Business Card</p>
         </div>
 
         <div class="mockup-item">
           <div class="mockup-frame mockup-frame--card">
-            <div class="screen-placeholder screen-placeholder--card">
-              <img src="/images/chemcrete/social-post.jpg" alt="Social Media Post" />
-            </div>
+            <img src="/chemcrete/chemcretesocialmedia.webp" alt="Social Media Post" />
           </div>
           <p class="mockup-caption">Social Media</p>
         </div>
 
         <div class="mockup-item">
           <div class="mockup-frame mockup-frame--card">
-            <div class="screen-placeholder screen-placeholder--card">
-              <img src="/images/PHOTO-2026-03-28-15-03-49.webp" alt="Construction Signage" />
-            </div>
+            <img src="/chemcrete/signage.webp" alt="Construction Signage" />
           </div>
           <p class="mockup-caption">Construction Signage</p>
         </div>
@@ -304,7 +337,6 @@ import Footer from '../../components/Footer.astro';
   ═══════════════════════════════════════════ -->
   <section class="story-section">
 
-    <!-- Sticky side nav for desktop -->
     <div class="container story-container">
 
       <nav class="story-sidenav" aria-label="Case study navigation">
@@ -322,19 +354,9 @@ import Footer from '../../components/Footer.astro';
             <span class="chapter-number">01</span>
             <span class="chapter-title">The Challenge</span>
           </div>
-          <h3 class="chapter-heading">
-            A 35-year legacy,<br>invisible online.
-          </h3>
+          <h3 class="chapter-heading">{project.challengeHeading}</h3>
           <div class="chapter-content">
-            <p>
-              Chemcrete has been supplying the Cape Town construction and civil engineering sectors with SABS-compliant concrete products for over three decades. The quality of their work speaks for itself on job sites across the Western Cape — but online, they simply didn't exist.
-            </p>
-            <p>
-              No website. No cohesive brand. No way for potential clients to verify who they were or what they stood for. In an industry where trust and credibility are everything, this was a significant commercial liability.
-            </p>
-            <blockquote class="chapter-pullquote">
-              "Contractors were Googling competitors and making decisions before they ever picked up the phone."
-            </blockquote>
+            {project.challenge.map((para) => <p>{para}</p>)}
           </div>
         </article>
 
@@ -344,16 +366,9 @@ import Footer from '../../components/Footer.astro';
             <span class="chapter-number">02</span>
             <span class="chapter-title">The Approach</span>
           </div>
-          <h3 class="chapter-heading">
-            Industrial strength.<br>Refined presentation.
-          </h3>
+          <h3 class="chapter-heading">{project.approachHeading}</h3>
           <div class="chapter-content">
-            <p>
-              We began with a brand audit and stakeholder conversations to understand how Chemcrete sees itself — and how its best clients describe them. Two words emerged consistently: reliable and no-nonsense.
-            </p>
-            <p>
-              The strategy was not to reinvent the company, but to finally express it properly. The brand direction drew on industrial visual language — honest materials, strong structure, confident typography — while avoiding the clichés of construction marketing.
-            </p>
+            {project.approach.map((para) => <p>{para}</p>)}
             <div class="approach-pillars">
               <div class="pillar">
                 <span class="pillar-label">Brand Direction</span>
@@ -378,34 +393,23 @@ import Footer from '../../components/Footer.astro';
             <span class="chapter-title">The Execution</span>
           </div>
           <h3 class="chapter-heading">
-            Built from the ground up.<br>Every touchpoint considered.
+            Built from the ground up.<br />Every touchpoint considered.
           </h3>
           <div class="chapter-content">
             <p>
               We delivered a complete brand system and digital presence in a single focused engagement. The work spanned identity, digital, and physical touchpoints — giving Chemcrete a coherent presence wherever a client might encounter them.
             </p>
             <div class="execution-deliverables">
-              <div class="deliverable-row">
-                <div class="deliverable-icon">—</div>
-                <div class="deliverable-detail">
-                  <span class="deliverable-name">Brand Identity System</span>
-                  <p>Logo suite (primary, reversed, single-colour), colour palette, typography system, and brand guidelines document.</p>
+              {project.deliverables.map((d) => (
+                <div class="deliverable-row">
+                  <div class="deliverable-icon">—</div>
+                  <div class="deliverable-detail">
+                    <span class="deliverable-name">{d.number} — {d.service}</span>
+                    <span class="deliverable-heading">{d.heading}</span>
+                    <p>{d.description}</p>
+                  </div>
                 </div>
-              </div>
-              <div class="deliverable-row">
-                <div class="deliverable-icon">—</div>
-                <div class="deliverable-detail">
-                  <span class="deliverable-name">Website Design &amp; Build</span>
-                  <p>Multi-page website with homepage, products catalogue, about, and contact. Built for performance and mobile responsiveness.</p>
-                </div>
-              </div>
-              <div class="deliverable-row">
-                <div class="deliverable-icon">—</div>
-                <div class="deliverable-detail">
-                  <span class="deliverable-name">Collateral &amp; Application</span>
-                  <p>Business cards, letterhead, construction site signage, and social media templates.</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </article>
@@ -416,39 +420,32 @@ import Footer from '../../components/Footer.astro';
             <span class="chapter-number">04</span>
             <span class="chapter-title">The Result</span>
           </div>
-          <h3 class="chapter-heading">
-            A 35-year business,<br>finally positioned to grow.
-          </h3>
+          <h3 class="chapter-heading">{project.resultHeading}</h3>
           <div class="chapter-content">
-            <p>
-              Chemcrete now has a digital and brand presence that reflects the quality and experience they've built over three decades. Contractors and civil engineers can find them, understand their offering, and make contact — all within seconds.
-            </p>
-            <p>
-              The new identity distinguishes them sharply from competitors. The oxblood palette and industrial typographic system communicate authority and longevity without saying a word.
-            </p>
+            {project.result.map((para) => <p>{para}</p>)}
           </div>
 
-          <!-- Result stat cards -->
           <div class="result-stats">
-            <div class="stat-card">
-              <span class="stat-figure">35+</span>
-              <span class="stat-desc">Years of expertise, now properly represented</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-figure">0→1</span>
-              <span class="stat-desc">From no digital presence to a complete brand system</span>
-            </div>
-            <div class="stat-card">
-              <span class="stat-figure">Full</span>
-              <span class="stat-desc">End-to-end: identity, digital, collateral</span>
-            </div>
+            {project.stats.map((s) => (
+              <div class="stat-card">
+                <span class="stat-figure">{s.figure}</span>
+                <span class="stat-desc">{s.label}</span>
+              </div>
+            ))}
           </div>
 
+          {project.quote && (
+            <blockquote class="story-quote">
+              <p class="story-quote-text">"{project.quote}"</p>
+              <footer>
+                <span class="story-quote-author">— {project.quoteAuthor}</span>
+              </footer>
+            </blockquote>
+          )}
         </article>
 
-      </div><!-- /story-body -->
-    </div><!-- /story-container -->
-
+      </div>
+    </div>
   </section>
 
   <!-- ═══════════════════════════════════════════
@@ -458,8 +455,8 @@ import Footer from '../../components/Footer.astro';
     <div class="container">
       <div class="next-project-inner">
         <span class="eyebrow">Next Project</span>
-        <a href="/work/next-project" class="next-project-link">
-          <span class="next-project-name">Project Name</span>
+        <a href="/work/unexpected-opportunities" class="next-project-link">
+          <span class="next-project-name">Unexpected Opportunities</span>
           <span class="next-arrow">→</span>
         </a>
       </div>
@@ -473,7 +470,7 @@ import Footer from '../../components/Footer.astro';
      STYLES
 ═══════════════════════════════════════════ -->
 <style>
-/* ── Shared Utilities ── */
+  /* ── Shared Utilities ── */
   .container {
     max-width: 1280px;
     margin: 0 auto;
@@ -491,7 +488,6 @@ import Footer from '../../components/Footer.astro';
     margin-bottom: 0.75rem;
   }
 
-  /* ── Section Label Block (reusable) ── */
   .section-label-block {
     max-width: 640px;
     margin-bottom: 3.5rem;
@@ -556,7 +552,6 @@ import Footer from '../../components/Footer.astro';
     margin: 0;
   }
 
-  /* Meta panel */
   .cs-hero-meta {
     display: flex;
     flex-direction: column;
@@ -589,13 +584,11 @@ import Footer from '../../components/Footer.astro';
     line-height: 1.5;
   }
 
-  /* Hero cover — placeholder only (no img asset yet) */
   .cs-hero-cover {
     position: relative;
     width: 100%;
     background: #e3ddd3;
     border-top: 1px solid rgba(0,0,0,0.08);
-    /* 16:7 aspect ratio */
     aspect-ratio: 16 / 7;
     display: flex;
     align-items: center;
@@ -603,7 +596,6 @@ import Footer from '../../components/Footer.astro';
     overflow: hidden;
   }
 
-  /* If you add an img inside .cs-hero-cover it will fill the space */
   .cs-hero-cover img {
     position: absolute;
     inset: 0;
@@ -619,7 +611,6 @@ import Footer from '../../components/Footer.astro';
     font-size: 0.8125rem;
     color: #636363;
     letter-spacing: 0.06em;
-    /* hidden once an img is present (img overlaps via absolute) */
   }
 
   /* ════════════════════════════════════════
@@ -631,7 +622,6 @@ import Footer from '../../components/Footer.astro';
     overflow: hidden;
   }
 
-  /* Brand Board */
   .brand-board {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -714,7 +704,6 @@ import Footer from '../../components/Footer.astro';
 
   .logo-variant-label.light { color: rgba(255,255,255,0.45); }
 
-  /* Colour columns */
   .brand-board-right {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -726,7 +715,6 @@ import Footer from '../../components/Footer.astro';
     justify-content: flex-end;
     padding: 1.25rem 1rem;
     min-height: 480px;
-    position: relative;
   }
 
   .colour-column:not(:last-child) {
@@ -893,16 +881,14 @@ import Footer from '../../components/Footer.astro';
     margin-bottom: 4rem;
   }
 
-  .mockups-section .section-heading { color: #ffffff; }
+  .mockups-section .section-heading    { color: #ffffff; }
   .mockups-section .section-subheading { color: rgba(255,255,255,0.5); }
-  .mockups-section .eyebrow { color: #7c0000; }
+  .mockups-section .eyebrow            { color: #7c0000; }
 
-  /* Feature mockup */
   .mockup-feature {
     margin-bottom: 3rem;
   }
 
-  /* Grid layouts */
   .mockup-grid {
     display: grid;
     gap: 1.5rem;
@@ -925,6 +911,20 @@ import Footer from '../../components/Footer.astro';
     margin: 0 auto;
     border-radius: 24px;
     border-width: 2px;
+  }
+
+  /* Card frame: no background, no border — image sets its own dimensions */
+  .mockup-frame--card {
+    background: none;
+    border: none;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  .mockup-frame--card img {
+    display: block;
+    width: 100%;
+    height: auto;
   }
 
   /* Browser bar */
@@ -961,10 +961,7 @@ import Footer from '../../components/Footer.astro';
     max-width: 220px;
   }
 
-  /* ── mockup-screen: single source of truth for aspect-ratio + image fill ──
-     Uses aspect-ratio (modern, reliable) instead of the ::before padding trick.
-     The img is a direct child and fills with object-fit: cover.
-  ── */
+  /* ── mockup-screen ── */
   .mockup-screen {
     position: relative;
     display: block;
@@ -973,17 +970,9 @@ import Footer from '../../components/Footer.astro';
     background: #e3ddd3;
   }
 
-  /* 16:9 — desktop screenshots */
-  .mockup-screen--16-9 {
-    aspect-ratio: 16 / 9;
-  }
+  .mockup-screen--16-9 { aspect-ratio: 16 / 9; }
+  .mockup-screen--9-16 { aspect-ratio: 9 / 16; }
 
-  /* 9:16 — mobile screenshots */
-  .mockup-screen--9-16 {
-    aspect-ratio: 9 / 16;
-  }
-
-  /* The img must always be a direct child of .mockup-screen */
   .mockup-screen > img {
     display: block;
     width: 100%;
@@ -992,36 +981,8 @@ import Footer from '../../components/Footer.astro';
     object-position: top center;
   }
 
-  /* Mobile screens: centre-anchor the image */
   .mockup-frame--mobile .mockup-screen > img {
     object-position: center;
-  }
-
-  /* ── screen-placeholder: used only for card/collateral items
-     that need object-fit: contain so the full design is visible ── */
-  .screen-placeholder {
-    position: relative;
-    display: block;
-    width: 100%;
-    overflow: hidden;
-    background: #1a1a1a;
-  }
-
-  /* 3:2 ratio for card-sized collateral */
-  .screen-placeholder--card {
-    aspect-ratio: 3 / 2;
-  }
-
-  .screen-placeholder img {
-    display: block;
-    width: 100%;
-    height: 100%;
-    /* contain so the full design (business card, signage) is always visible */
-    object-fit: contain;
-    object-position: center;
-    /* small inset so the design doesn't butt against frame edges */
-    padding: 1rem;
-    box-sizing: border-box;
   }
 
   /* Captions */
@@ -1050,7 +1011,6 @@ import Footer from '../../components/Footer.astro';
     align-items: start;
   }
 
-  /* Sticky sidenav */
   .story-sidenav {
     position: sticky;
     top: 5rem;
@@ -1068,9 +1028,8 @@ import Footer from '../../components/Footer.astro';
     text-transform: uppercase;
     text-decoration: none;
     color: #636363;
-    padding: 0.5rem 0;
+    padding: 0.5rem 0 0.5rem 1rem;
     border-left: 2px solid transparent;
-    padding-left: 1rem;
     transition: color 0.2s, border-color 0.2s;
   }
 
@@ -1080,14 +1039,12 @@ import Footer from '../../components/Footer.astro';
     border-left-color: #480000;
   }
 
-  /* Story body */
   .story-body {
     display: flex;
     flex-direction: column;
     gap: 0;
   }
 
-  /* Chapters */
   .story-chapter {
     padding: 4rem 0;
     border-bottom: 1px solid rgba(0,0,0,0.08);
@@ -1146,19 +1103,6 @@ import Footer from '../../components/Footer.astro';
     margin: 0;
   }
 
-  .chapter-pullquote {
-    border-left: 3px solid #7c0000;
-    padding: 0.5rem 0 0.5rem 1.5rem;
-    margin: 0.5rem 0;
-    font-family: 'Oswald', sans-serif;
-    font-size: 1.25rem;
-    font-weight: 400;
-    color: #1a1a1a;
-    line-height: 1.4;
-    font-style: normal;
-  }
-
-  /* Approach pillars */
   .approach-pillars {
     display: flex;
     flex-direction: column;
@@ -1196,7 +1140,6 @@ import Footer from '../../components/Footer.astro';
     line-height: 1.6;
   }
 
-  /* Execution deliverables */
   .execution-deliverables {
     display: flex;
     flex-direction: column;
@@ -1240,7 +1183,6 @@ import Footer from '../../components/Footer.astro';
     line-height: 1.6;
   }
 
-  /* Result stats */
   .result-stats {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1270,6 +1212,33 @@ import Footer from '../../components/Footer.astro';
     font-size: 0.875rem;
     color: #636363;
     line-height: 1.5;
+  }
+
+  .story-quote {
+    margin: 2.5rem 0 0;
+    padding: 2rem 2.5rem;
+    background: #ffffff;
+    border-left: 3px solid #480000;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .story-quote-text {
+    font-family: 'Oswald', sans-serif;
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    font-weight: 400;
+    color: #1a1a1a;
+    line-height: 1.5;
+    margin: 0 0 0.75rem;
+    font-style: normal;
+  }
+
+  .story-quote-author {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #7c0000;
   }
 
   /* ════════════════════════════════════════
@@ -1323,7 +1292,7 @@ import Footer from '../../components/Footer.astro';
   ════════════════════════════════════════ */
   @media (max-width: 1024px) {
     .cs-hero-inner { grid-template-columns: 1fr; gap: 3rem; }
-    .cs-hero-meta  {
+    .cs-hero-meta {
       border-left: none;
       padding-left: 0;
       border-top: 1px solid rgba(0,0,0,0.1);
@@ -1393,15 +1362,12 @@ import Footer from '../../components/Footer.astro';
     .mockups-section,
     .story-section { padding-top: 4rem; }
     .mockups-section { padding-bottom: 4rem; }
-    .story-section { padding-bottom: 5rem; }
+    .story-section   { padding-bottom: 5rem; }
 
     .mockup-grid--3col { grid-template-columns: 1fr; }
     .result-stats { grid-template-columns: 1fr; gap: 2rem; }
 
-    /* On small screens, mobile mockup can go full width */
-    .mockup-frame--mobile {
-      max-width: 240px;
-    }
+    .mockup-frame--mobile { max-width: 240px; }
   }
 </style>
 
