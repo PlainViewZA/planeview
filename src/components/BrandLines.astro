@@ -1,32 +1,91 @@
 ---
-// BrandLines - Decorative dotted line paths matching brand guide style
+// BrandLines - Full-page decorative lines, sits behind all content
+// Place this in MainLayout.astro, directly after <Navigation /> 
+// Make sure your nav height CSS variable --nav-height is set (default assumed 85px)
+// and your footer has a known height or you can adjust --footer-height below
 ---
 
 <div class="brand-lines" aria-hidden="true">
-  <svg viewBox="0 0 1440 400" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- Horizontal sweep -->
+  <svg viewBox="0 0 1440 1000" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <!--
+      5 paths spread evenly across the full 1000-unit height.
+      Each wave is positioned at roughly 200-unit intervals (200, 350, 500, 650, 800)
+      so they distribute from just below the nav to just above the footer.
+      Paths are kept as gentle waves — same style as original, just spread vertically.
+    -->
+
+    <!-- Path 1 — top of page, blue -->
     <path
-      d="M0 200 Q 360 120, 720 200 T 1440 200"
+      d="M0 200 Q 360 140, 720 200 T 1440 200"
       stroke="#2F6FED"
-      stroke-width="1.5"
-      stroke-dasharray="8 12"
-      opacity="0.15"
+      stroke-width="0.5"
+      stroke-dasharray="6 12"
+      opacity="0.12"
     />
-    <!-- Second offset path -->
+
+    <!-- Path 2 — upper-middle, black -->
     <path
-      d="M0 260 Q 480 180, 960 260 T 1440 260"
+      d="M0 380 Q 480 300, 960 380 T 1440 380"
+      stroke="#111111"
+      stroke-width="0.5"
+      stroke-dasharray="6 12"
+      opacity="0.10"
+    />
+
+    <!-- Path 3 — middle, blue diagonal -->
+    <path
+      d="M100 560 Q 500 380, 900 520 T 1440 360"
       stroke="#2F6FED"
-      stroke-width="1"
-      stroke-dasharray="6 14"
+      stroke-width="0.5"
+      stroke-dasharray="8 16"
       opacity="0.08"
     />
-    <!-- Diagonal directional line -->
+
+    <!-- Path 4 — lower-middle, black -->
     <path
-      d="M100 380 Q 500 100, 900 320 T 1440 80"
+      d="M0 680 Q 480 600, 960 680 T 1440 680"
+      stroke="#111111"
+      stroke-width="0.5"
+      stroke-dasharray="6 12"
+      opacity="0.10"
+    />
+
+    <!-- Path 5 — near bottom, blue -->
+    <path
+      d="M0 840 Q 360 760, 720 840 T 1440 840"
       stroke="#2F6FED"
-      stroke-width="1"
-      stroke-dasharray="10 16"
-      opacity="0.06"
+      stroke-width="0.5"
+      stroke-dasharray="6 12"
+      opacity="0.08"
     />
   </svg>
 </div>
+
+<style>
+  .brand-lines {
+    position: fixed;
+    /* sit below nav, above footer */
+    top: var(--nav-height, 85px);
+    bottom: var(--footer-height, 120px);
+    left: 0;
+    right: 0;
+    pointer-events: none;
+    overflow: hidden;
+    /* behind everything — nav, content, footer */
+    z-index: -1;
+  }
+
+  .brand-lines svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Fade on mobile so lines never compete with stacked content */
+  @media (max-width: 768px) {
+    .brand-lines { opacity: 0.55; }
+  }
+
+  @media (max-width: 480px) {
+    .brand-lines { opacity: 0.35; }
+  }
+</style>

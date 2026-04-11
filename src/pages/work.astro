@@ -10,7 +10,7 @@ const projects = [
     category: "Branding",
     year: "2024",
     description: "Logo design, brand identity, social media content, email campaigns, and a full website for a Cape Town-based transport company.",
-    images: ["/images/2.webp", "/images/3.webp", "/images/4.webp", "/images/5.webp", ],
+    images: ["/images/2.webp", "/images/3.webp", "/images/4.webp", "/images/5.webp"],
     gradient: "linear-gradient(135deg, #1a1f5e 0%, #6b70b8 100%)",
     accentColor: "#6b70b8",
     tags: ["Logo Design", "Social Media", "Web Design"],
@@ -21,7 +21,7 @@ const projects = [
     category: "Branding",
     year: "2024",
     description: "Full brand identity system — wordmark, figure mark, combination mark, business cards, and poster design for a tender-matching platform.",
-    images: ["/images/10.webp", "/images/11.webp", "/images/12.webp", "/images/13.webp", "/images/14.webp", "/images/15.webp", "/images/16.webp", "/images/17.webp", "/images/18.webp", "/images/19.webp", "/images/20.webp", "/images/21.webp","/images/22.webp","/images/23.webp","/images/24.webp","/images/25.webp","/images/26.webp","/images/27.webp","/images/28.webp","/images/29.webp"],
+    images: ["/images/10.webp","/images/11.webp","/images/12.webp","/images/13.webp","/images/14.webp","/images/15.webp","/images/16.webp","/images/17.webp","/images/18.webp","/images/19.webp","/images/20.webp","/images/21.webp","/images/22.webp","/images/23.webp","/images/24.webp","/images/25.webp","/images/26.webp","/images/27.webp","/images/28.webp","/images/29.webp"],
     gradient: "linear-gradient(135deg, #111111 0%, #3a2c00 100%)",
     accentColor: "#f5c400",
     tags: ["Brand Identity", "Print Design", "Guidelines"],
@@ -32,41 +32,39 @@ const projects = [
     category: "Web Design",
     year: "2024",
     description: "Logo, brand identity, colour system, typography guide, and full brand rollout across digital and physical touchpoints.",
-    images: ["/images/34.webp", "/images/35.webp", "/images/36.webp", "/images/37.webp", "/images/38.webp", "/images/39.webp", "/images/40.webp"],
+    images: ["/images/34.webp","/images/35.webp","/images/36.webp","/images/37.webp","/images/38.webp","/images/39.webp","/images/40.webp"],
     gradient: "linear-gradient(135deg, #212121 0%, #005f6b 100%)",
     accentColor: "#00a5b5",
     tags: ["Web Design", "Brand Identity", "UI/UX"],
-    
-  
   },
-
- // CHANGE: Chemcrete case study added, with placeholder image and URL. Update these when ready.
- // {
- // id: 4,
- // client: "Chemcrete",
- // category: "Branding",
-  //year: "2024",
-  //description: "Gave a 35-year-old Cape Town concrete specialist a brand and digital presence that matched their industry standing.",
-//  images: ["/images/Chemcrete Logos.pdf (3).webp"], // your actual image paths
-//  gradient: "linear-gradient(135deg, #1A1A2E 0%, #2F4858 100%)",
-//  accentColor: "#C8A951",
-//  tags: ["Web Design", "Branding", "Digital Marketing"],
-//  caseStudyUrl: "/work/chemcrete",
-// },
-
-// {
-//   id: 5,
-//   client: "Unexpected Opportunities",
-//   category: "NGO Digital Presence",
-//   year: "2025",
-//   description: "Developed a compassionate digital platform for a Cape Town NGO supporting families affected by aviation disasters, creating space for healing and advocacy.",
-//   images: ["/images/planeview-1.webp"],
-//   gradient: "linear-gradient(135deg, #1B4B6B 0%, #2C5F7E 100%)",
-//   accentColor: "#7FB3D5",
-//   tags: ["Web Design", "NGO Branding", "Digital Strategy"],
-//   caseStudyUrl: "/work/unexpected-opportunities",
-// },
+  {
+    id: 4,
+    client: "Chemcrete",
+    category: "Branding",
+    year: "2024",
+    description: "Gave a 35-year-old Cape Town concrete specialist a brand and digital presence that matched their industry standing.",
+    images: ["/images/Chemcrete Logos.pdf (3).webp"],
+    gradient: "linear-gradient(135deg, #1A1A2E 0%, #2F4858 100%)",
+    accentColor: "#C8A951",
+    tags: ["Web Design", "Branding", "Digital Marketing"],
+    caseStudyUrl: "/work/chemcrete",
+  },
+  {
+    id: 5,
+    client: "Unexpected Opportunities",
+    category: "NGO Digital Presence",
+    year: "2025",
+    description: "Developed a compassionate digital platform for a Cape Town NGO supporting families affected by aviation disasters, creating space for healing and advocacy.",
+    images: ["/UnexpectedOpportunities/UPlogo.webp"],
+    gradient: "linear-gradient(135deg, #1B4B6B 0%, #2C5F7E 100%)",
+    accentColor: "#7FB3D5",
+    tags: ["Web Design", "NGO Branding", "Digital Strategy"],
+    caseStudyUrl: "/work/unexpected-opportunities",
+  },
 ];
+
+// Accent colours that are too light for dark backgrounds — use a neutral instead
+const LIGHT_ACCENTS = new Set(['#e8d44d', '#f5c400']);
 ---
 
 <MainLayout
@@ -75,7 +73,7 @@ const projects = [
 >
   <Navigation />
 
-  <!-- Hero Section -->
+  <!-- Hero -->
   <section class="section page-hero">
     <div class="container container-narrow">
       <h1>Our Work</h1>
@@ -97,7 +95,7 @@ const projects = [
     </div>
   </section>
 
-  <!-- Work Grid -->
+    <!-- Work Grid -->
   <section class="section" style="padding-bottom: 0;">
     <div class="container">
       <div class="work-grid">
@@ -131,18 +129,18 @@ const projects = [
               ) : (
                 <div class="work-placeholder" style={`background: ${project.gradient};`}>
                   <svg class="card-mark" width="56" height="56" viewBox="0 0 56 56" fill="none" aria-hidden="true">
-                    <path d="M28 4 L52 52 L28 40 L4 52 Z" stroke="white" stroke-width="2" stroke-linejoin="round" fill="none" opacity="0.4"/>
-                    <circle cx="28" cy="28" r="8" stroke="white" stroke-width="1.5" opacity="0.25"/>
+                    <path d="M28 4 L52 52 L28 40 L4 52 Z" stroke="white" stroke-width="2" stroke-linejoin="round" fill="none" opacity="0.4" />
+                    <circle cx="28" cy="28" r="8" stroke="white" stroke-width="1.5" opacity="0.25" />
                   </svg>
                 </div>
               )}
             </div>
 
-             <div class="work-content">
+            <div class="work-content">
               <div class="work-meta">
                 <span
                   class="work-category"
-                  style={`color: ${['#e8d44d','#f5c400'].includes(project.accentColor) ? '#6B6B6B' : project.accentColor}`}
+                  style={`color: ${['#e8d44d', '#f5c400'].includes(project.accentColor) ? '#6B6B6B' : project.accentColor}`}
                 >
                   {project.category}
                 </span>
@@ -156,16 +154,16 @@ const projects = [
                 ))}
               </div>
               {project.caseStudyUrl ? (
-  <a href={project.caseStudyUrl} class="work-link">
-    View Case Study
-    <span class="arrow">→</span>
-  </a>
-) : (
-  <button class="work-link open-lightbox" type="button">
-    View Our Work
-    <span class="arrow">→</span>
-  </button>
-)}
+                <a href={project.caseStudyUrl} class="work-link">
+                  View Case Study
+                  <span class="arrow">→</span>
+                </a>
+              ) : (
+                <button class="work-link open-lightbox" type="button">
+                  View Our Work
+                  <span class="arrow">→</span>
+                </button>
+              )}
             </div>
           </article>
         ))}
@@ -174,8 +172,8 @@ const projects = [
     </div>
   </section>
 
-  <!-- CTA -->
-  <!-- <section class="section" style="padding-top: var(--spacing-lg);">
+  {/*
+  <section class="section" style="padding-top: var(--spacing-lg);">
     <div class="container">
       <div class="cta-box">
         <h2>Want results like these?</h2>
@@ -187,10 +185,11 @@ const projects = [
       </div>
     </div>
   </section>
+  */}
 
- 
-  <!-- CHANGE: All lightbox CSS is now in global.css — styles here were scoped
-       by Astro and never reached the JS-created <img> elements inside imgWrap -->
+  </section>
+
+  <!-- Lightbox -->
   <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Project viewer">
     <div class="lightbox-backdrop"></div>
     <div class="lightbox-panel">
@@ -216,169 +215,193 @@ const projects = [
   <Footer />
 </MainLayout>
 
-<script>
-  // ─── Filter Logic ────────────────────────────────────────────────────────────
-  const filterBtns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
-  const cards      = document.querySelectorAll<HTMLElement>('.work-card');
-  const noResults  = document.getElementById('no-results');
+<style>
+  /* Dark button override — applied globally so JS-created elements also inherit */
+  :global(.work-link--dark) {
+    background-color: #111111;
+    color: #ffffff !important;
+    border-color: #111111;
+    padding: 0.55rem 1.1rem;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s ease, transform 0.15s ease;
+    cursor: pointer;
+    border: none;
+  }
 
-  filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-      filterBtns.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      const filter = btn.dataset.filter ?? 'all';
-      let visible = 0;
-      cards.forEach(card => {
-        const match = filter === 'all' || card.dataset.category === filter;
-        card.style.display = match ? '' : 'none';
-        if (match) visible++;
-      });
-      if (noResults) {
+  :global(.work-link--dark:hover) {
+    background-color: #2a2a2a;
+    transform: translateY(-1px);
+  }
+</style>
+
+<script>
+  // ─── Filter ──────────────────────────────────────────────────────────────────
+  function initFilter() {
+    const btns = document.querySelectorAll<HTMLButtonElement>('.filter-btn');
+    const cards = document.querySelectorAll<HTMLElement>('.work-card');
+    const noResults = document.getElementById('no-results')!;
+
+    btns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        btns.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.dataset.filter ?? 'all';
+        let visible = 0;
+        cards.forEach((card) => {
+          const match = filter === 'all' || card.dataset.category === filter;
+          card.style.display = match ? '' : 'none';
+          if (match) visible++;
+        });
         noResults.textContent = visible === 0 ? 'No projects in this category yet.' : '';
-      }
+      });
     });
-  });
+  }
 
   // ─── Gallery Hover Slideshow ─────────────────────────────────────────────────
-  document.querySelectorAll<HTMLElement>('[data-gallery]').forEach(gallery => {
-    const imgs = gallery.querySelectorAll<HTMLImageElement>('img');
-    const dots = gallery.querySelectorAll<HTMLElement>('.dot');
+  function initGalleries() {
+    document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((gallery) => {
+      const imgs = gallery.querySelectorAll('img');
+      const dots = gallery.querySelectorAll('.dot');
+      let current = 0;
+      let interval: ReturnType<typeof setInterval>;
+
+      const goTo = (index: number) => {
+        imgs[current].classList.remove('active');
+        dots[current]?.classList.remove('active');
+        current = index;
+        imgs[current].classList.add('active');
+        dots[current]?.classList.add('active');
+      };
+
+      const card = gallery.closest('.work-card');
+      card?.addEventListener('mouseenter', () => {
+        interval = setInterval(() => goTo((current + 1) % imgs.length), 1000);
+      });
+      card?.addEventListener('mouseleave', () => {
+        clearInterval(interval);
+        goTo(0);
+      });
+    });
+  }
+
+  // ─── Lightbox ────────────────────────────────────────────────────────────────
+  function initLightbox() {
+    const lightbox = document.getElementById('lightbox')!;
+    const backdrop = lightbox.querySelector('.lightbox-backdrop')!;
+    const closeBtn = lightbox.querySelector('.lightbox-close')!;
+    const imgWrap = document.getElementById('lightbox-img-wrap')!;
+    const prevBtn = document.getElementById('lb-prev') as HTMLButtonElement;
+    const nextBtn = document.getElementById('lb-next') as HTMLButtonElement;
+    const counter = document.getElementById('lightbox-counter')!;
+    const lbCategory = document.getElementById('lb-category')!;
+    const lbClient = document.getElementById('lb-client')!;
+    const lbDesc = document.getElementById('lb-description')!;
+    const lbTags = document.getElementById('lb-tags')!;
+    const lbYear = document.getElementById('lb-year')!;
+
+    let images: string[] = [];
     let current = 0;
-    let interval: ReturnType<typeof setInterval>;
+
+    const setNavVisibility = (multiple: boolean) => {
+      prevBtn.style.display = multiple ? 'flex' : 'none';
+      nextBtn.style.display = multiple ? 'flex' : 'none';
+    };
+
+    const updateCounter = () => {
+      counter.textContent = images.length > 1 ? `${current + 1} / ${images.length}` : '';
+    };
+
+    function renderImages() {
+      if (images.length === 0) {
+        const card = document.querySelector<HTMLElement>(`[data-client="${lbClient.textContent}"]`);
+        imgWrap.innerHTML = `<div class="lb-gradient" style="background:${card?.dataset.gradient ?? '#111'}"></div>`;
+        setNavVisibility(false);
+        counter.textContent = '';
+        return;
+      }
+
+      imgWrap.innerHTML = '';
+      images.forEach((src, i) => {
+        const img = document.createElement('img');
+        img.src = src;
+        img.alt = `Project image ${i + 1}`;
+        img.className = 'lb-img' + (i === current ? ' active' : '');
+        img.loading = i === 0 ? 'eager' : 'lazy';
+        imgWrap.appendChild(img);
+      });
+
+      setNavVisibility(images.length > 1);
+      updateCounter();
+    }
 
     function goTo(index: number) {
+      const imgs = imgWrap.querySelectorAll('.lb-img');
+      if (!imgs.length) return;
       imgs[current].classList.remove('active');
-      dots[current]?.classList.remove('active');
-      current = index;
+      current = ((index % images.length) + images.length) % images.length;
       imgs[current].classList.add('active');
-      dots[current]?.classList.add('active');
+      updateCounter();
     }
 
-    gallery.closest('.work-card')?.addEventListener('mouseenter', () => {
-      interval = setInterval(() => goTo((current + 1) % imgs.length), 1000);
-    });
-    gallery.closest('.work-card')?.addEventListener('mouseleave', () => {
-      clearInterval(interval);
-      goTo(0);
-    });
-  });
-
-  // ─── Lightbox Setup ──────────────────────────────────────────────────────────
-  const lightbox   = document.getElementById('lightbox')!;
-  const backdrop   = lightbox.querySelector('.lightbox-backdrop')!;
-  const closeBtn   = lightbox.querySelector('.lightbox-close')!;
-  const imgWrap    = document.getElementById('lightbox-img-wrap')!;
-  const prevBtn    = document.getElementById('lb-prev')!;
-  const nextBtn    = document.getElementById('lb-next')!;
-  const counter    = document.getElementById('lightbox-counter')!;
-  const lbCategory = document.getElementById('lb-category')!;
-  const lbClient   = document.getElementById('lb-client')!;
-  const lbDesc     = document.getElementById('lb-description')!;
-  const lbTags     = document.getElementById('lb-tags')!;
-  const lbYear     = document.getElementById('lb-year')!;
-
-  let lbImages: string[] = [];
-  let lbCurrent = 0;
-
-  function openLightbox(card: HTMLElement) {
-    lbImages  = JSON.parse(card.dataset.images || '[]');
-    lbCurrent = 0;
-    lbClient.textContent   = card.dataset.client || '';
-    lbDesc.textContent     = card.dataset.description || '';
-    lbCategory.textContent = card.dataset.category || '';
-    lbYear.textContent     = card.dataset.year || '';
-    const tags: string[] = JSON.parse(card.dataset.tags || '[]');
-    lbTags.innerHTML = tags.map(t => `<span class="work-tag">${t}</span>`).join('');
-    renderLightboxImages();
-    lightbox.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeLightbox() {
-    lightbox.classList.remove('open');
-    document.body.style.overflow = '';
-  }
-
-  // CHANGE: Rewrote to use createElement instead of innerHTML string.
-  // innerHTML string approach set the active class before the DOM existed,
-  // causing images to not show on first open. createElement lets us set
-  // the class directly on the element before appending it.
-  function renderLightboxImages() {
-    if (lbImages.length === 0) {
-      const card = document.querySelector<HTMLElement>(`[data-client="${lbClient.textContent}"]`);
-      const gradient = card?.dataset.gradient || '#111';
-      imgWrap.innerHTML = `<div class="lb-gradient" style="background:${gradient}"></div>`;
-      prevBtn.style.display = 'none';
-      nextBtn.style.display = 'none';
-      counter.textContent = '';
-      return;
+    function open(card: HTMLElement) {
+      images = JSON.parse(card.dataset.images || '[]');
+      current = 0;
+      lbClient.textContent = card.dataset.client ?? '';
+      lbDesc.textContent = card.dataset.description ?? '';
+      lbCategory.textContent = card.dataset.category ?? '';
+      lbYear.textContent = card.dataset.year ?? '';
+      const tags: string[] = JSON.parse(card.dataset.tags || '[]');
+      lbTags.innerHTML = tags.map((t) => `<span class="work-tag">${t}</span>`).join('');
+      renderImages();
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
     }
 
-    imgWrap.innerHTML = '';
-
-    lbImages.forEach((src, i) => {
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = `Project image ${i + 1}`;
-      img.className = 'lb-img' + (i === lbCurrent ? ' active' : '');
-      imgWrap.appendChild(img);
-    });
-
-    const hasMultiple = lbImages.length > 1;
-    // CHANGE: 'flex' not '' — matches display:flex in global CSS for centred arrows
-    prevBtn.style.display = hasMultiple ? 'flex' : 'none';
-    nextBtn.style.display = hasMultiple ? 'flex' : 'none';
-    counter.textContent = hasMultiple ? `${lbCurrent + 1} / ${lbImages.length}` : '';
-  }
-
-  // CHANGE: Added imgs.length guard + fixed negative modulo wrapping.
-  // Old: (index + lbImages.length) % lbImages.length — fails on index = -1 in some engines.
-  // New: double modulo pattern handles all negative values correctly.
-  function lbGoTo(index: number) {
-    const imgs = imgWrap.querySelectorAll<HTMLImageElement>('.lb-img');
-    if (imgs.length === 0) return;
-    imgs[lbCurrent]?.classList.remove('active');
-    lbCurrent = ((index % lbImages.length) + lbImages.length) % lbImages.length;
-    imgs[lbCurrent]?.classList.add('active');
-    counter.textContent = `${lbCurrent + 1} / ${lbImages.length}`;
-  }
-
-  document.querySelectorAll<HTMLButtonElement>('.open-lightbox').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const card = btn.closest<HTMLElement>('.work-card');
-      if (card) openLightbox(card);
-    });
-  });
-
-  closeBtn.addEventListener('click', closeLightbox);
-  backdrop.addEventListener('click', closeLightbox);
-  prevBtn.addEventListener('click', () => lbGoTo(lbCurrent - 1));
-  nextBtn.addEventListener('click', () => lbGoTo(lbCurrent + 1));
-
-  document.addEventListener('keydown', (e) => {
-    if (!lightbox.classList.contains('open')) return;
-    if (e.key === 'Escape')     closeLightbox();
-    if (e.key === 'ArrowRight') lbGoTo(lbCurrent + 1);
-    if (e.key === 'ArrowLeft')  lbGoTo(lbCurrent - 1);
-  });
-
-  // CHANGE: Added swipe support — previously no mobile swipe handling existed.
-  // Swipe left = next image, swipe right = previous image. 50px threshold
-  // prevents accidental triggers on small taps.
-  let touchStartX = 0;
-  lightbox.addEventListener('touchstart', (e) => {
-    touchStartX = e.touches[0].clientX;
-  }, { passive: true });
-  lightbox.addEventListener('touchend', (e) => {
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) {
-      lbGoTo(diff > 0 ? lbCurrent + 1 : lbCurrent - 1);
+    function close() {
+      lightbox.classList.remove('open');
+      document.body.style.overflow = '';
     }
-  });
+
+    // Trigger buttons
+    document.querySelectorAll<HTMLButtonElement>('.open-lightbox').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const card = btn.closest<HTMLElement>('.work-card');
+        if (card) open(card);
+      });
+    });
+
+    // Close
+    closeBtn.addEventListener('click', close);
+    backdrop.addEventListener('click', close);
+
+    // Navigation
+    prevBtn.addEventListener('click', () => goTo(current - 1));
+    nextBtn.addEventListener('click', () => goTo(current + 1));
+
+    // Keyboard
+    document.addEventListener('keydown', (e) => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape') close();
+      else if (e.key === 'ArrowRight') goTo(current + 1);
+      else if (e.key === 'ArrowLeft') goTo(current - 1);
+    });
+
+    // Touch swipe
+    let touchStartX = 0;
+    lightbox.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    lightbox.addEventListener('touchend', (e) => {
+      const diff = touchStartX - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 50) goTo(diff > 0 ? current + 1 : current - 1);
+    });
+  }
+
+  // ─── Boot ────────────────────────────────────────────────────────────────────
+  initFilter();
+  initGalleries();
+  initLightbox();
 </script>
-
-<!-- CHANGE: <style> block completely removed.
-     All styles moved to global.css to fix Astro scoping issue where
-     dynamically created elements (via document.createElement) never
-     receive Astro's data-attribute and therefore can't be targeted
-     by scoped component styles. Global CSS has no such restriction. -->
