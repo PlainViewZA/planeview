@@ -220,8 +220,8 @@ a:hover .arrow, button:hover .arrow { transform: translateX(4px); }
 .lb-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; object-position: center; opacity: 0; transition: opacity 0.4s ease; }
 .lb-img.active { opacity: 1; }
 .lb-gradient { position: absolute; inset: 0; }
-.lb-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, 0.15); border: none; color: white; font-size: 1.25rem; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s ease; z-index: 2; }
-.lb-arrow:hover { background: rgba(255, 255, 255, 0.3); }
+.lb-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0, 0, 0, 0.65); border: 1.5px solid rgba(255, 255, 255, 0.2); color: white; font-size: 1.25rem; width: 40px; height: 40px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.2s ease; z-index: 2; }
+.lb-arrow:hover { background: rgba(0, 0, 0, 0.88); }
 .lb-prev { left: 12px; }
 .lb-next { right: 12px; }
 .lightbox-counter { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); color: rgba(255, 255, 255, 0.7); font-size: 0.8rem; background: rgba(0, 0, 0, 0.4); padding: 2px 10px; border-radius: 20px; }
@@ -336,8 +336,8 @@ a:hover .arrow, button:hover .arrow { transform: translateX(4px); }
 }
 
 /* ── Brand Dotted Lines ── */
-.brand-lines { position: absolute; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
-.brand-lines svg { position: absolute; width: 100%; height: 100%; }
+.brand-lines { position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden; }
+.brand-lines svg { width: 100%; height: 100%; }
 
 /* =============================================
    SCROLL REVEALS
@@ -345,23 +345,22 @@ a:hover .arrow, button:hover .arrow { transform: translateX(4px); }
 
 [data-reveal] {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(14px);
   transition:
-    opacity  0.65s cubic-bezier(0.22, 1, 0.36, 1),
-    transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-  will-change: opacity, transform;
+    opacity  0.55s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.55s cubic-bezier(0.22, 1, 0.3, 1);
 }
 
 [data-reveal].revealed { opacity: 1; transform: translateY(0); }
 
-h1[data-reveal], h2[data-reveal] { transform: translateY(32px); }
+h1[data-reveal], h2[data-reveal] { transform: translateY(20px); }
 h1[data-reveal].revealed, h2[data-reveal].revealed { transform: translateY(0); }
 
 .card[data-reveal],
 .work-card[data-reveal],
 .service-card[data-reveal],
 .value-card[data-reveal],
-.info-card[data-reveal] { transform: translateY(20px) scale(0.99); }
+.info-card[data-reveal] { transform: translateY(12px) scale(0.995); }
 
 .card[data-reveal].revealed,
 .work-card[data-reveal].revealed,
