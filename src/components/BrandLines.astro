@@ -1,91 +1,202 @@
 ---
-// BrandLines - Full-page decorative lines, sits behind all content
-// Place this in MainLayout.astro, directly after <Navigation /> 
-// Make sure your nav height CSS variable --nav-height is set (default assumed 85px)
-// and your footer has a known height or you can adjust --footer-height below
+// BrandLines
 ---
 
-<div class="brand-lines" aria-hidden="true">
-  <svg viewBox="0 0 1440 1000" preserveAspectRatio="none" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!--
-      5 paths spread evenly across the full 1000-unit height.
-      Each wave is positioned at roughly 200-unit intervals (200, 350, 500, 650, 800)
-      so they distribute from just below the nav to just above the footer.
-      Paths are kept as gentle waves — same style as original, just spread vertically.
-    -->
-
-    <!-- Path 1 — top of page, blue -->
-    <path
-      d="M0 200 Q 360 140, 720 200 T 1440 200"
-      stroke="#2F6FED"
-      stroke-width="0.5"
-      stroke-dasharray="6 12"
-      opacity="0.12"
-    />
-
-    <!-- Path 2 — upper-middle, black -->
-    <path
-      d="M0 380 Q 480 300, 960 380 T 1440 380"
-      stroke="#111111"
-      stroke-width="0.5"
-      stroke-dasharray="6 12"
-      opacity="0.10"
-    />
-
-    <!-- Path 3 — middle, blue diagonal -->
-    <path
-      d="M100 560 Q 500 380, 900 520 T 1440 360"
-      stroke="#2F6FED"
-      stroke-width="0.5"
-      stroke-dasharray="8 16"
-      opacity="0.08"
-    />
-
-    <!-- Path 4 — lower-middle, black -->
-    <path
-      d="M0 680 Q 480 600, 960 680 T 1440 680"
-      stroke="#111111"
-      stroke-width="0.5"
-      stroke-dasharray="6 12"
-      opacity="0.10"
-    />
-
-    <!-- Path 5 — near bottom, blue -->
-    <path
-      d="M0 840 Q 360 760, 720 840 T 1440 840"
-      stroke="#2F6FED"
-      stroke-width="0.5"
-      stroke-dasharray="6 12"
-      opacity="0.08"
-    />
-  </svg>
-</div>
+<canvas id="brand-lines-canvas" aria-hidden="true"></canvas>
 
 <style>
-  .brand-lines {
+  #brand-lines-canvas {
     position: fixed;
-    /* sit below nav, above footer */
-    top: var(--nav-height, 85px);
-    bottom: var(--footer-height, 120px);
+    top: 0;
     left: 0;
-    right: 0;
+    width: 100vw;
+    height: 100vh;
     pointer-events: none;
-    overflow: hidden;
-    /* behind everything — nav, content, footer */
-    z-index: -1;
+    z-index: 0;
   }
 
-  .brand-lines svg {
-    width: 100%;
-    height: 100%;
-  }
-
-  /* Fade on mobile so lines never compete with stacked content */
   @media (max-width: 768px) {
-    .brand-lines { opacity: 0.55; }
+    #brand-lines-canvas { opacity: 0.55; }
   }
-
   @media (max-width: 480px) {
-    .brand-lines { opacity: 0.35; }
+    #brand-lines-canvas { opacity: 0.35; }
   }
 </style>
+
+<script>
+  const LINES = [
+    { color: '#2F6FED', opacity: 0.15, dashArray: [6, 12], waveAmp: 40 },
+    { color: '#111111', opacity: 0.15, dashArray: [6, 12], waveAmp: 50 },
+    { color: '#2F6FED', opacity: 0.15, dashArray: [6, 12], waveAmp: 35 },
+    { color: '#111111', opacity: 0.15, dashArray: [6, 12], waveAmp: 45 },
+    { color: '#2F6FED', opacity: 0.15, dashArray: [6, 12], waveAmp: 30 },
+  ];
+
+  // Only look at top-level section breaks, not every <p> and <li>
+  const SECTION_SELECTOR = [
+    'main > section',
+    'main > div',
+    'main > article',
+    '[data-section]',
+    '.pricing-section',
+    // fallback: direct children of body if no main
+    'body > section',
+    'body > div > section',
+  ].join(',');
+
+  // Gap between sections needed to place a line (px)
+  const MIN_GAP = 40;
+  // How far from a section edge a line must stay (px)
+  const EDGE_MARGIN = 16;
+
+  function getNavHeight(): number {
+    return parseInt(
+      getComputedStyle(document.documentElement).getPropertyValue('--nav-height')
+    ) || 85;
+  }
+
+  function getSectionGaps(): { y: number; size: number }[] {
+    const navH = getNavHeight();
+    const vh = window.innerHeight;
+
+    let sections = Array.from(document.querySelectorAll(SECTION_SELECTOR));
+
+    // Fallback: if no sections found, treat whole page as one zone and
+    // just use evenly spaced positions
+    if (sections.length === 0) return [];
+
+    // Get viewport-relative bands for each section
+    const bands = sections
+      .map(el => {
+        const r = el.getBoundingClientRect();
+        return { top: r.top, bottom: r.bottom };
+      })
+      .filter(r => r.bottom > navH && r.top < vh)
+      .sort((a, b) => a.top - b.top);
+
+    if (bands.length === 0) return [];
+
+    // Merge overlapping bands
+    const merged: { top: number; bottom: number }[] = [];
+    for (const band of bands) {
+      if (merged.length && band.top <= merged.at(-1)!.bottom) {
+        merged.at(-1)!.bottom = Math.max(merged.at(-1)!.bottom, band.bottom);
+      } else {
+        merged.push({ ...band });
+      }
+    }
+
+    // Find gaps between merged section bands
+    const gaps: { y: number; size: number }[] = [];
+    let cursor = navH;
+
+    for (const band of merged) {
+      const gapSize = band.top - cursor;
+      if (gapSize >= MIN_GAP) {
+        gaps.push({
+          y: cursor + gapSize / 2, // centre of the gap
+          size: gapSize,
+        });
+      }
+      cursor = band.bottom;
+    }
+
+    // Gap after last section to bottom of viewport
+    const trailingGap = vh - cursor;
+    if (trailingGap >= MIN_GAP) {
+      gaps.push({ y: cursor + trailingGap / 2, size: trailingGap });
+    }
+
+    return gaps;
+  }
+
+  function getEvenPositions(count: number): number[] {
+    // Fallback: evenly spread across the viewport below nav
+    const navH = getNavHeight();
+    const vh = window.innerHeight;
+    const usable = vh - navH;
+    return Array.from({ length: count }, (_, i) =>
+      navH + (usable / (count + 1)) * (i + 1)
+    );
+  }
+
+  function drawWave(
+    ctx: CanvasRenderingContext2D,
+    y: number,
+    width: number,
+    amp: number,
+    color: string,
+    opacity: number,
+    dashArray: number[]
+  ) {
+    ctx.save();
+    ctx.globalAlpha = opacity;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = 0.5;
+    ctx.setLineDash(dashArray);
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.quadraticCurveTo(width * 0.25, y - amp, width * 0.5, y);
+    ctx.quadraticCurveTo(width * 0.75, y + amp, width, y);
+    ctx.stroke();
+    ctx.restore();
+  }
+
+  function render() {
+    const canvas = document.getElementById('brand-lines-canvas') as HTMLCanvasElement;
+    if (!canvas) return;
+
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+
+    canvas.setAttribute('width',  String(Math.round(W * devicePixelRatio)));
+    canvas.setAttribute('height', String(Math.round(H * devicePixelRatio)));
+
+    const ctx = canvas.getContext('2d')!;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+    ctx.clearRect(0, 0, W, H);
+
+    const gaps = getSectionGaps();
+
+    let yPositions: number[];
+
+    if (gaps.length >= LINES.length) {
+      // Enough gaps — place one line per gap (first N gaps)
+      yPositions = gaps.slice(0, LINES.length).map(g => g.y);
+    } else if (gaps.length > 0) {
+      // Fewer gaps than lines — distribute lines across available gaps
+      yPositions = LINES.map((_, i) => {
+        const gap = gaps[i % gaps.length];
+        const offset = (i < gaps.length ? 0 : (i % 3 - 1) * (gap.size * 0.2));
+        return gap.y + offset;
+      });
+    } else {
+      // No gaps found — fall back to even distribution
+      yPositions = getEvenPositions(LINES.length);
+    }
+
+    yPositions.forEach((y, i) => {
+      const line = LINES[i];
+      drawWave(ctx, y, W, line.waveAmp, line.color, line.opacity, line.dashArray);
+    });
+  }
+
+  let rafId: number;
+  function scheduleRender() {
+    cancelAnimationFrame(rafId);
+    rafId = requestAnimationFrame(render);
+  }
+
+  const ro = new ResizeObserver(scheduleRender);
+  ro.observe(document.body);
+
+  window.addEventListener('scroll', scheduleRender, { passive: true });
+  window.addEventListener('resize', scheduleRender, { passive: true });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', render);
+  } else {
+    render();
+  }
+  window.addEventListener('load', render);
+</script>
