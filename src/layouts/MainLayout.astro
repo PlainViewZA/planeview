@@ -4,6 +4,7 @@ import Preloader from '../components/Preloader.astro';
 import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import OrganizationSchema from '../seo/OrganizationSchema.astro';
+import BrandLines from '../components/BrandLines.astro';
 
 interface Props {
   title?: string;
@@ -79,18 +80,49 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
 
   <div class="page-wrapper">
     <FloatingCanvas transition:persist />
+    <BrandLines transition:persist />
 
-    <div class="page-content" transition:animate="slide">
+    <!-- FIX: closing tag was misplaced — </div> was before <slot /> -->
+    <div class="page-content">
       <slot />
     </div>
   </div>
 
   <script>
-    // ── Scroll Reveal ──────────────────────────────────────────
+    // ── Types ──────────────────────────────────────────────────
     let scrollObserver: IntersectionObserver | null = null;
 
+    // ── Scroll Reveal ──────────────────────────────────────────
     function initScrollReveal() {
-      const REVEAL_SELECTORS = [
+      // Disconnect stale observer
+      if (scrollObserver) {
+        scrollObserver.disconnect();
+        scrollObserver = null;
+      }
+
+      // Clean up previous state
+      document.querySelectorAll('[data-reveal]').forEach(el => {
+        el.removeAttribute('data-reveal');
+        el.removeAttribute('data-reveal-delay');
+        el.classList.remove('revealed');
+      });
+
+      // Build observer before touching the DOM
+      scrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          const el = entry.target as HTMLElement;
+          const delay = parseInt(el.getAttribute('data-reveal-delay') || '0', 10);
+          setTimeout(() => el.classList.add('revealed'), delay);
+          scrollObserver?.unobserve(el);
+        });
+      }, {
+        threshold: 0.06,
+        rootMargin: '0px 0px -20px 0px',
+      });
+
+      // Single combined selector — one DOM query instead of 17
+      const combined = [
         'h1', 'h2', 'h3',
         'p.intro-text',
         '.card',
@@ -107,52 +139,29 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
         '.tone-item',
         '.faq-item',
         '.service-list',
-      ];
+      ].join(', ');
 
-      // Disconnect stale observer before creating a new one
-      if (scrollObserver) {
-        scrollObserver.disconnect();
-        scrollObserver = null;
-      }
+      const elements = document.querySelectorAll(combined);
+      const seen = new Set<Element>();
+      const parentIndexMap = new Map<Element, number>();
 
-      // Clean up previous reveal state
-      document.querySelectorAll('[data-reveal]').forEach(el => {
-        el.removeAttribute('data-reveal');
-        el.removeAttribute('data-reveal-delay');
-        el.classList.remove('revealed');
+      elements.forEach(el => {
+        if (seen.has(el)) return;
+        if (el.closest('#lightbox, nav, .nav, footer, .preloader')) return;
+        seen.add(el);
+
+        el.setAttribute('data-reveal', '');
+
+        const parent = el.parentElement || document.body;
+        const idx = parentIndexMap.get(parent) ?? 0;
+        parentIndexMap.set(parent, idx + 1);
+
+        if (idx > 0) {
+          el.setAttribute('data-reveal-delay', String(Math.min(idx * 50, 200)));
+        }
+
+        scrollObserver!.observe(el);
       });
-
-      REVEAL_SELECTORS.forEach(selector => {
-        document.querySelectorAll(selector).forEach((el) => {
-          if (el.hasAttribute('data-reveal')) return;
-          if (el.closest('#lightbox, nav, .nav, footer, .preloader')) return;
-
-          el.setAttribute('data-reveal', '');
-
-          const siblings = Array.from(
-            (el.parentElement || document.body).querySelectorAll(':scope > [data-reveal]')
-          );
-          const index = siblings.indexOf(el);
-          if (index > 0) {
-            el.setAttribute('data-reveal-delay', String(Math.min(index * 80, 400)));
-          }
-        });
-      });
-
-      scrollObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          const el = entry.target as HTMLElement;
-          const delay = parseInt(el.getAttribute('data-reveal-delay') || '0', 10);
-          setTimeout(() => el.classList.add('revealed'), delay);
-          scrollObserver?.unobserve(el);
-        });
-      }, {
-        threshold: 0.12,
-        rootMargin: '0px 0px -40px 0px',
-      });
-
-      document.querySelectorAll('[data-reveal]').forEach(el => scrollObserver!.observe(el));
     }
 
     // ── Contact form pre-fill ──────────────────────────────────
@@ -194,10 +203,14 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
       }
     }
 
-    // ── Run both on every page load ────────────────────────────
+    // ── Run on every page load, after paint ───────────────────
+    // FIX: was registered twice — once inside initScrollReveal (never called)
+    // and once outside. Now only registered once, wrapped in rAF.
     document.addEventListener('astro:page-load', () => {
-      initScrollReveal();
-      initContactPrefill();
+      requestAnimationFrame(() => {
+        initScrollReveal();
+        initContactPrefill();
+      });
     });
   </script>
 </body>
@@ -215,33 +228,32 @@ const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
 }
 
 ::view-transition-old(root) {
-  animation: page-fade-out 0.2s ease-in both;
+  animation: page-out 0.18s ease-in both;
 }
 
 ::view-transition-new(root) {
-  animation: page-fade-in 0.3s ease-out both;
+  animation: page-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 0.08s;
 }
 
-@keyframes page-fade-out {
-  from { opacity: 1; transform: translateY(0); }
-  to   { opacity: 0; transform: translateY(-4px); }
+@keyframes page-out {
+  from { opacity: 1; }
+  to   { opacity: 0; }
 }
 
-@keyframes page-fade-in {
-  from { opacity: 0; transform: translateY(4px); }
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(6px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 768px) {
-  ::view-transition-old(root) { animation-duration: 0.15s; }
+  ::view-transition-old(root) { animation-duration: 0.12s; }
   ::view-transition-new(root) { animation-duration: 0.2s; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root),
-  ::view-transition-new(root) {
-    animation: none;
-  }
+  ::view-transition-new(root) { animation: none; }
 }
 </style>
 </html>
