@@ -9,11 +9,11 @@ import Footer from '../../components/Footer.astro';
 
 const project = {
   metaTitle: "Chemcrete Case Study | Plane View Collective",
-  metaDescription: "How we built a complete digital presence for a 35-year-old Cape Town concrete specialist — brand identity, website design, and digital strategy.",
+  metaDescription: "How we built a complete digital presence for a 35 year old Cape Town concrete specialist through brand identity, website design, and digital strategy.",
 
   tags: ["Web Design", "Branding", "Digital Strategy"],
   title: "Chemcrete",
-  tagline: "Building a digital foundation for a 35-year-old concrete specialist — complete brand identity, website, and market positioning from the ground up.",
+  tagline: "Creating a strong digital foundation for a 35 year old concrete specialist through a complete brand identity, website, and clear market positioning.",
 
   client: "Chemcrete",
   industry: "Construction & Civil Engineering",
@@ -26,15 +26,15 @@ const project = {
 
   challengeHeading: "A 35-year legacy, invisible online.",
   challenge: [
-    "Chemcrete has been supplying the Cape Town construction and civil engineering sectors with SABS-compliant concrete products for over three decades. The quality of their work speaks for itself on job sites across the Western Cape — but online, they simply didn't exist.",
-    "No website. No cohesive brand. No way for potential clients to verify who they were or what they stood for. In an industry where trust and credibility are everything, this was a significant commercial liability.",
+    "Chemcrete has been supplying the Cape Town construction and civil engineering industry with SABS compliant concrete products for over three decades. Their reputation on site is solid and trusted across the Western Cape, but online they were completely invisible.",
+    "They had no website, no clear brand, and no way for potential clients to verify who they were or what they offered. In an industry built on trust and credibility, this was holding them back more than they realised.",
   ],
 
   approachHeading: "Industrial strength. Refined presentation.",
   approach: [
-    "We began with a brand audit and stakeholder conversations to understand how Chemcrete sees itself — and how its best clients describe them. Two words emerged consistently: reliable and no-nonsense.",
-    "The strategy was not to reinvent the company, but to finally express it properly. The brand direction drew on industrial visual language — honest materials, strong structure, confident typography — while avoiding the clichés of construction marketing.",
-    "The website was structured to prioritise credibility, product clarity, and fast decision-making for contractors, specifiers, and civil engineering clients.",
+    "We started by understanding the business from the inside out. Through conversations with the team and key stakeholders, we explored how Chemcrete sees itself and how clients describe it. Two qualities stood out immediately: reliability and simplicity.",
+    "Instead of changing who they are, the goal was to express it properly for the first time. The visual direction took inspiration from industrial environments, using honest materials, strong structure, and confident typography while avoiding the usual construction clichés.",
+    "The website was designed to help contractors and engineers quickly understand the product range, trust the business, and take action without friction",
   ],
 
   deliverables: [
@@ -42,26 +42,26 @@ const project = {
       number: "01",
       service: "Brand Identity",
       heading: "A visual identity built on strength and trust",
-      description: "We developed a brand system rooted in industrial confidence — logo suite, colour palette, typography system, and brand guidelines designed to feel established, robust, and credible.",
+      description: "We created a brand system that feels established and dependable. This included a logo suite, colour palette, typography, and clear brand guidelines designed to communicate confidence and credibility.",
     },
     {
       number: "02",
       service: "Website Design & Build",
       heading: "A site built for credibility and product clarity",
-      description: "The website was designed to help contractors and specifiers understand the product range quickly, verify the company's legitimacy, and make contact with ease.",
+      description: "The site was built to make it easy for contractors and engineers to explore products, confirm the company’s legitimacy, and get in touch without hesitation.",
     },
     {
       number: "03",
       service: "Collateral & Application",
       heading: "A brand that carries across every touchpoint",
-      description: "We extended the system into physical and digital collateral including business cards, signage, and branded applications to ensure consistency wherever Chemcrete appears.",
+      description: "We extended the identity across both physical and digital touchpoints, including business cards, signage, and branded materials to ensure consistency in every interaction",
     },
   ],
 
   resultHeading: "A 35-year business, finally positioned to grow.",
   result: [
-    "Chemcrete now has a digital and brand presence that reflects the quality and experience they've built over three decades. Contractors and civil engineers can find them, understand their offering, and make contact — all within seconds.",
-    "The new identity distinguishes them sharply from competitors. The oxblood palette and industrial typographic system communicate authority and longevity without saying a word.",
+    "Chemcrete now has a digital presence that finally reflects the quality and experience they have built over 35 years. Potential clients can easily find them, understand what they offer, and reach out within moments",
+    "The new identity sets them apart clearly from competitors. The deep red colour palette and strong typography communicate authority and experience without needing to say it directly.",
   ],
 
   stats: [
@@ -77,6 +77,10 @@ const project = {
 ---
 <MainLayout title={project.metaTitle} description={project.metaDescription}>
   <Navigation />
+
+   <!-- ═══════════════════════════════════════════
+       1. HERO — Case Study Intro
+  ═══════════════════════════════════════════ -->
 
   <section class="cs-hero">
     <div class="container">
@@ -372,15 +376,15 @@ const project = {
             <div class="approach-pillars">
               <div class="pillar">
                 <span class="pillar-label">Brand Direction</span>
-                <p>Industrial honesty. Strong but approachable. Built to last, not built to trend.</p>
+                <p>Honest and industrial. Strong, but still approachable. Built to last, not just to follow trends.</p>
               </div>
               <div class="pillar">
                 <span class="pillar-label">Colour Strategy</span>
-                <p>Oxblood as the primary — commanding, established, distinctive in a sea of orange and yellow competitors.</p>
+                <p>A deep oxblood tone leads the palette, giving the brand a sense of authority and experience while standing apart from the typical orange and yellow seen across competitors.</p>
               </div>
               <div class="pillar">
                 <span class="pillar-label">Digital Strategy</span>
-                <p>A lean, fast website focused on credibility, product clarity, and making it easy for specifiers and contractors to enquire.</p>
+                <p>A clean, fast website designed around trust, clear product information, and making it simple for contractors and specifiers to get in touch.</p>
               </div>
             </div>
           </div>
@@ -393,11 +397,11 @@ const project = {
             <span class="chapter-title">The Execution</span>
           </div>
           <h3 class="chapter-heading">
-            Built from the ground up.<br />Every touchpoint considered.
+            Built from the ground up.<br />EEvery detail carefully considered..
           </h3>
           <div class="chapter-content">
             <p>
-              We delivered a complete brand system and digital presence in a single focused engagement. The work spanned identity, digital, and physical touchpoints — giving Chemcrete a coherent presence wherever a client might encounter them.
+              We delivered a complete brand system and digital presence through one focused project. The work covered identity, digital, and physical touchpoints, creating a consistent and professional presence wherever clients interact with Chemcrete.
             </p>
             <div class="execution-deliverables">
               {project.deliverables.map((d) => (
@@ -528,6 +532,27 @@ const project = {
     padding-bottom: 4rem;
   }
 
+  .cs-hero-left { display: flex; flex-direction: column; }
+
+  .cs-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+
+  .cs-tag {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    padding: 4px 14px;
+    border-radius: 9999px;
+    border: 1.5px solid #7c0000;
+    color: #480000;;
+  }
+
+
   .cs-hero-left {
     display: flex;
     flex-direction: column;
@@ -566,6 +591,8 @@ const project = {
     flex-direction: column;
     gap: 0.375rem;
   }
+
+  .meta-item { display: flex; flex-direction: column; gap: 0.375rem; }
 
   .meta-label {
     font-family: 'Open Sans', sans-serif;
