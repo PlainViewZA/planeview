@@ -1,9 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import Navigation from '../components/Navbar.astro';
 import Hero from '../components/Hero.astro';
-import Footer from '../components/Footer.astro';
-import BrandLines from '../components/BrandLines.astro';
 ---
 
 <MainLayout 
@@ -11,62 +8,60 @@ import BrandLines from '../components/BrandLines.astro';
   description="We help brands get noticed, understood, and remembered through strategic clarity and creative execution."
 >
 
-
-<Fragment slot="head">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "MarketingAgency",
-    "name": "Plane View Collective",
-    "url": "https://www.planeview.co.za",
-    "logo": "https://www.planeview.co.za/logo/Plane View Collective Logos-01.pngg",
-    "image": "https://www.planeview.co.za/logo/Plane View Collective Logos-01.png",
-    "description": "Cape Town-based marketing, design, and digital agency helping brands get noticed, understood, and remembered.",
-    "telephone": "+27-83-966-9392",
-    "email": "info@planeview.co.za",
-    "address": {
-      "@type": "PostalAddress",
-      "addressLocality": "Cape Town",
-      "addressRegion": "Western Cape",
-      "addressCountry": "ZA"
-    },
-    "geo": {
-      "@type": "GeoCoordinates",
-      "latitude": -33.9249,
-      "longitude": 18.4241
-    },
-    "openingHoursSpecification": [
-      {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-        "opens": "08:00",
-        "closes": "17:00"
+  <Fragment slot="head">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "MarketingAgency",
+      "name": "Plane View Collective",
+      "url": "https://www.planeview.co.za",
+      "logo": "https://www.planeview.co.za/logo/Plane View Collective Logos-01.png",
+      "image": "https://www.planeview.co.za/logo/Plane View Collective Logos-01.png",
+      "description": "Cape Town-based marketing, design, and digital agency helping brands get noticed, understood, and remembered.",
+      "telephone": "+27-83-966-9392",
+      "email": "info@planeview.co.za",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Cape Town",
+        "addressRegion": "Western Cape",
+        "addressCountry": "ZA"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -33.9249,
+        "longitude": 18.4241
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "08:00",
+          "closes": "17:00"
+        }
+      ],
+      "areaServed": {
+        "@type": "City",
+        "name": "Cape Town"
+      },
+      "sameAs": [
+        "https://www.instagram.com/plane_view_collective?igsh=MWtrODJ6M2lsMGptOA%3D%3D&utm_source=qr",
+        "https://www.linkedin.com/company/planeviewco/",
+        "https://www.facebook.com/share/1AQg4ankHx/?mibextid=wwXIfr",
+        "https://youtube.com/@planeviewcollective?si=nH-wXaomeGrJp3ZU"
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Services",
+        "itemListElement": [
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Brand Strategy" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Website Design" } },
+          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Digital Marketing" } }
+        ]
       }
-    ],
-    "areaServed": {
-      "@type": "City",
-      "name": "Cape Town"
-    },
-    "sameAs": [
-      "https://www.instagram.com/plane_view_collective?igsh=MWtrODJ6M2lsMGptOA%3D%3D&utm_source=qr",
-      "https://www.linkedin.com/company/planeviewco/",
-      "https://www.facebook.com/share/1AQg4ankHx/?mibextid=wwXIfr",
-      "https://youtube.com/@planeviewcollective?si=nH-wXaomeGrJp3ZU"
-    ],
-    "hasOfferCatalog": {
-      "@type": "OfferCatalog",
-      "name": "Services",
-      "itemListElement": [
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Brand Strategy" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Website Design" } },
-        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Digital Marketing" } }
-      ]
     }
-  }
-  </script>
-</Fragment>
-  <Navigation />
-  <BrandLines />
+    </script>
+  </Fragment>
+
   <Hero />
 
   <!-- Services Section -->
@@ -74,13 +69,20 @@ import BrandLines from '../components/BrandLines.astro';
     <div class="container">
       <div class="section-header">
         <h2>What We Do</h2>
-        <p class="lead">We remove confusion and help brands stand out naturally.</p>
+        <p>
+          We remove confusion through strategic
+          <a href="/services/">brand strategy services</a>
+          and help brands stand out through results driven
+          <a href="/work/">digital marketing campaigns</a>.
+        </p>
       </div>
 
       <div class="grid grid-3">
-        <article class="card">
+
+        <!-- Card 1: Brand Strategy — links to case study -->
+        <a href="/work/unexpected-opportunities" class="card">
           <div class="card-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -88,29 +90,32 @@ import BrandLines from '../components/BrandLines.astro';
           </div>
           <h3>Brand Strategy</h3>
           <p>Clear direction and positioning that resonates with real people.</p>
-        </article>
+        </a>
 
-        <article class="card">
+        <!-- Card 2: Website Design — links to case study -->
+        <a href="/work/chemcrete" class="card">
           <div class="card-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
               <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
               <path d="M9 3V21" stroke="currentColor" stroke-width="2"/>
             </svg>
           </div>
           <h3>Website Design</h3>
-          <p>Performance-first design with clear hierarchy and strong CTAs.</p>
-        </article>
+          <p>Performance first design with clear hierarchy and strong CTAs.</p>
+        </a>
 
-        <article class="card">
-          <div class="card-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M21 11.5C21 16.75 16.75 21 11.5 21C6.25 21 2 16.75 2 11.5C2 6.25 6.25 2 11.5 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M22 2L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <h3>Digital Marketing</h3>
-          <p>Campaigns that turn attention into action.</p>
-        </article>
+       <!-- Card 3: Digital Marketing — links to work page -->
+       <a href="/work" class="card">
+         <div class="card-icon">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M21 11.5C21 16.75 16.75 21 11.5 21C6.25 21 2 16.75 2 11.5C2 6.25 6.25 2 11.5 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      <path d="M22 2L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+       </svg>
+       </div>
+       <h3>Digital Marketing</h3>
+       <p>Campaigns that turn attention into action.</p>
+     </a>
+
       </div>
     </div>
   </section>
@@ -157,22 +162,18 @@ import BrandLines from '../components/BrandLines.astro';
           <h4>Clarity</h4>
           <p>We remove confusion</p>
         </div>
-        
         <div class="pillar-item">
           <h4>Attention</h4>
           <p>We help brands stand out naturally</p>
         </div>
-        
         <div class="pillar-item">
           <h4>Connection</h4>
           <p>People connect with people, not logos</p>
         </div>
-        
         <div class="pillar-item">
           <h4>Creativity</h4>
           <p>Design that actually serves a purpose</p>
         </div>
-        
         <div class="pillar-item">
           <h4>Execution</h4>
           <p>Ideas are useless if they don't ship</p>
@@ -181,21 +182,44 @@ import BrandLines from '../components/BrandLines.astro';
     </div>
   </section>
 
-  <!-- CTA Section -->
-  <section class="section section-sm">
+  <!-- Explore More Section -->
+  <section class="section">
     <div class="container">
-      <div class="cta-box">
-        <h2>Ready to make your brand clearer?</h2>
-        <p>Let's talk about your project.</p>
-        <a href="/contact" class="btn btn-primary btn-lg">
-          Get in Touch
-          <span class="arrow">→</span>
+      <h2>Explore More</h2>
+      <div class="grid grid-3">
+
+        <a href="/about" class="card">
+          <h3>About Us</h3>
+          <p>Learn how we think and work.</p>
         </a>
+
+        <a href="/work" class="card">
+          <h3>Our Work</h3>
+          <p>See how we've helped brands grow.</p>
+        </a>
+
+        <a href="/pricing" class="card">
+          <h3>Pricing</h3>
+          <p>Clear, simple pricing structures.</p>
+        </a>
+
       </div>
     </div>
   </section>
 
-  <Footer />
+  <!-- CTA Section -->
+  <section class="section section-sm">
+    <div class="container">
+      <div class="cta-box">
+        <p>
+          Ready to get started?
+          <a href="/contact">Get in touch</a>
+          or explore our <a href="/pricing">pricing</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
 </MainLayout>
 
 <style>
@@ -219,6 +243,28 @@ import BrandLines from '../components/BrandLines.astro';
     justify-content: center;
     margin-bottom: var(--spacing-md);
     color: var(--color-steel-blue);
+  }
+
+  /*
+   * Makes the entire card feel interactive.
+   * The .card styles likely already exist in your global CSS,
+   * but these overrides ensure linked cards behave correctly.
+   */
+  a.card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  a.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+  }
+
+  a.card:focus-visible {
+    outline: 2px solid var(--color-steel-blue);
+    outline-offset: 4px;
   }
 
   .work-process {
@@ -273,10 +319,6 @@ import BrandLines from '../components/BrandLines.astro';
     gap: var(--spacing-md);
   }
 
-  .cta-box h2 {
-    margin: 0;
-  }
-
   .cta-box p {
     font-size: 1.125rem;
     color: var(--color-slate-grey);
@@ -288,7 +330,6 @@ import BrandLines from '../components/BrandLines.astro';
     font-size: 1.125rem;
   }
 
-  /* Mobile Responsive Styles */
   @media (max-width: 768px) {
     .section-header {
       margin-bottom: var(--spacing-xl);
@@ -319,10 +360,6 @@ import BrandLines from '../components/BrandLines.astro';
       padding: var(--spacing-2xl) var(--spacing-lg);
     }
 
-    .cta-box h2 {
-      font-size: 1.75rem;
-    }
-
     .cta-box p {
       font-size: 1rem;
     }
@@ -333,7 +370,6 @@ import BrandLines from '../components/BrandLines.astro';
     }
   }
 
-  /* Tablet Responsive Styles */
   @media (min-width: 769px) and (max-width: 1024px) {
     .work-process {
       grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -345,7 +381,6 @@ import BrandLines from '../components/BrandLines.astro';
     }
   }
 
-  /* Small mobile adjustments */
   @media (max-width: 480px) {
     .section-header h2 {
       font-size: 2rem;
