@@ -1,6 +1,8 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
 import Hero from '../components/Hero.astro';
+import Navbar from '../components/Navbar.astro';
+
 ---
 
 <MainLayout 
@@ -61,7 +63,7 @@ import Hero from '../components/Hero.astro';
     }
     </script>
   </Fragment>
-
+ <Navbar />
   <Hero />
 
   <!-- Services Section -->
@@ -219,7 +221,6 @@ import Hero from '../components/Hero.astro';
       </div>
     </div>
   </section>
-
 </MainLayout>
 
 <style>
