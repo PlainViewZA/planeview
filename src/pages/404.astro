@@ -1,0 +1,39 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import Navigation from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<MainLayout title="Page not found | Plane View Collective">
+  <Navigation />
+
+  <section class="section">
+    <div class="container container-narrow" style="text-align:center;">
+
+      <h1>Page not found.</h1>
+
+      <p style="color:var(--color-slate-grey); margin-top:1rem;">
+        The page you're looking for doesn’t exist, or may have been moved.
+      </p>
+
+      <div style="margin-top:2rem; display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+        <a href="/" class="btn btn-primary">Back to Home</a>
+        <a href="/pricing" class="btn btn-secondary">View Services</a>
+        <a href="/contact" class="btn btn-secondary">Start a Project</a>
+      </div>
+
+      <div style="margin-top:3rem; font-size:0.9rem; color:var(--color-slate-grey);">
+        <p>Or explore:</p>
+        <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap;">
+          <a href="/services">Websites</a>
+          <a href="/services">Social Media</a>
+          <a href="/services">SEO</a>
+          <a href="/contact">Contact</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <Footer />
+</MainLayout>

@@ -2,7 +2,7 @@ export const businessInfo = {
   name: "Plane View Collective",
   legalName: "Plane View Collective",
   url: "https://www.planeview.co.za",
-  logo: "/logo/Plane View Collective Logos-02.png",
+  logo: "/logo/Pvc.png",
   email: "info@planeview.co.za",
   description: "Cape Town-based marketing, design, and digital agency. We help brands get noticed, understood, and remembered through clear strategy and creative execution.",
   slogan: "Clarity, created with people in mind.",
