@@ -1,0 +1,165 @@
+---
+import PostCard from './PostCard.astro';
+
+const { posts = [] } = Astro.props;
+const [p1, p2, p3, p4, p5, ...overflow] = posts;
+---
+
+{posts.length > 0 && (
+  <>
+    {(p1 || p2 || p3 || p4 || p5) && (
+      <div class="bento insights-bento" aria-label="Featured insights">
+        {p1 && <div class="cell c1"><PostCard post={p1} /></div>}
+        {p2 && <div class="cell c2"><PostCard post={p2} /></div>}
+        {p3 && <div class="cell c3"><PostCard post={p3} /></div>}
+        {p4 && <div class="cell c4"><PostCard post={p4} /></div>}
+        {p5 && <div class="cell c5"><PostCard post={p5} /></div>}
+      </div>
+    )}
+
+    {overflow.length > 0 && (
+      <div class="overflow insights-overflow" aria-label="More insights">
+        {overflow.map((post) => (
+          <div class="overflow-cell">
+            <PostCard post={post} />
+          </div>
+        ))}
+      </div>
+    )}
+  </>
+)}
+
+<style>
+  .insights-bento,
+  .insights-overflow {
+    width: 100%;
+  }
+
+  .cell,
+  .overflow-cell {
+    position: relative;
+    overflow: hidden;
+    border-radius: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    background: #111111;
+    min-width: 0;
+  }
+
+  .cell :global(.insight-card),
+  .overflow-cell :global(.insight-card) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .cell :global(.card-img),
+  .overflow-cell :global(.card-img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Desktop */
+  .insights-bento {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-rows: 320px 280px;
+    grid-template-areas:
+      "c1 c1 c2 c2"
+      "c3 c4 c5 c5";
+    gap: 1rem;
+  }
+
+  .c1 { grid-area: c1; }
+  .c2 { grid-area: c2; }
+  .c3 { grid-area: c3; }
+  .c4 { grid-area: c4; }
+  .c5 { grid-area: c5; }
+
+  .insights-overflow {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .overflow-cell {
+    aspect-ratio: 4 / 3;
+  }
+
+  /* Tablet */
+  @media (max-width: 900px) {
+    .insights-bento {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: none;
+      grid-template-areas: none;
+    }
+
+    .c1,
+    .c2,
+    .c3,
+    .c4,
+    .c5 {
+      grid-area: auto;
+    }
+
+    .cell,
+    .overflow-cell {
+      aspect-ratio: 16 / 10;
+    }
+
+    .insights-overflow {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Mobile */
+  @media (max-width: 640px) {
+    .insights-bento,
+    .insights-overflow {
+      display: flex !important;
+      flex-direction: column !important;
+      gap: 1rem !important;
+      width: 100% !important;
+      grid-template-columns: none !important;
+      grid-template-rows: none !important;
+      grid-template-areas: none !important;
+    }
+
+    .insights-overflow {
+      margin-top: 1rem !important;
+    }
+
+    .cell,
+    .overflow-cell {
+      width: 100% !important;
+      height: auto !important;
+      min-height: 240px !important;
+      aspect-ratio: 4 / 3 !important;
+      grid-area: auto !important;
+      grid-column: auto !important;
+      grid-row: auto !important;
+      border-radius: 1.25rem;
+    }
+
+    .cell :global(.insight-card),
+    .overflow-cell :global(.insight-card) {
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .cell :global(.card-img),
+    .overflow-cell :global(.card-img) {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+    }
+  }
+
+  @media (max-width: 420px) {
+    .cell,
+    .overflow-cell {
+      min-height: 220px !important;
+      aspect-ratio: 3 / 2 !important;
+    }
+  }
+</style>

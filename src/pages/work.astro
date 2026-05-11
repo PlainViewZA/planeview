@@ -1,7 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import Navigation from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
+
 
 const projects = [
   {
@@ -71,7 +70,7 @@ const LIGHT_ACCENTS = new Set(['#e8d44d', '#f5c400']);
   title="Work | Plane View Collective"
   description="See how we help brands get noticed, understood, and remembered through strategic clarity and creative execution."
 >
-  <Navigation />
+ 
 
   <!-- Hero -->
   <section class="section page-hero">
@@ -101,7 +100,7 @@ const LIGHT_ACCENTS = new Set(['#e8d44d', '#f5c400']);
       <div class="work-grid">
         {projects.map((project) => (
           <article
-            class="work-card"
+            class="work-card spotlight-card"
             data-category={project.category}
             data-client={project.client}
             data-description={project.description}
@@ -140,7 +139,7 @@ const LIGHT_ACCENTS = new Set(['#e8d44d', '#f5c400']);
               <div class="work-meta">
                 <span
                   class="work-category"
-                  style={`color: ${['#e8d44d', '#f5c400'].includes(project.accentColor) ? '#6B6B6B' : project.accentColor}`}
+                  style={`color: ${['#e8d44d', '#f5c400'].includes(project.accentColor) ? 'var(--text-muted)' : project.accentColor}`}
                 >
                   {project.category}
                 </span>
@@ -187,7 +186,7 @@ const LIGHT_ACCENTS = new Set(['#e8d44d', '#f5c400']);
   </section>
   */}
 
-  </section>
+  
 
   <!-- Lightbox -->
   <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Project viewer">
@@ -212,15 +211,15 @@ const LIGHT_ACCENTS = new Set(['#e8d44d', '#f5c400']);
     </div>
   </div>
 
-  <Footer />
+
 </MainLayout>
 
 <style>
-  /* Dark button override — applied globally so JS-created elements also inherit */
+  /* Global override for JS-created lightbox link elements */
   :global(.work-link--dark) {
-    background-color: #111111;
-    color: #ffffff !important;
-    border-color: #111111;
+    background-color: var(--bg-card);
+    color: var(--text-primary) !important;
+    border: 1px solid var(--border-subtle);
     padding: 0.55rem 1.1rem;
     border-radius: 4px;
     display: inline-flex;
@@ -230,11 +229,11 @@ const LIGHT_ACCENTS = new Set(['#e8d44d', '#f5c400']);
     text-decoration: none;
     transition: background 0.2s ease, transform 0.15s ease;
     cursor: pointer;
-    border: none;
   }
 
   :global(.work-link--dark:hover) {
-    background-color: #2a2a2a;
+    background-color: var(--bg-card-hover);
+    border-color: var(--border-medium);
     transform: translateY(-1px);
   }
 </style>

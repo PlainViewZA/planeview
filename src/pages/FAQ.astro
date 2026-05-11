@@ -1,8 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import Navigation from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
-import BrandLines from '../components/BrandLines.astro';
+
 
 
 
@@ -105,8 +103,8 @@ const categories = [
 ---
 
 <MainLayout title={page.metaTitle} description={page.metaDescription}>
-  <Navigation />
-  <BrandLines />
+
+ 
 
   <!-- Hero -->
   <section class="section page-hero">
@@ -184,7 +182,6 @@ const categories = [
     </div>
   </section>
 
-  <Footer />
 </MainLayout>
 
 <style>

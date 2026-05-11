@@ -8,12 +8,12 @@
   "theme_color": "#111111",
   "icons": [
     {
-      "src": "/logo/plane-view-logo.png",
+      "src": "/logo/Pvc.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/logo/plane-view-logo.png",
+      "src": "public/logo/Pvc.png",
       "sizes": "512x512",
       "type": "image/png"
     }

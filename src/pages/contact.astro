@@ -1,16 +1,15 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import Navigation from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
-import BrandLines from '../components/BrandLines.astro';
+
+
 ---
 
 <MainLayout 
   title="Contact | Plane View Collective"
   description="Get in touch to discuss your project. Let's create something clear and impactful together."
 >
-<Navigation />
- <BrandLines />
+
+
 
   <!-- Hero Section -->
   <!-- FIX: Replaced .contact-hero with .page-hero from global.css -->
@@ -171,19 +170,10 @@ import BrandLines from '../components/BrandLines.astro';
     </div>
   </section>
 
-  <Footer />
+
 </MainLayout>
 
 <style>
-  /* FIX: .contact-hero removed entirely — using .page-hero from global.css instead */
-
-  .intro-text {
-    font-size: 1.375rem;
-    line-height: 1.6;
-    color: var(--color-slate-grey);
-    margin-bottom: 0;
-  }
-
   .contact-section {
     padding-top: var(--spacing-lg);
   }
@@ -217,10 +207,11 @@ import BrandLines from '../components/BrandLines.astro';
     .contact-grid { grid-template-columns: 1fr; }
   }
 
+  /* Form container — dark card */
   .form-container {
     padding: var(--spacing-2xl);
-    background-color: var(--color-pure-white);
-    border: 1px solid rgba(17, 17, 17, 0.1);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
   }
 
@@ -239,7 +230,7 @@ import BrandLines from '../components/BrandLines.astro';
   .form-group label {
     font-weight: 500;
     font-size: 0.9375rem;
-    color: var(--color-jet-black);
+    color: var(--text-primary);
   }
 
   .form-group input,
@@ -248,9 +239,23 @@ import BrandLines from '../components/BrandLines.astro';
     padding: var(--spacing-sm);
     font-family: var(--font-primary);
     font-size: 1rem;
-    border: 2px solid rgba(17, 17, 17, 0.1);
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    border: 1.5px solid var(--border-subtle);
     border-radius: var(--radius-sm);
-    transition: border-color var(--transition-base);
+    transition: border-color var(--transition-base), background var(--transition-base);
+  }
+
+  /* Placeholder text */
+  .form-group input::placeholder,
+  .form-group textarea::placeholder {
+    color: var(--text-muted);
+  }
+
+  /* Select option text needs OS-level colour — set it explicitly */
+  .form-group select option {
+    background: var(--bg-card);
+    color: var(--text-primary);
   }
 
   .form-group input:focus,
@@ -258,6 +263,7 @@ import BrandLines from '../components/BrandLines.astro';
   .form-group textarea:focus {
     outline: none;
     border-color: var(--color-steel-blue);
+    background: var(--bg-card);
   }
 
   .form-group textarea {
@@ -267,6 +273,7 @@ import BrandLines from '../components/BrandLines.astro';
 
   .btn-full { width: 100%; justify-content: center; }
 
+  /* Info column */
   .contact-info {
     position: relative;
     display: flex;
@@ -276,15 +283,22 @@ import BrandLines from '../components/BrandLines.astro';
 
   .info-card {
     padding: var(--spacing-xl);
-    background-color: rgba(47, 111, 237, 0.05);
+    background: var(--bg-card);
+    border: 1px solid var(--border-subtle);
     border-radius: var(--radius-md);
     border-left: 4px solid var(--color-steel-blue);
   }
 
   .info-card h3,
-  .info-card h4 { margin-bottom: var(--spacing-md); }
+  .info-card h4 {
+    color: var(--text-primary);
+    margin-bottom: var(--spacing-md);
+  }
 
-  .info-card p { color: var(--color-slate-grey); }
+  .info-card > p {
+    color: var(--text-secondary);
+    max-width: 100%;
+  }
 
   .contact-methods {
     display: flex;
@@ -299,7 +313,10 @@ import BrandLines from '../components/BrandLines.astro';
     align-items: flex-start;
   }
 
-  .contact-method svg { color: var(--color-steel-blue); flex-shrink: 0; }
+  .contact-method svg {
+    color: var(--color-steel-blue);
+    flex-shrink: 0;
+  }
 
   .contact-method div {
     display: flex;
@@ -307,10 +324,20 @@ import BrandLines from '../components/BrandLines.astro';
     gap: var(--spacing-xs);
   }
 
-  .contact-method strong { font-size: 0.875rem; color: var(--color-jet-black); }
+  .contact-method strong {
+    font-size: 0.875rem;
+    color: var(--text-primary);
+  }
 
   .contact-method a,
-  .contact-method span { font-size: 0.9375rem; color: var(--color-slate-grey); }
+  .contact-method span {
+    font-size: 0.9375rem;
+    color: var(--text-secondary);
+  }
+
+  .contact-method a:hover {
+    color: var(--color-steel-blue);
+  }
 
   .expectations-list {
     margin-top: var(--spacing-md);
@@ -320,7 +347,11 @@ import BrandLines from '../components/BrandLines.astro';
     gap: var(--spacing-sm);
   }
 
-  .expectations-list li { color: var(--color-slate-grey); font-size: 0.9375rem; }
+  .expectations-list li {
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    max-width: 100%;
+  }
 
   .social-links {
     display: flex;
@@ -335,18 +366,31 @@ import BrandLines from '../components/BrandLines.astro';
     gap: var(--spacing-sm);
     padding: var(--spacing-sm);
     border-radius: var(--radius-sm);
+    border: 1px solid transparent;
     transition: all var(--transition-base);
-    color: var(--color-jet-black);
+    color: var(--text-secondary);
     font-weight: 500;
+    text-decoration: none;
   }
 
   .social-link:hover {
-    background-color: var(--color-pure-white);
+    background: var(--surface-hover);
+    border-color: var(--border-subtle);
     color: var(--color-steel-blue);
   }
 
   .btn-lg {
     padding: var(--spacing-md) var(--spacing-xl);
     font-size: 1.125rem;
+  }
+
+  @media (max-width: 768px) {
+    .form-container {
+      padding: var(--spacing-lg);
+    }
+
+    .info-card {
+      padding: var(--spacing-lg);
+    }
   }
 </style>

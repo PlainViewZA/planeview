@@ -1,123 +1,113 @@
 ---
-// BrandLines
+// BrandLines.astro — decorative canvas layer
+// Uses CSS variable colours so it is always theme-safe.
+// Sits behind all content (z-index: 0).
 ---
 
-<canvas id="brand-lines-canvas" aria-hidden="true"></canvas>
+<div class="brand-lines" aria-hidden="true">
+  <canvas id="brand-lines-canvas"></canvas>
+</div>
 
 <style>
-  #brand-lines-canvas {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    pointer-events: none;
-    z-index: 0;
-  }
+.brand-lines {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+#brand-lines-canvas {
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  opacity: var(--floating-canvas-opacity, 0.45);
+  mix-blend-mode: var(--floating-canvas-blend, screen);
+}
 
   @media (max-width: 768px) {
-    #brand-lines-canvas { opacity: 0.55; }
+    #brand-lines-canvas { opacity: 0.35; }
   }
   @media (max-width: 480px) {
-    #brand-lines-canvas { opacity: 0.35; }
+    #brand-lines-canvas { opacity: 0.25; }
   }
 </style>
 
 <script>
-  const LINES = [
-    { color: '#2F6FED', opacity: 0.15, dashArray: [6, 12], waveAmp: 40 },
-    { color: '#111111', opacity: 0.15, dashArray: [6, 12], waveAmp: 50 },
-    { color: '#2F6FED', opacity: 0.15, dashArray: [6, 12], waveAmp: 35 },
-    { color: '#111111', opacity: 0.15, dashArray: [6, 12], waveAmp: 45 },
-    { color: '#2F6FED', opacity: 0.15, dashArray: [6, 12], waveAmp: 30 },
-  ];
+  // Read colours from CSS variables so they always match the theme.
+  function getLineColours(): { primary: string; secondary: string } {
+    const style = getComputedStyle(document.documentElement);
+    return {
+      primary:   style.getPropertyValue('--brand-line-color').trim()   || 'rgba(47,111,237,0.5)',
+      secondary: style.getPropertyValue('--brand-line-secondary').trim() || 'rgba(255,106,0,0.28)',
+    };
+  }
 
-  // Only look at top-level section breaks, not every <p> and <li>
+  // Line definitions — colour is resolved at render time, not hardcoded here.
+  const LINE_CONFIGS = [
+    { colorKey: 'primary',   opacity: 1, dashArray: [6, 14], waveAmp: 40 },
+    { colorKey: 'secondary', opacity: 1, dashArray: [4, 16], waveAmp: 50 },
+    { colorKey: 'primary',   opacity: 1, dashArray: [6, 14], waveAmp: 35 },
+    { colorKey: 'secondary', opacity: 1, dashArray: [4, 16], waveAmp: 45 },
+    { colorKey: 'primary',   opacity: 1, dashArray: [6, 14], waveAmp: 30 },
+  ] as const;
+
   const SECTION_SELECTOR = [
     'main > section',
     'main > div',
     'main > article',
     '[data-section]',
-    '.pricing-section',
-    // fallback: direct children of body if no main
     'body > section',
     'body > div > section',
   ].join(',');
 
-  // Gap between sections needed to place a line (px)
-  const MIN_GAP = 40;
-  // How far from a section edge a line must stay (px)
-  const EDGE_MARGIN = 16;
+  const MIN_GAP    = 40;
 
   function getNavHeight(): number {
-    return parseInt(
-      getComputedStyle(document.documentElement).getPropertyValue('--nav-height')
-    ) || 85;
+    return (
+      parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height')) || 85
+    );
   }
 
   function getSectionGaps(): { y: number; size: number }[] {
-    const navH = getNavHeight();
-    const vh = window.innerHeight;
+    const navH     = getNavHeight();
+    const vh       = window.innerHeight;
+    const sections = Array.from(document.querySelectorAll(SECTION_SELECTOR));
+    if (!sections.length) return [];
 
-    let sections = Array.from(document.querySelectorAll(SECTION_SELECTOR));
-
-    // Fallback: if no sections found, treat whole page as one zone and
-    // just use evenly spaced positions
-    if (sections.length === 0) return [];
-
-    // Get viewport-relative bands for each section
     const bands = sections
-      .map(el => {
-        const r = el.getBoundingClientRect();
-        return { top: r.top, bottom: r.bottom };
-      })
+      .map(el => { const r = el.getBoundingClientRect(); return { top: r.top, bottom: r.bottom }; })
       .filter(r => r.bottom > navH && r.top < vh)
       .sort((a, b) => a.top - b.top);
 
-    if (bands.length === 0) return [];
+    if (!bands.length) return [];
 
     // Merge overlapping bands
     const merged: { top: number; bottom: number }[] = [];
     for (const band of bands) {
-      if (merged.length && band.top <= merged.at(-1)!.bottom) {
-        merged.at(-1)!.bottom = Math.max(merged.at(-1)!.bottom, band.bottom);
+      if (merged.length && band.top <= merged[merged.length - 1].bottom) {
+        merged[merged.length - 1].bottom = Math.max(merged[merged.length - 1].bottom, band.bottom);
       } else {
         merged.push({ ...band });
       }
     }
 
-    // Find gaps between merged section bands
     const gaps: { y: number; size: number }[] = [];
     let cursor = navH;
-
     for (const band of merged) {
       const gapSize = band.top - cursor;
-      if (gapSize >= MIN_GAP) {
-        gaps.push({
-          y: cursor + gapSize / 2, // centre of the gap
-          size: gapSize,
-        });
-      }
+      if (gapSize >= MIN_GAP) gaps.push({ y: cursor + gapSize / 2, size: gapSize });
       cursor = band.bottom;
     }
-
-    // Gap after last section to bottom of viewport
-    const trailingGap = vh - cursor;
-    if (trailingGap >= MIN_GAP) {
-      gaps.push({ y: cursor + trailingGap / 2, size: trailingGap });
-    }
-
+    const trailing = vh - cursor;
+    if (trailing >= MIN_GAP) gaps.push({ y: cursor + trailing / 2, size: trailing });
     return gaps;
   }
 
   function getEvenPositions(count: number): number[] {
-    // Fallback: evenly spread across the viewport below nav
-    const navH = getNavHeight();
-    const vh = window.innerHeight;
-    const usable = vh - navH;
-    return Array.from({ length: count }, (_, i) =>
-      navH + (usable / (count + 1)) * (i + 1)
-    );
+    const navH   = getNavHeight();
+    const usable = window.innerHeight - navH;
+    return Array.from({ length: count }, (_, i) => navH + (usable / (count + 1)) * (i + 1));
   }
 
   function drawWave(
@@ -127,13 +117,13 @@
     amp: number,
     color: string,
     opacity: number,
-    dashArray: number[]
+    dashArray: readonly number[]
   ) {
     ctx.save();
     ctx.globalAlpha = opacity;
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 0.5;
-    ctx.setLineDash(dashArray);
+    ctx.strokeStyle  = color;
+    ctx.lineWidth    = 0.6;
+    ctx.setLineDash(dashArray as number[]);
     ctx.beginPath();
     ctx.moveTo(0, y);
     ctx.quadraticCurveTo(width * 0.25, y - amp, width * 0.5, y);
@@ -143,45 +133,47 @@
   }
 
   function render() {
-    const canvas = document.getElementById('brand-lines-canvas') as HTMLCanvasElement;
+    const canvas = document.getElementById('brand-lines-canvas') as HTMLCanvasElement | null;
     if (!canvas) return;
 
-    const W = window.innerWidth;
-    const H = window.innerHeight;
+    const W   = window.innerWidth;
+    const H   = window.innerHeight;
+    const dpr = window.devicePixelRatio || 1;
 
-    canvas.setAttribute('width',  String(Math.round(W * devicePixelRatio)));
-    canvas.setAttribute('height', String(Math.round(H * devicePixelRatio)));
+    canvas.setAttribute('width',  String(Math.round(W * dpr)));
+    canvas.setAttribute('height', String(Math.round(H * dpr)));
 
-    const ctx = canvas.getContext('2d')!;
-    ctx.scale(devicePixelRatio, devicePixelRatio);
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    ctx.scale(dpr, dpr);
     ctx.clearRect(0, 0, W, H);
 
-    const gaps = getSectionGaps();
+    // Resolve theme colours fresh each frame so toggling works instantly
+    const colours = getLineColours();
+    const gaps    = getSectionGaps();
 
     let yPositions: number[];
-
-    if (gaps.length >= LINES.length) {
-      // Enough gaps — place one line per gap (first N gaps)
-      yPositions = gaps.slice(0, LINES.length).map(g => g.y);
+    if (gaps.length >= LINE_CONFIGS.length) {
+      yPositions = gaps.slice(0, LINE_CONFIGS.length).map(g => g.y);
     } else if (gaps.length > 0) {
-      // Fewer gaps than lines — distribute lines across available gaps
-      yPositions = LINES.map((_, i) => {
-        const gap = gaps[i % gaps.length];
-        const offset = (i < gaps.length ? 0 : (i % 3 - 1) * (gap.size * 0.2));
+      yPositions = LINE_CONFIGS.map((_, i) => {
+        const gap    = gaps[i % gaps.length];
+        const offset = i < gaps.length ? 0 : ((i % 3) - 1) * (gap.size * 0.2);
         return gap.y + offset;
       });
     } else {
-      // No gaps found — fall back to even distribution
-      yPositions = getEvenPositions(LINES.length);
+      yPositions = getEvenPositions(LINE_CONFIGS.length);
     }
 
     yPositions.forEach((y, i) => {
-      const line = LINES[i];
-      drawWave(ctx, y, W, line.waveAmp, line.color, line.opacity, line.dashArray);
+      const cfg   = LINE_CONFIGS[i];
+      const color = colours[cfg.colorKey as keyof typeof colours];
+      drawWave(ctx, y, W, cfg.waveAmp, color, cfg.opacity, cfg.dashArray);
     });
   }
 
-  let rafId: number;
+  let rafId = 0;
   function scheduleRender() {
     cancelAnimationFrame(rafId);
     rafId = requestAnimationFrame(render);
@@ -189,9 +181,12 @@
 
   const ro = new ResizeObserver(scheduleRender);
   ro.observe(document.body);
-
   window.addEventListener('scroll', scheduleRender, { passive: true });
   window.addEventListener('resize', scheduleRender, { passive: true });
+
+  // Re-render when the theme attribute changes so colour tokens refresh
+  const themeObserver = new MutationObserver(scheduleRender);
+  themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', render);

@@ -1,0 +1,942 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('insights');
+  return posts.map((post) => ({
+    params: { slug: post.data.slug },  // ← use post.data.slug from frontmatter
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+
+if (!post) {
+  throw new Error('Post not found');
+}
+
+const { Content } = await render(post);
+const slug  = post.data.slug;           // ← use frontmatter slug, not post.id
+const href  = `/insights/${slug}/`;
+const images = Array.isArray(post.data.images) ? post.data.images : [];
+const heroEntry = images.find(img => img.hero) ?? images[0];
+const heroImage     = heroEntry?.src ?? null;
+const galleryImages = images.filter(img => !img.hero);
+
+const formattedDate = post.data.date?.toLocaleDateString('en-ZA', {
+  year:  'numeric',
+  month: 'long',
+  day:   'numeric',
+}) ?? '';
+---
+
+<MainLayout
+  title={`${post.data.title} | Insights | Plane View Collective`}
+  description={post.data.excerpt}
+>
+  <article class="detail">
+    <div class="container">
+
+      <!-- ── Top bar ── -->
+      <nav class="topbar" aria-label="Page navigation">
+        <a href="/insights" class="back-btn" aria-label="Back to insights">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.6"
+              stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span>Back to insights</span>
+        </a>
+        <span class="topbar-label" aria-hidden="true">Case study</span>
+      </nav>
+
+      <!-- ── Header ── -->
+      <header class="post-header">
+        <div class="post-meta">
+          {post.data.category && <span class="meta-pill">{post.data.category}</span>}
+          {post.data.platform && <span class="meta-pill">{post.data.platform}</span>}
+          {formattedDate      && <span class="meta-date">{formattedDate}</span>}
+        </div>
+
+        <h1>{post.data.title}</h1>
+        {post.data.excerpt && <p class="post-excerpt">{post.data.excerpt}</p>}
+      </header>
+
+      <!-- ── Hero Image ── -->
+      {heroImage && (
+        <div class="hero-image">
+          <img
+            src={heroImage}
+            alt={heroEntry?.alt ?? post.data.alt ?? post.data.title}
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+          />
+        </div>
+      )}
+
+      <!-- ── Instagram CTA ── -->
+      {post.data.instagramUrl && (
+        <div class="cta-row">
+          <a
+            href={post.data.instagramUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="cta-btn"
+            aria-label={`View live campaign for ${post.data.title} on Instagram`}
+          >
+            <span>View Live Campaign</span>
+            <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      )}
+
+      <!-- ── Gallery ── -->
+      {galleryImages.length > 0 && (
+        <section class="gallery" aria-label="Campaign gallery">
+          <div class="gallery-grid" data-count={galleryImages.length}>
+            {galleryImages.map((image, index) => (
+              <div class="gallery-item">
+                {image.url ? (
+                  <a
+                    href={image.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="gallery-link"
+                    aria-label={`View post ${index + 1} on Instagram`}
+                  >
+                    <img
+                      src={image.src}
+                      alt={image.alt ?? `${post.data.alt ?? post.data.title} — image ${index + 1}`}
+                      loading="lazy"
+                      decoding="async"
+                    />
+                    <span class="gallery-label" aria-hidden="true">View Post →</span>
+                  </a>
+                ) : (
+                  <img
+                    src={image.src}
+                    alt={image.alt ?? `${post.data.alt ?? post.data.title} — image ${index + 1}`}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <!-- ── Body grid: sidebar + main ── -->
+      <div class="body-grid">
+
+        <aside class="sidebar" aria-label="Post details">
+
+          {post.data.client && (
+            <div class="sidebar-block">
+              <p class="label">Client</p>
+              <p class="sidebar-value">{post.data.client}</p>
+            </div>
+          )}
+
+          {(post.data.services ?? []).length > 0 && (
+            <div class="sidebar-block">
+              <p class="label">Services</p>
+              <ul class="services-list">
+                {post.data.services.map((s) => <li>{s}</li>)}
+              </ul>
+            </div>
+          )}
+
+          {(post.data.tags ?? []).length > 0 && (
+            <div class="sidebar-block">
+              <p class="label">Tags</p>
+              <div class="tag-list">
+                {post.data.tags.map((t) => <span class="tag">{t}</span>)}
+              </div>
+            </div>
+          )}
+
+        </aside>
+
+        <div class="main-content">
+
+          {post.data.objective && (
+            <section class="content-block">
+              <p class="label">Objective</p>
+              <p class="content-text">{post.data.objective}</p>
+            </section>
+          )}
+
+          {post.data.strategy && (
+            <section class="content-block">
+              <p class="label">Strategy</p>
+              <p class="content-text">{post.data.strategy}</p>
+            </section>
+          )}
+
+          <section class="content-block">
+            <p class="label">Overview</p>
+            <div class="prose">
+              <Content />
+            </div>
+          </section>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Ambient glow -->
+    <div class="glow glow-a" aria-hidden="true"></div>
+    <div class="glow glow-b" aria-hidden="true"></div>
+
+  </article>
+</MainLayout>
+
+<style>
+  /* ─────────────────────────────
+     Page Shell
+  ───────────────────────────── */
+  .detail {
+    position: relative;
+    background: var(--c-bg);
+    min-height: 100vh;
+    color: var(--c-ink);
+    overflow-x: hidden;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem 8rem;
+  }
+
+  .glow {
+    position: absolute;
+    pointer-events: none;
+    border-radius: 50%;
+    filter: blur(120px);
+    z-index: 0;
+  }
+
+  .glow-a {
+    width: 50vw;
+    height: 50vw;
+    max-width: 640px;
+    max-height: 640px;
+    top: -8%;
+    left: -10%;
+    background: radial-gradient(circle, rgba(249, 115, 22, 0.08) 0%, transparent 70%);
+  }
+
+  .glow-b {
+    width: 35vw;
+    height: 35vw;
+    max-width: 480px;
+    max-height: 480px;
+    top: 30%;
+    right: -8%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+  }
+
+  /* ─────────────────────────────
+     Top Bar
+  ───────────────────────────── */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.55rem 1rem 0.55rem 0.75rem;
+    border-radius: 999px;
+    border: 1px solid var(--c-border);
+    background: rgba(255, 255, 255, 0.04);
+    color: var(--c-ink-soft);
+    text-decoration: none;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    backdrop-filter: blur(8px);
+    transition:
+      background var(--dur) var(--ease),
+      color var(--dur) var(--ease),
+      border-color var(--dur) var(--ease),
+      transform var(--dur) var(--ease),
+      box-shadow var(--dur) var(--ease);
+  }
+
+  .back-btn:hover {
+    background: var(--c-orange);
+    color: #fff;
+    border-color: var(--c-orange);
+    transform: translateX(-2px);
+    box-shadow: 0 8px 28px var(--c-oglow);
+  }
+
+  .back-btn svg {
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .back-btn:hover svg {
+    transform: translateX(-2px);
+  }
+
+  .topbar-label {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--c-ink-muted);
+  }
+
+  /* ─────────────────────────────
+     Post Header
+  ───────────────────────────── */
+  .post-header {
+    max-width: 860px;
+    margin-bottom: 3rem;
+  }
+
+  .post-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.45rem;
+    margin-bottom: 1.75rem;
+  }
+
+  .meta-pill {
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--c-ink-soft);
+    background: rgba(255, 255, 255, 0.06);
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    border: 1px solid var(--c-border);
+  }
+
+  .meta-date {
+    font-size: 0.75rem;
+    color: var(--c-ink-muted);
+    font-weight: 400;
+    letter-spacing: 0.03em;
+    margin-left: 0.25rem;
+  }
+
+  .post-header h1 {
+    font-size: clamp(2.6rem, 5.5vw, 5.5rem);
+    line-height: 0.94;
+    letter-spacing: -0.04em;
+    margin: 0 0 1.5rem;
+    color: var(--c-ink);
+    font-weight: 800;
+  }
+
+  .post-excerpt {
+    font-size: 1.08rem;
+    line-height: 1.8;
+    color: var(--c-ink-soft);
+    margin: 0;
+    max-width: 640px;
+  }
+
+  /* ─────────────────────────────
+     Hero Image
+  ───────────────────────────── */
+  .hero-image {
+    margin-bottom: 1.25rem;
+    border-radius: var(--radius-hero);
+    overflow: hidden;
+    border: 1px solid var(--c-border);
+    background: #1a1a1a;
+    aspect-ratio: 16 / 9;
+  }
+
+  .hero-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.8s var(--ease);
+  }
+
+  .hero-image:hover img {
+    transform: scale(1.015);
+  }
+
+  /* ─────────────────────────────
+     CTA
+  ───────────────────────────── */
+  .cta-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 3rem;
+  }
+
+  .cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.62rem 1.2rem;
+    border-radius: 999px;
+    border: 1px solid var(--c-border);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--c-ink-soft);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+    backdrop-filter: blur(8px);
+    transition:
+      background var(--dur) var(--ease),
+      color var(--dur) var(--ease),
+      border-color var(--dur) var(--ease),
+      box-shadow var(--dur) var(--ease),
+      transform var(--dur) var(--ease);
+  }
+
+  .cta-btn:hover {
+    background: var(--c-orange);
+    color: #fff;
+    border-color: var(--c-orange);
+    box-shadow: 0 8px 28px var(--c-oglow);
+    transform: translateY(-1px);
+  }
+
+  .cta-btn svg {
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .cta-btn:hover svg {
+    transform: translateX(2px);
+  }
+
+  /* ─────────────────────────────
+     Gallery
+  ───────────────────────────── */
+  .gallery {
+    margin-bottom: 4rem;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .gallery-grid > .gallery-item {
+    grid-column: span 4;
+  }
+
+  .gallery-grid[data-count="1"] > .gallery-item {
+    grid-column: span 12;
+  }
+
+  .gallery-grid[data-count="2"] > .gallery-item {
+    grid-column: span 6;
+  }
+
+  .gallery-grid[data-count="3"] > .gallery-item:nth-child(1) {
+    grid-column: span 12;
+  }
+
+  .gallery-grid[data-count="3"] > .gallery-item:nth-child(n + 2) {
+    grid-column: span 6;
+  }
+
+  .gallery-grid[data-count="4"] > .gallery-item {
+    grid-column: span 6;
+  }
+
+  .gallery-grid[data-count="5"] > .gallery-item:nth-child(1) {
+    grid-column: span 12;
+  }
+
+  .gallery-grid[data-count="5"] > .gallery-item:nth-child(n + 2) {
+    grid-column: span 6;
+  }
+
+  .gallery-grid[data-count="6"] > .gallery-item {
+    grid-column: span 4;
+  }
+
+  .gallery-item {
+    position: relative;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    border: 1px solid var(--c-border);
+    background: #1a1a1a;
+    aspect-ratio: 16 / 9;
+    transition:
+      transform var(--dur) var(--ease),
+      box-shadow var(--dur) var(--ease);
+  }
+
+  .gallery-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .gallery-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.6s var(--ease);
+  }
+
+  .gallery-item:hover img {
+    transform: scale(1.04);
+  }
+
+  .gallery-link {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .gallery-label {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    opacity: 0;
+    transform: translateY(6px);
+    transition:
+      opacity var(--dur) var(--ease),
+      transform var(--dur) var(--ease);
+    pointer-events: none;
+    backdrop-filter: blur(4px);
+  }
+
+  .gallery-link:hover .gallery-label {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ─────────────────────────────
+     Body Grid
+  ───────────────────────────── */
+  .body-grid {
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+    gap: 1.5rem;
+    align-items: start;
+    margin-bottom: 6rem;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .sidebar-block,
+  .content-block {
+    border: 1px solid var(--c-border);
+    border-radius: var(--radius);
+    background: var(--c-surface);
+    transition:
+      border-color var(--dur) var(--ease),
+      background var(--dur) var(--ease);
+  }
+
+  .sidebar-block {
+    padding: 1.4rem 1.5rem 1.5rem;
+  }
+
+  .content-block {
+    padding: 1.75rem 2rem 2rem;
+  }
+
+  .sidebar-block:hover,
+  .content-block:hover {
+    border-color: rgba(255, 255, 255, 0.13);
+    background: var(--c-surface-2);
+  }
+
+  .label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--c-ink-muted);
+    margin: 0 0 0.85rem;
+    line-height: 1;
+    display: block;
+  }
+
+  .sidebar-value {
+    margin: 0;
+    font-size: 0.93rem;
+    font-weight: 600;
+    color: var(--c-ink);
+    line-height: 1.4;
+  }
+
+  .services-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .services-list li {
+    font-size: 0.86rem;
+    color: var(--c-ink-soft);
+    line-height: 1.5;
+    padding-left: 1rem;
+    position: relative;
+  }
+
+  .services-list li::before {
+    content: '–';
+    position: absolute;
+    left: 0;
+    color: rgba(255, 255, 255, 0.2);
+  }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  .tag {
+    padding: 0.28rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--c-border);
+    font-size: 0.72rem;
+    color: var(--c-ink-soft);
+    line-height: 1;
+    transition:
+      background var(--dur) var(--ease),
+      color var(--dur) var(--ease);
+  }
+
+  .tag:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--c-ink);
+  }
+
+  .main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .content-text {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--c-ink-soft);
+  }
+
+  /* ─────────────────────────────
+     Prose
+  ───────────────────────────── */
+  .prose {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--c-ink-soft);
+  }
+
+  .prose :global(h2) {
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    color: var(--c-ink);
+    margin: 2.25rem 0 0.75rem;
+  }
+
+  .prose :global(h3) {
+    font-size: 1.02rem;
+    font-weight: 700;
+    color: var(--c-ink);
+    margin: 1.75rem 0 0.5rem;
+  }
+
+  .prose :global(p) {
+    margin: 0 0 1.15rem;
+  }
+
+  .prose :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: 1.5rem;
+    margin: 0 0 1.15rem;
+  }
+
+  .prose :global(li) {
+    margin-bottom: 0.45rem;
+  }
+
+  .prose :global(strong) {
+    color: var(--c-ink);
+    font-weight: 600;
+  }
+
+  .prose :global(a) {
+    color: var(--c-orange);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: rgba(249, 115, 22, 0.35);
+    transition: text-decoration-color var(--dur) var(--ease);
+  }
+
+  .prose :global(a:hover) {
+    text-decoration-color: var(--c-orange);
+  }
+
+  /* ─────────────────────────────
+     Tablet
+  ───────────────────────────── */
+  @media (max-width: 1024px) {
+    .body-grid {
+      grid-template-columns: 220px minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .body-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+      position: static;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .hero-image {
+      aspect-ratio: auto;
+      height: auto;
+      max-height: none;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .gallery-grid {
+      display: flex;
+      flex-direction: column;
+      grid-template-columns: none;
+      grid-template-rows: none;
+      gap: 1rem;
+      width: 100%;
+    }
+
+    .gallery-grid > .gallery-item,
+    .gallery-grid[data-count="1"] > .gallery-item,
+    .gallery-grid[data-count="2"] > .gallery-item,
+    .gallery-grid[data-count="3"] > .gallery-item,
+    .gallery-grid[data-count="4"] > .gallery-item,
+    .gallery-grid[data-count="5"] > .gallery-item,
+    .gallery-grid[data-count="6"] > .gallery-item {
+      width: 100%;
+      height: auto;
+      grid-column: auto;
+      grid-row: auto;
+      aspect-ratio: auto;
+    }
+
+    .gallery-item {
+      width: 100%;
+      height: auto;
+      aspect-ratio: auto;
+      border-radius: 1rem;
+    }
+
+    .gallery-link {
+      width: 100%;
+      height: auto;
+    }
+
+    .gallery-item img,
+    .gallery-link img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+    }
+
+    .gallery-item:hover,
+    .gallery-item:hover img,
+    .hero-image:hover img {
+      transform: none;
+    }
+
+    .gallery-label {
+      display: none;
+    }
+  }
+
+  /* ─────────────────────────────
+     Mobile
+  ───────────────────────────── */
+  @media (max-width: 640px) {
+    .container {
+      padding: 0 1rem 4rem;
+    }
+
+    .topbar {
+      padding-top: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .topbar-label {
+      display: none;
+    }
+
+    .back-btn {
+      padding: 0.45rem 0.8rem 0.45rem 0.6rem;
+      font-size: 0.7rem;
+    }
+
+    .post-header {
+      margin-bottom: 2rem;
+    }
+
+    .post-header h1 {
+      font-size: clamp(1.8rem, 9vw, 3rem);
+      line-height: 1;
+      margin-bottom: 1rem;
+    }
+
+    .post-excerpt {
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .post-meta {
+      gap: 0.3rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .meta-pill {
+      font-size: 0.6rem;
+      padding: 0.25rem 0.6rem;
+    }
+
+    .meta-date {
+      width: 100%;
+      margin-left: 0;
+      margin-top: 0.2rem;
+    }
+
+    .cta-row {
+      justify-content: flex-start;
+      margin-bottom: 2rem;
+    }
+
+    .cta-btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.7rem;
+      width: fit-content;
+    }
+
+    .gallery {
+      margin-bottom: 2.5rem;
+    }
+
+    .body-grid {
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+
+    .sidebar {
+      grid-template-columns: 1fr;
+      gap: 0.6rem;
+    }
+
+    .sidebar-block {
+      padding: 1.2rem 1.2rem 1.25rem;
+    }
+
+    .content-block {
+      padding: 1.2rem 1.2rem 1.25rem;
+    }
+
+    .label {
+      font-size: 0.6rem;
+      margin-bottom: 0.6rem;
+    }
+
+    .sidebar-value {
+      font-size: 0.85rem;
+    }
+
+    .services-list li {
+      font-size: 0.8rem;
+    }
+
+    .tag {
+      font-size: 0.68rem;
+      padding: 0.25rem 0.55rem;
+    }
+
+    .content-text {
+      font-size: 0.95rem;
+      line-height: 1.75;
+    }
+
+    .prose {
+      font-size: 0.95rem;
+      line-height: 1.8;
+    }
+
+    .prose :global(h2) {
+      font-size: 1.1rem;
+      margin: 1.75rem 0 0.6rem;
+    }
+
+    .prose :global(h3) {
+      font-size: 0.95rem;
+      margin: 1.5rem 0 0.4rem;
+    }
+
+    .prose :global(ul),
+    .prose :global(ol) {
+      padding-left: 1.25rem;
+      margin: 0 0 1rem;
+    }
+
+    .prose :global(li) {
+      margin-bottom: 0.35rem;
+    }
+  }
+</style>
