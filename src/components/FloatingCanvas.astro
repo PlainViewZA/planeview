@@ -19,13 +19,32 @@ function initFloatingCanvas() {
   }
 
   // ── Constants ────────────────────────────────────────────────────────────────
-  const NODE_COUNT       = 36;
-  const MAX_DIST         = 150;
-  const AVOID_PADDING    = 24;
-  const AVOID_SELECTORS  = 'h1, h2, h3, h4, h5, h6, p, a, button, input, textarea, select, label, nav, .card, section, footer, header';
-  const COLORS           = ['#2F6FED', '#2F6FED', '#6B6B6B', '#111111'];
-  const PLANE_COLOR      = '#0a0a0a';
-  const SHAPES           = ['plane', 'triangle', 'diamond', 'circle', 'cross'] as const;
+
+  // CHANGE THIS to increase/decrease the number of floating shapes.
+  // Higher = more shapes on screen.
+  // Suggested range: 40–65.
+  const NODE_COUNT = 54;
+
+  // CHANGE THIS to control how close shapes must be before connector lines appear.
+  // Higher = more connecting lines.
+  // Lower = fewer connecting lines.
+  const MAX_DIST = 155;
+
+  const AVOID_PADDING = 24;
+
+  const AVOID_SELECTORS =
+    'h1, h2, h3, h4, h5, h6, p, a, button, input, textarea, select, label, nav, .card, section, footer, header';
+
+  // CHANGE THESE to control the shape colours.
+  // Darker colours make the background shapes stand out more.
+  // Add more repeated colours if you want one colour to appear more often.
+  const COLORS = ['#1E4FAF', '#234E9F', '#3F3F3F', '#1A1A1A', '#C45100'];
+
+  // CHANGE THIS to control the paper-plane shape colour.
+  // Darker = more visible.
+  const PLANE_COLOR = '#050505';
+
+  const SHAPES = ['plane', 'triangle', 'diamond', 'circle', 'cross'] as const;
   type Shape = typeof SHAPES[number];
 
   // ── State ────────────────────────────────────────────────────────────────────
@@ -37,7 +56,7 @@ function initFloatingCanvas() {
 
   // ── Resize ───────────────────────────────────────────────────────────────────
   function resize() {
-    canvas.width  = window.innerWidth;
+    canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
   }
 
@@ -46,6 +65,7 @@ function initFloatingCanvas() {
   // ── Avoid zones ──────────────────────────────────────────────────────────────
   // Debounced so rapid scroll/resize events don't thrash layout
   let avoidDebounce: ReturnType<typeof setTimeout>;
+
   function scheduleAvoidRefresh(delay = 100) {
     clearTimeout(avoidDebounce);
     avoidDebounce = setTimeout(refreshAvoidZones, delay);
@@ -53,13 +73,15 @@ function initFloatingCanvas() {
 
   function refreshAvoidZones() {
     avoidZones = [];
-    document.querySelectorAll(AVOID_SELECTORS).forEach(el => {
+
+    document.querySelectorAll(AVOID_SELECTORS).forEach((el) => {
       const r = el.getBoundingClientRect();
+
       if (r.width > 0 && r.height > 0) {
         avoidZones.push({
-          x: r.left   - AVOID_PADDING,
-          y: r.top    - AVOID_PADDING,
-          w: r.width  + AVOID_PADDING * 2,
+          x: r.left - AVOID_PADDING,
+          y: r.top - AVOID_PADDING,
+          w: r.width + AVOID_PADDING * 2,
           h: r.height + AVOID_PADDING * 2,
         });
       }
@@ -68,63 +90,95 @@ function initFloatingCanvas() {
 
   function isInAvoidZone(x: number, y: number): boolean {
     for (const z of avoidZones) {
-      if (x >= z.x && x <= z.x + z.w && y >= z.y && y <= z.y + z.h) return true;
+      if (x >= z.x && x <= z.x + z.w && y >= z.y && y <= z.y + z.h) {
+        return true;
+      }
     }
+
     return false;
   }
 
   // ── Mouse ────────────────────────────────────────────────────────────────────
-  window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
-  document.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+  });
+
+  document.addEventListener('mouseleave', () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
 
   // ── Resize handler ───────────────────────────────────────────────────────────
   window.addEventListener('resize', () => {
     resize();
     scheduleAvoidRefresh(150);
-    nodes.forEach(n => n.init());
+    nodes.forEach((n) => n.init());
   });
 
   window.addEventListener('scroll', () => scheduleAvoidRefresh(200), { passive: true });
 
-  // ── Node class ───────────────────────────────────────────────────────────────
-  function rand(a: number, b: number) { return a + Math.random() * (b - a); }
+  // ── Helpers ──────────────────────────────────────────────────────────────────
+  function rand(a: number, b: number) {
+    return a + Math.random() * (b - a);
+  }
 
+  // ── Node class ───────────────────────────────────────────────────────────────
   class Node {
-    homeX = 0; homeY = 0;
-    x = 0; y = 0;
+    homeX = 0;
+    homeY = 0;
+    x = 0;
+    y = 0;
     size = 0;
     shape: Shape = 'circle';
     color = '';
     alpha = 0;
-    rotation = 0; rotSpeed = 0;
-    phase = 0; phaseSpeed = 0;
+    rotation = 0;
+    rotSpeed = 0;
+    phase = 0;
+    phaseSpeed = 0;
     bobRadius = 0;
-    vx = 0; vy = 0;
+    vx = 0;
+    vy = 0;
 
-    readonly springK       = 0.045;
-    readonly damping       = 0.87;
-    readonly repelRadius   = 100;
+    readonly springK = 0.045;
+    readonly damping = 0.87;
+    readonly repelRadius = 100;
     readonly repelStrength = 10;
 
-    constructor() { this.init(); }
+    constructor() {
+      this.init();
+    }
 
     init() {
       let attempts = 0;
+
       do {
         this.homeX = rand(0, canvas.width);
         this.homeY = rand(0, canvas.height);
         attempts++;
       } while (isInAvoidZone(this.homeX, this.homeY) && attempts < 30);
 
-      this.x         = this.homeX;
-      this.y         = this.homeY;
-      this.size      = rand(7, 19);
-      this.shape     = SHAPES[Math.floor(Math.random() * SHAPES.length)];
-      this.color     = COLORS[Math.floor(Math.random() * COLORS.length)];
-      this.alpha     = rand(0.05, 0.18);
-      this.rotation  = rand(0, Math.PI * 2);
-      this.rotSpeed  = rand(-0.007, 0.007);
-      this.phase     = rand(0, Math.PI * 2);
+      this.x = this.homeX;
+      this.y = this.homeY;
+
+      // CHANGE THIS to control shape size.
+      // First number = smallest size.
+      // Second number = largest size.
+      // Suggested range: rand(8, 22) to rand(10, 28).
+      this.size = rand(9, 24);
+
+      this.shape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
+      this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+
+      // CHANGE THIS to control how visible/dark the shapes are.
+      // Higher values = more visible.
+      // Keep below 0.35 for a premium, subtle background effect.
+      this.alpha = rand(0.12, 0.28);
+
+      this.rotation = rand(0, Math.PI * 2);
+      this.rotSpeed = rand(-0.007, 0.007);
+      this.phase = rand(0, Math.PI * 2);
       this.phaseSpeed = rand(0.004, 0.012);
       this.bobRadius = rand(5, 16);
       this.vx = 0;
@@ -139,27 +193,31 @@ function initFloatingCanvas() {
       this.vy += (ty - this.y) * this.springK;
 
       if (mouse.x !== null && mouse.y !== null) {
-        const dx   = this.x - mouse.x;
-        const dy   = this.y - mouse.y;
+        const dx = this.x - mouse.x;
+        const dy = this.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
+
         if (dist < this.repelRadius && dist > 0) {
-          const force = (1 - dist / this.repelRadius);
+          const force = 1 - dist / this.repelRadius;
           const angle = Math.atan2(dy, dx);
+
           this.vx += Math.cos(angle) * force * this.repelStrength;
           this.vy += Math.sin(angle) * force * this.repelStrength;
         }
       }
 
       for (const z of avoidZones) {
-        const cx    = z.x + z.w / 2;
-        const cy    = z.y + z.h / 2;
-        const dx2   = this.x - cx;
-        const dy2   = this.y - cy;
+        const cx = z.x + z.w / 2;
+        const cy = z.y + z.h / 2;
+        const dx2 = this.x - cx;
+        const dy2 = this.y - cy;
         const dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
         const zoneRadius = Math.sqrt(z.w * z.w + z.h * z.h) / 2 + 30;
+
         if (dist2 < zoneRadius && dist2 > 0) {
-          const force  = (1 - dist2 / zoneRadius) * 1.5;
+          const force = (1 - dist2 / zoneRadius) * 1.5;
           const angle2 = Math.atan2(dy2, dx2);
+
           this.vx += Math.cos(angle2) * force;
           this.vy += Math.sin(angle2) * force;
         }
@@ -167,21 +225,32 @@ function initFloatingCanvas() {
 
       this.vx *= this.damping;
       this.vy *= this.damping;
-      this.x  += this.vx;
-      this.y  += this.vy;
+      this.x += this.vx;
+      this.y += this.vy;
       this.rotation += this.rotSpeed;
-      this.phase    += this.phaseSpeed;
+      this.phase += this.phaseSpeed;
     }
 
     draw() {
       ctx.save();
-      ctx.globalAlpha = this.shape === 'plane'
-        ? Math.min(this.alpha * 1.7, 0.28)
-        : this.alpha;
+
+      // CHANGE THIS to make plane shapes more/less visible than other shapes.
+      // Increase 1.9 or max 0.38 if you want planes to stand out more.
+      ctx.globalAlpha =
+        this.shape === 'plane'
+          ? Math.min(this.alpha * 1.9, 0.38)
+          : this.alpha;
+
       ctx.translate(this.x, this.y);
       ctx.rotate(this.rotation);
+
       ctx.strokeStyle = this.shape === 'plane' ? PLANE_COLOR : this.color;
-      ctx.lineWidth   = this.shape === 'plane' ? 1.5 : 1.1;
+
+      // CHANGE THIS to control outline thickness.
+      // Higher = bolder shapes.
+      // Suggested range: 1.2–2.2.
+      ctx.lineWidth = this.shape === 'plane' ? 1.9 : 1.45;
+
       const s = this.size;
 
       switch (this.shape) {
@@ -190,43 +259,51 @@ function initFloatingCanvas() {
           ctx.moveTo(s, 0);
           ctx.lineTo(-s * 0.6, -s * 0.5);
           ctx.lineTo(-s * 0.3, 0);
-          ctx.lineTo(-s * 0.6,  s * 0.5);
+          ctx.lineTo(-s * 0.6, s * 0.5);
           ctx.closePath();
           ctx.stroke();
+
           ctx.beginPath();
           ctx.moveTo(-s * 0.3, 0);
-          ctx.lineTo( s * 0.3, s * 0.15);
+          ctx.lineTo(s * 0.3, s * 0.15);
           ctx.stroke();
           break;
+
         case 'triangle':
           ctx.beginPath();
           ctx.moveTo(0, -s);
-          ctx.lineTo( s * 0.87, s * 0.5);
+          ctx.lineTo(s * 0.87, s * 0.5);
           ctx.lineTo(-s * 0.87, s * 0.5);
           ctx.closePath();
           ctx.stroke();
           break;
+
         case 'diamond':
           ctx.beginPath();
           ctx.moveTo(0, -s);
-          ctx.lineTo( s * 0.6, 0);
-          ctx.lineTo(0,  s);
+          ctx.lineTo(s * 0.6, 0);
+          ctx.lineTo(0, s);
           ctx.lineTo(-s * 0.6, 0);
           ctx.closePath();
           ctx.stroke();
           break;
+
         case 'circle':
           ctx.beginPath();
           ctx.arc(0, 0, s * 0.55, 0, Math.PI * 2);
           ctx.stroke();
           break;
+
         case 'cross':
           ctx.beginPath();
-          ctx.moveTo(-s * 0.5, 0); ctx.lineTo(s * 0.5, 0);
-          ctx.moveTo(0, -s * 0.5); ctx.lineTo(0, s * 0.5);
+          ctx.moveTo(-s * 0.5, 0);
+          ctx.lineTo(s * 0.5, 0);
+          ctx.moveTo(0, -s * 0.5);
+          ctx.lineTo(0, s * 0.5);
           ctx.stroke();
           break;
       }
+
       ctx.restore();
     }
   }
@@ -234,17 +311,29 @@ function initFloatingCanvas() {
   // ── Connectors ───────────────────────────────────────────────────────────────
   function drawConnectors() {
     ctx.save();
-    ctx.strokeStyle  = '#2F6FED';
-    ctx.lineWidth    = 0.7;
+
+    // CHANGE THIS to control connector line colour.
+    ctx.strokeStyle = '#2F6FED';
+
+    // CHANGE THIS to control connector line thickness.
+    ctx.lineWidth = 0.85;
+
+    // CHANGE THIS to control connector line pattern.
+    // Smaller numbers = tighter dash pattern.
     ctx.setLineDash([3, 7]);
 
     for (let i = 0; i < nodes.length; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
-        const dx   = nodes[i].x - nodes[j].x;
-        const dy   = nodes[i].y - nodes[j].y;
+        const dx = nodes[i].x - nodes[j].x;
+        const dy = nodes[i].y - nodes[j].y;
         const dist = Math.sqrt(dx * dx + dy * dy);
+
         if (dist < MAX_DIST) {
-          ctx.globalAlpha = (1 - dist / MAX_DIST) * 0.22;
+          // CHANGE THIS to make connector lines more/less visible.
+          // Higher = darker connector lines.
+          // Suggested range: 0.18–0.35.
+          ctx.globalAlpha = (1 - dist / MAX_DIST) * 0.30;
+
           ctx.beginPath();
           ctx.moveTo(nodes[i].x, nodes[i].y);
           ctx.lineTo(nodes[j].x, nodes[j].y);
@@ -252,21 +341,23 @@ function initFloatingCanvas() {
         }
       }
     }
+
     ctx.restore();
   }
 
   // ── Spawn — waits for a full paint cycle after avoid zones are ready ─────────
   function spawnNodes() {
     refreshAvoidZones();
+
     // Extra rAF ensures the browser has painted once with the new layout
-    // before we place nodes, eliminating the post-preloader jump
+    // before we place nodes, eliminating the post-preloader jump.
     requestAnimationFrame(() => {
       nodes = Array.from({ length: NODE_COUNT }, () => new Node());
     });
   }
 
   // ── Fade-in nodes gradually so first appearance is smooth ───────────────────
-  // Nodes start at alpha 0 and ease to their target alpha over ~60 frames
+  // Nodes start at alpha 0 and ease to their target alpha over about 60 frames.
   let fadeProgress = 0;
   const FADE_FRAMES = 60;
 
@@ -274,12 +365,12 @@ function initFloatingCanvas() {
   function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Refresh avoid zones every 2 seconds, not every frame
+    // Refresh avoid zones every 2 seconds, not every frame.
     if (frameCount % 120 === 0) refreshAvoidZones();
     frameCount++;
 
     if (nodes.length > 0) {
-      // Ease the global canvas alpha in on first spawn to avoid a hard pop
+      // Ease the global canvas alpha in on first spawn to avoid a hard pop.
       if (fadeProgress < FADE_FRAMES) {
         fadeProgress++;
         ctx.globalAlpha = fadeProgress / FADE_FRAMES;
@@ -288,7 +379,10 @@ function initFloatingCanvas() {
       }
 
       drawConnectors();
-      nodes.forEach(n => { n.update(t); n.draw(); });
+      nodes.forEach((n) => {
+        n.update(t);
+        n.draw();
+      });
     }
 
     t++;
@@ -297,32 +391,43 @@ function initFloatingCanvas() {
 
   // ── Boot sequence ─────────────────────────────────────────────────────────────
   // We need to distinguish three cases:
-  //   1. Preloader already seen — spawn after two rAFs (DOM settled)
-  //   2. Preloader is playing — wait for its 'pvc:preloader-done' signal
-  //   3. Preloader dismissed itself immediately (error/autoplay blocked) — same as case 1
+  // 1. Preloader already seen — spawn after two rAFs.
+  // 2. Preloader is playing — wait for its 'pvc:preloader-done' signal.
+  // 3. Preloader dismissed itself immediately — same as case 1.
 
   let alreadySeen = false;
-  try { alreadySeen = !!localStorage.getItem('pvc-intro-seen'); } catch(e) {}
+
+  try {
+    alreadySeen = !!localStorage.getItem('pvc-intro-seen');
+  } catch (e) {}
 
   if (alreadySeen) {
-    // Page loaded without preloader — wait for fonts + images to settle
+    // Page loaded without preloader — wait for fonts + images to settle.
     if (document.readyState === 'complete') {
       requestAnimationFrame(() => requestAnimationFrame(spawnNodes));
     } else {
-      window.addEventListener('load', () => {
-        requestAnimationFrame(() => requestAnimationFrame(spawnNodes));
-      }, { once: true });
+      window.addEventListener(
+        'load',
+        () => {
+          requestAnimationFrame(() => requestAnimationFrame(spawnNodes));
+        },
+        { once: true }
+      );
     }
   } else {
-    // Preloader is active — wait for its explicit done signal
-    window.addEventListener('pvc:preloader-done', () => {
-      // Give the browser one full frame to repaint after preloader hides
-      // before calculating avoid zones and spawning nodes
-      requestAnimationFrame(() => requestAnimationFrame(spawnNodes));
-    }, { once: true });
+    // Preloader is active — wait for its explicit done signal.
+    window.addEventListener(
+      'pvc:preloader-done',
+      () => {
+        // Give the browser one full frame to repaint after preloader hides
+        // before calculating avoid zones and spawning nodes.
+        requestAnimationFrame(() => requestAnimationFrame(spawnNodes));
+      },
+      { once: true }
+    );
   }
 
-  // Start the render loop immediately (canvas is blank until nodes spawn)
+  // Start the render loop immediately. Canvas is blank until nodes spawn.
   animate();
 }
 
