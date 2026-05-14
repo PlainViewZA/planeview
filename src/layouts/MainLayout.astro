@@ -8,6 +8,7 @@ import OrganizationSchema from '../seo/OrganizationSchema.astro';
 
 import { ClientRouter } from 'astro:transitions';
 import '../styles/global.css';
+import '../styles/skeleton.css';
 
 interface Props {
   title?: string;
@@ -27,6 +28,8 @@ const {
 
 const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
 const absoluteImageURL = new URL(image, 'https://www.planeview.co.za');
+
+
 ---
 
 <!DOCTYPE html>
@@ -89,6 +92,7 @@ const absoluteImageURL = new URL(image, 'https://www.planeview.co.za');
 
     <ClientRouter />
     <OrganizationSchema />
+    
 
     <slot name="head" />
   </head>

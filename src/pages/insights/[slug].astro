@@ -63,17 +63,17 @@ const formattedDate = post.data.date?.toLocaleDateString('en-ZA', {
       </header>
 
       <!-- ── Hero Image ── -->
-      {heroImage && (
-        <div class="hero-image">
-          <img
-            src={heroImage}
-            alt={heroEntry?.alt ?? post.data.alt ?? post.data.title}
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-          />
-        </div>
-      )}
+{heroImage && (
+  <div class="hero-image">
+    {heroEntry?.url ? (
+      <a href={heroEntry.url} target="_blank" rel="noopener noreferrer">
+        <img src={heroImage} alt={heroEntry?.alt ?? post.data.alt ?? post.data.title} loading="eager" fetchpriority="high" decoding="async" />
+      </a>
+    ) : (
+      <img src={heroImage} alt={heroEntry?.alt ?? post.data.alt ?? post.data.title} loading="eager" fetchpriority="high" decoding="async" />
+    )}
+  </div>
+)}
 
       <!-- ── Instagram CTA ── -->
       {post.data.instagramUrl && (

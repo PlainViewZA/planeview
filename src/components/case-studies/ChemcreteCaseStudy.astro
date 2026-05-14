@@ -1,11 +1,11 @@
 ---
-import MainLayout from '../../layouts/MainLayout.astro';
+
 
 
 const { data } = Astro.props;
 ---
 
-<MainLayout title={data.metaTitle} description={data.metaDescription}>
+<>
 
 
   <!-- HERO -->
@@ -341,7 +341,7 @@ const { data } = Astro.props;
       </div>
     </section>
   )}
-</MainLayout>
+</>
 
 <style>
   .container {

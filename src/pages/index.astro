@@ -42,7 +42,7 @@ const projects = [
     category: "Branding",
     year: "2024",
     description: "Gave a 35-year-old Cape Town concrete specialist a brand and digital presence that matched their industry standing.",
-    images: ["/images/Chemcretelogo2.webp"],
+    images: ["/images/Chemcretelogo.png"],
     gradient: "linear-gradient(135deg, #1A1A2E 0%, #2F4858 100%)",
     accentColor: "#C8A951",
     tags: ["Web Design", "Branding", "Digital Marketing"],
@@ -69,29 +69,25 @@ const outcomes = [
   {
     number: '01',
     title: 'Be seen clearly',
-    description:
-      'We shape your message, visual identity, and digital presence so people understand what you do faster.',
+    description: 'We shape your message, visual identity, and digital presence so people understand what you do faster.',
     href: '/services'
   },
   {
     number: '02',
     title: 'Turn attention into action',
-    description:
-      'We create campaigns, landing pages, and content journeys that guide people toward enquiries, bookings, and sales.',
+    description: 'We create campaigns, landing pages, and content journeys that guide people toward enquiries, bookings, and sales.',
     href: '/work'
   },
   {
     number: '03',
     title: 'Build a digital presence that works',
-    description:
-      'We design websites and digital systems that look professional, load well, and support business growth.',
+    description: 'We design websites and digital systems that look professional, load well, and support business growth.',
     href: '/services'
   },
   {
     number: '04',
     title: 'Create content people remember',
-    description:
-      'We help brands show up with visuals, copy, photography, video, and social content that feels intentional.',
+    description: 'We help brands show up with visuals, copy, photography, video, and social content that feels intentional.',
     href: '/insights'
   }
 ];
@@ -99,22 +95,19 @@ const outcomes = [
 const services = [
   {
     title: 'Brand & Strategy',
-    description:
-      'Positioning, messaging, campaign direction, and creative planning that gives your business a clear voice.',
+    description: 'Positioning, messaging, campaign direction, and creative planning that gives your business a clear voice.',
     tags: ['Brand clarity', 'Messaging', 'Campaign direction'],
     href: '/services'
   },
   {
     title: 'Websites & Digital Systems',
-    description:
-      'Websites, landing pages, digital workflows, and technical support built around performance and usability.',
+    description: 'Websites, landing pages, digital workflows, and technical support built around performance and usability.',
     tags: ['Web design', 'Development', 'Digital systems'],
     href: '/services'
   },
   {
     title: 'Marketing & Content',
-    description:
-      'Social media, creative content, copywriting, visuals, and campaigns that help your brand stay visible.',
+    description: 'Social media, creative content, copywriting, visuals, and campaigns that help your brand stay visible.',
     tags: ['Social media', 'Content', 'Creative direction'],
     href: '/services'
   }
@@ -124,26 +117,22 @@ const process = [
   {
     step: '01',
     title: 'Discover',
-    description:
-      'We understand your business, audience, current challenges, and where your digital presence needs to improve.'
+    description: 'We understand your business, audience, current challenges, and where your digital presence needs to improve.'
   },
   {
     step: '02',
     title: 'Plan',
-    description:
-      'We map the strategy, structure, messaging, content direction, and technical requirements before we create.'
+    description: 'We map the strategy, structure, messaging, content direction, and technical requirements before we create.'
   },
   {
     step: '03',
     title: 'Create',
-    description:
-      'We design, build, write, edit, and refine the work with purpose, not guesswork.'
+    description: 'We design, build, write, edit, and refine the work with purpose, not guesswork.'
   },
   {
     step: '04',
     title: 'Launch & Improve',
-    description:
-      'We help you ship the work, review performance, and keep improving your brand presence over time.'
+    description: 'We help you ship the work, review performance, and keep improving your brand presence over time.'
   }
 ];
 
@@ -238,6 +227,7 @@ const reasons = [
   </Fragment>
 
   <main>
+
     <!-- HERO -->
     <section class="home-hero section">
       <div class="container">
@@ -348,10 +338,9 @@ const reasons = [
 
         <div class="service-grid">
           {services.map((service) => (
-           <a href={service.href} class="service-card spotlight-card" data-reveal>
+            <a href={service.href} class="service-card spotlight-card" data-reveal>
               <h3>{service.title}</h3>
               <p>{service.description}</p>
-
               <div class="tag-list">
                 {service.tags.map((tag) => (
                   <span>{tag}</span>
@@ -371,27 +360,61 @@ const reasons = [
           <h2>Projects we are proud of.</h2>
         </div>
 
-        <div class="featured-grid">
+        <div class="work-grid">
           {featuredWork.map((project) => (
-            <a href={project.caseStudyUrl} class="featured-card spotlight-card" data-reveal>
-              <div class="featured-visual">
-                <img
-                  src={project.images?.[0] || "/logo/Pvc.png"}
-                  alt={`${project.client} logo`}
-                  loading="lazy"
-                />
+            <a href={project.caseStudyUrl} class="work-card spotlight-card" data-reveal>
+              <div class="work-image">
+                {project.images.length > 1 ? (
+                  <div class="work-gallery" data-gallery>
+                    {project.images.map((src, i) => (
+                      <img
+                        src={src}
+                        alt={`${project.client} — image ${i + 1}`}
+                        class={i === 0 ? 'active' : ''}
+                      />
+                    ))}
+                    <div class="gallery-dots">
+                      {project.images.map((_, i) => (
+                        <span class={`dot${i === 0 ? ' active' : ''}`} />
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <img
+                    src={project.images[0]}
+                    alt={`${project.client} project`}
+                    loading="lazy"
+                  />
+                )}
               </div>
 
-              <div class="featured-content">
-                <p class="project-category">{project.category}</p>
+              <div class="work-content">
+                <div class="work-meta">
+                  <span
+                    class="work-category"
+                    style={`color: ${['#e8d44d','#f5c400'].includes(project.accentColor) ? 'var(--text-muted)' : project.accentColor}`}
+                  >
+                    {project.category}
+                  </span>
+                  <span class="work-year">{project.year}</span>
+                </div>
                 <h3>{project.client}</h3>
                 <p>{project.description}</p>
-                <span class="card-link">
+                <div class="work-tags">
+                  {project.tags.map((tag) => (
+                    <span class="work-tag">{tag}</span>
+                  ))}
+                </div>
+                <span class="work-link">
                   Read case study <span class="arrow">→</span>
                 </span>
               </div>
             </a>
           ))}
+        </div>
+
+        <div class="featured-cta" data-reveal>
+          <a href="/work" class="btn btn-secondary">View All Work <span class="arrow">→</span></a>
         </div>
       </div>
     </section>
@@ -409,7 +432,7 @@ const reasons = [
 
         <div class="process-grid">
           {process.map((item) => (
-            <div class="process-step  spotlight-card">
+            <div class="process-step spotlight-card">
               <span>{item.step}</span>
               <h3>{item.title}</h3>
               <p>{item.description}</p>
@@ -447,7 +470,7 @@ const reasons = [
     <!-- INSIGHTS / RESOURCES -->
     <section class="section section-surface">
       <div class="container">
-        <div class="split-header " data-reveal>
+        <div class="split-header" data-reveal>
           <div>
             <p class="eyebrow">Explore more</p>
             <h2>See how we think, work, and price our services.</h2>
@@ -458,19 +481,19 @@ const reasons = [
         </div>
 
         <div class="resource-grid">
-          <a href="/about" class="resource-card  spotlight-card" data-reveal>
+          <a href="/about" class="resource-card spotlight-card" data-reveal>
             <h3>About Us</h3>
             <p>Learn how we think, collaborate, and approach digital growth.</p>
             <span class="card-link">Read more <span class="arrow">→</span></span>
           </a>
 
-          <a href="/pricing" class="resource-card  spotlight-card" data-reveal>
+          <a href="/pricing" class="resource-card spotlight-card" data-reveal>
             <h3>Pricing</h3>
             <p>Explore simple pricing structures for websites, strategy, and marketing support.</p>
             <span class="card-link">View pricing <span class="arrow">→</span></span>
           </a>
 
-          <a href="/insights" class="resource-card  spotlight-card" data-reveal>
+          <a href="/insights" class="resource-card spotlight-card" data-reveal>
             <h3>Insights</h3>
             <p>Read ideas, campaigns, and content lessons from the Plane View perspective.</p>
             <span class="card-link">Explore insights <span class="arrow">→</span></span>
@@ -500,12 +523,13 @@ const reasons = [
         </div>
       </div>
     </section>
+
   </main>
 </MainLayout>
 
 <style>
   /* =============================================
-     SHARED HOME PAGE STYLES
+     SHARED
      ============================================= */
 
   .section-header {
@@ -550,9 +574,7 @@ const reasons = [
     margin-bottom: var(--spacing-2xl);
   }
 
-  .split-header h2 {
-    margin-bottom: 0;
-  }
+  .split-header h2 { margin-bottom: 0; }
 
   .split-header > p {
     color: var(--text-secondary);
@@ -652,9 +674,7 @@ const reasons = [
     background: var(--border-strong);
   }
 
-  .panel-body {
-    padding: var(--spacing-xl);
-  }
+  .panel-body { padding: var(--spacing-xl); }
 
   .panel-kicker {
     color: var(--color-signal-orange);
@@ -665,13 +685,8 @@ const reasons = [
     margin-bottom: var(--spacing-sm);
   }
 
-  .panel-body h2 {
-    font-size: clamp(1.75rem, 3vw, 2.5rem);
-  }
-
-  .panel-body p {
-    color: var(--text-secondary);
-  }
+  .panel-body h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); }
+  .panel-body p  { color: var(--text-secondary); }
 
   .panel-list {
     display: grid;
@@ -690,14 +705,8 @@ const reasons = [
     background: var(--surface-hover);
   }
 
-  .panel-list strong {
-    color: var(--color-steel-blue);
-  }
-
-  .panel-list span {
-    color: var(--text-primary);
-    font-weight: 600;
-  }
+  .panel-list strong { color: var(--color-steel-blue); }
+  .panel-list span   { color: var(--text-primary); font-weight: 600; }
 
   /* =============================================
      TRUST STRIP
@@ -737,7 +746,6 @@ const reasons = [
 
   .outcome-card,
   .service-card,
-  .featured-card,
   .resource-card {
     color: inherit;
     text-decoration: none;
@@ -771,14 +779,8 @@ const reasons = [
     margin-bottom: var(--spacing-xl);
   }
 
-  .outcome-card h3 {
-    font-size: 1.35rem;
-  }
-
-  .outcome-card p {
-    color: var(--text-secondary);
-    max-width: 100%;
-  }
+  .outcome-card h3 { font-size: 1.35rem; }
+  .outcome-card p  { color: var(--text-secondary); max-width: 100%; }
 
   /* =============================================
      SERVICES
@@ -818,10 +820,7 @@ const reasons = [
     box-shadow: var(--shadow-card);
   }
 
-  .service-card p {
-    color: var(--text-secondary);
-    max-width: 100%;
-  }
+  .service-card p { color: var(--text-secondary); max-width: 100%; }
 
   .tag-list {
     display: flex;
@@ -841,111 +840,160 @@ const reasons = [
     font-weight: 600;
   }
 
- /* =============================================
-   FEATURED WORK
-   ============================================= */
+  /* =============================================
+     FEATURED WORK — reuses work card styles
+     ============================================= */
 
-.featured-grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: var(--spacing-xl);
-}
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--spacing-2xl);
+  }
 
-.featured-card {
-  overflow: hidden;
-  display: grid;
-  grid-template-columns: 1fr;
-  border: 1px solid var(--border-subtle);
-  border-radius: 24px;
-  background: var(--bg-card);
-  text-decoration: none;
-  color: inherit;
-  transition:
-    transform var(--transition-base),
-    border-color var(--transition-base),
-    box-shadow var(--transition-base);
-}
+  .work-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background-color: var(--bg-card);
+    text-decoration: none;
+    color: inherit;
+    transition: all var(--transition-base);
+  }
 
-.featured-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--border-medium);
-  box-shadow: var(--shadow-card);
-}
+  .work-card:hover {
+    border-color: var(--border-medium);
+    background-color: var(--bg-card-hover);
+    box-shadow: var(--shadow-lift);
+    transform: translateY(-4px);
+  }
 
-.featured-visual {
-  width: 100%;
-  min-height: 300px;
+  .work-image {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+
+  .work-image > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .work-card:hover .work-image > img {
+    transform: scale(1.03);
+  }
+
+  .work-gallery {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .work-gallery img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .work-gallery img.active { opacity: 1; }
+
+  .gallery-dots {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    z-index: 2;
+    display: flex;
+    gap: 5px;
+    transform: translateX(-50%);
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    transition: background 0.3s ease;
+  }
+
+  .dot.active { background: rgba(255, 255, 255, 0.95); }
+
+ .work-content {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2rem;
-  overflow: hidden;
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.featured-visual img {
-  width: min(90%, 460px);
-  height: auto;
-  max-height: 230px;
-  object-fit: contain;
-  display: block;
-}
-
-.featured-content {
-  display: flex;
+  flex: 1;
   flex-direction: column;
-  padding: var(--spacing-xl);
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg);
+  padding-bottom: var(--spacing-xl);  /* ← add this line */
 }
 
-.project-category {
+  .work-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.875rem;
+  }
+
+  .work-category { color: var(--text-primary); font-weight: 500; }
+  .work-year     { color: var(--text-secondary); }
+
+  .work-content h3 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+  }
+
+  .work-content p {
+    max-width: 100%;
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .work-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: var(--spacing-xs);
+  }
+
+  .work-tag {
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    background-color: var(--work-tag-bg);
+    color: var(--work-tag-text);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .work-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-top: auto;
+  padding-top: var(--spacing-md);   /* ← bump from sm → md */
+  border-top: 1px solid var(--border-subtle);  /* ← optional: adds a clear separator */
   color: var(--color-steel-blue);
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: var(--spacing-md);
-}
-
-.featured-content p {
-  color: var(--text-secondary);
-  max-width: 100%;
-}
-
-/* Tablet */
-@media (max-width: 1024px) {
-  .featured-grid {
-    grid-template-columns: 1fr;
+  font-weight: 500;
+  transition: gap var(--transition-base);
   }
 
-  .featured-visual {
-    min-height: 280px;
-  }
-}
+  .work-card:hover .work-link { gap: var(--spacing-sm); }
 
-/* Mobile */
-@media (max-width: 640px) {
-  .featured-grid {
-    gap: var(--spacing-lg);
+  .featured-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--spacing-2xl);
   }
-
-  .featured-card {
-    border-radius: 20px;
-  }
-
-  .featured-visual {
-    min-height: 220px;
-    padding: 1.25rem;
-  }
-
-  .featured-visual img {
-    width: min(92%, 360px);
-    max-height: 180px;
-  }
-
-  .featured-content {
-    padding: var(--spacing-lg);
-  }
-}
 
   /* =============================================
      PROCESS
@@ -979,14 +1027,8 @@ const reasons = [
     line-height: 1;
   }
 
-  .process-step h3 {
-    color: inherit;
-  }
-
-  .process-step p {
-    margin: 0;
-    max-width: 100%;
-  }
+  .process-step h3 { color: inherit; }
+  .process-step p  { margin: 0; max-width: 100%; }
 
   /* =============================================
      WHY US
@@ -999,13 +1041,8 @@ const reasons = [
     align-items: center;
   }
 
-  .why-copy p {
-    color: var(--text-secondary);
-  }
-
-  .why-copy .btn {
-    margin-top: var(--spacing-md);
-  }
+  .why-copy p { color: var(--text-secondary); }
+  .why-copy .btn { margin-top: var(--spacing-md); }
 
   .reason-list {
     display: grid;
@@ -1073,18 +1110,13 @@ const reasons = [
     box-shadow: var(--shadow-card);
   }
 
-  .resource-card p {
-    color: var(--text-secondary);
-    max-width: 100%;
-  }
+  .resource-card p { color: var(--text-secondary); max-width: 100%; }
 
   /* =============================================
      FINAL CTA
      ============================================= */
 
-  .final-cta-section {
-    padding-top: var(--spacing-2xl);
-  }
+  .final-cta-section { padding-top: var(--spacing-2xl); }
 
   .final-cta {
     position: relative;
@@ -1100,13 +1132,8 @@ const reasons = [
     box-shadow: var(--shadow-card);
   }
 
-  .final-cta .eyebrow {
-    justify-content: center;
-  }
-
-  .final-cta .eyebrow::before {
-    display: none;
-  }
+  .final-cta .eyebrow { justify-content: center; }
+  .final-cta .eyebrow::before { display: none; }
 
   .final-cta h2 {
     max-width: 820px;
@@ -1137,16 +1164,6 @@ const reasons = [
     .process-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
-
-    .featured-card {
-      grid-template-columns: 1fr;
-    }
-
-    .featured-visual {
-      min-height: 220px;
-      border-right: none;
-      border-bottom: 1px solid var(--border-subtle);
-    }
   }
 
   @media (max-width: 900px) {
@@ -1157,29 +1174,19 @@ const reasons = [
       gap: var(--spacing-xl);
     }
 
-    .home-hero {
-      padding-top: var(--spacing-2xl);
-    }
+    .home-hero { padding-top: var(--spacing-2xl); }
 
     .service-grid,
-    .featured-grid,
+    .work-grid,
     .resource-grid {
       grid-template-columns: 1fr;
     }
 
-    .split-header {
-      align-items: start;
-    }
-
-    .split-header .btn {
-      width: fit-content;
-    }
+    .split-header { align-items: start; }
   }
 
   @media (max-width: 768px) {
-    .section-header {
-      margin-bottom: var(--spacing-xl);
-    }
+    .section-header { margin-bottom: var(--spacing-xl); }
 
     .hero-actions,
     .cta-actions {
@@ -1192,13 +1199,10 @@ const reasons = [
       width: 100%;
     }
 
-    .home-hero-panel {
-      border-radius: 20px;
-    }
+    .home-hero-panel { border-radius: 20px; }
 
     .panel-body,
     .service-card,
-    .featured-content,
     .final-cta {
       padding: var(--spacing-lg);
     }
@@ -1220,38 +1224,50 @@ const reasons = [
       gap: var(--spacing-md);
     }
 
-    .final-cta {
-      border-radius: 24px;
-    }
+    .final-cta { border-radius: 24px; }
   }
 
   @media (max-width: 480px) {
-    .eyebrow {
-      font-size: 0.72rem;
-    }
-
-    .eyebrow::before {
-      width: 20px;
-    }
+    .eyebrow { font-size: 0.72rem; }
+    .eyebrow::before { width: 20px; }
 
     .panel-list div,
     .reason-item {
       align-items: flex-start;
     }
 
-    .featured-visual {
-      min-height: 180px;
-    }
-
-    .featured-visual span {
-      width: 72px;
-      height: 72px;
-      border-radius: 20px;
-      font-size: 1.6rem;
-    }
-
-    .process-step span {
-      font-size: 2rem;
-    }
+    .process-step span { font-size: 2rem; }
   }
 </style>
+
+<script>
+  // Gallery hover slideshow — same logic as work.astro
+  function initGalleries() {
+    document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((gallery) => {
+      const imgs = gallery.querySelectorAll('img');
+      const dots = gallery.querySelectorAll('.dot');
+      let current = 0;
+      let interval: ReturnType<typeof setInterval>;
+
+      const goTo = (index: number) => {
+        imgs[current].classList.remove('active');
+        dots[current]?.classList.remove('active');
+        current = index;
+        imgs[current].classList.add('active');
+        dots[current]?.classList.add('active');
+      };
+
+      const card = gallery.closest('.work-card');
+      card?.addEventListener('mouseenter', () => {
+        interval = setInterval(() => goTo((current + 1) % imgs.length), 1000);
+      });
+      card?.addEventListener('mouseleave', () => {
+        clearInterval(interval);
+        goTo(0);
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initGalleries);
+  document.addEventListener('DOMContentLoaded', initGalleries);
+</script>

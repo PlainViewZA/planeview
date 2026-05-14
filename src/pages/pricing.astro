@@ -1028,6 +1028,20 @@ import MainLayout from '../layouts/MainLayout.astro';
     border-radius: 20px;
   }
 }
+@media (max-width: 900px) {
+  .combo-inner {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-2xl);
+  }
+
+  .combo-right {
+    width: 100%;
+  }
+
+  .combo-value-card {
+    width: 100%;
+  }
+}
 
 </style>
 

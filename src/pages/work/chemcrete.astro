@@ -1,7 +1,6 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import Navigation from '../../components/Navbar.astro';
-import Footer from '../../components/Footer.astro';
+
 
 // ============================================================
 //  EDIT THIS SECTION ONLY — everything else stays the same
@@ -76,7 +75,7 @@ const project = {
 // ============================================================
 ---
 <MainLayout title={project.metaTitle} description={project.metaDescription}>
-  <Navigation />
+
 
    <!-- ═══════════════════════════════════════════
        1. HERO — Case Study Intro
@@ -467,7 +466,7 @@ const project = {
     </div>
   </section>
 
-  <Footer />
+
 </MainLayout>
 
 <!-- ═══════════════════════════════════════════
@@ -507,13 +506,13 @@ const project = {
     line-height: 1.1;
   }
 
-  .section-subheading {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 1.0625rem;
-    color: #636363;
-    margin: 0;
-    line-height: 1.6;
-  }
+ .section-subheading {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 1.0625rem;
+  color: #1a1a1a;
+  margin: 0;
+  line-height: 1.6;
+}
 
   /* ════════════════════════════════════════
      1. HERO
@@ -568,14 +567,7 @@ const project = {
     margin: 0.5rem 0 1.5rem;
   }
 
-  .cs-hero-tagline {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 1.125rem;
-    color: #636363;
-    line-height: 1.7;
-    max-width: 480px;
-    margin: 0;
-  }
+
 
   .cs-hero-meta {
     display: flex;
@@ -1313,6 +1305,15 @@ const project = {
 
   .next-project-link:hover .next-project-name { color: #ffffff; }
   .next-project-link:hover .next-arrow { color: #ffffff; transform: translateX(8px); }
+
+.cs-hero-tagline,
+.chapter-content p,
+.pillar p,
+.stat-desc,
+.type-usage,
+.specimen-body {
+  color: #3f3f3f;
+}
 
   /* ════════════════════════════════════════
      RESPONSIVE

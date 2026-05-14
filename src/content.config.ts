@@ -22,7 +22,7 @@ const insights = defineCollection({
     images: z.array(
       z.object({
         src:  z.string().min(1),
-        url:  z.string().url().optional(),
+        url:  z.string().optional(),
         hero: z.boolean().optional(),
         alt:  z.string().optional(),
       })

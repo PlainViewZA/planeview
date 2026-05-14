@@ -1,0 +1,110 @@
+---
+/**
+ * SkeletonCard.astro
+ * ─────────────────────────────────────────────────────────────
+ * A universal card skeleton for blog posts, pricing plans,
+ * product cards, dashboard widgets, and CMS-loaded content.
+ *
+ * Props:
+ *   showImage    — show the image placeholder   (default: true)
+ *   showBadge    — show a badge/tag placeholder  (default: false)
+ *   showAvatar   — show an author avatar row     (default: false)
+ *   showCta      — show the CTA button           (default: true)
+ *   lines        — number of body text lines     (default: 3)
+ *   imageHeight  — Tailwind h-* class string     (default: "h-48")
+ *   class        — extra classes on the wrapper  (default: "")
+ *
+ * Usage:
+ *   import SkeletonCard from '@/components/Skeletons/SkeletonCard.astro'
+ *   <SkeletonCard />
+ *   <SkeletonCard showAvatar showBadge lines={4} imageHeight="h-56" />
+ */
+
+interface Props {
+  showImage?:   boolean;
+  showBadge?:   boolean;
+  showAvatar?:  boolean;
+  showCta?:     boolean;
+  lines?:       number;
+  imageHeight?: string;
+  class?:       string;
+}
+
+const {
+  showImage   = true,
+  showBadge   = false,
+  showAvatar  = false,
+  showCta     = true,
+  lines       = 3,
+  imageHeight = "h-48",
+  class: extraClass = "",
+} = Astro.props;
+
+const bodyLines = Array.from({ length: lines });
+
+// Vary the last line width to look natural
+const lineWidths = ["w-full", "w-11/12", "w-4/5", "w-3/4", "w-2/3", "w-1/2"];
+function lineWidth(index: number, total: number): string {
+  if (index === total - 1) return lineWidths[3 + (index % 3)]; // shorter last line
+  return lineWidths[index % 2];
+}
+---
+
+<article
+  class:list={[
+    "skeleton-group rounded-xl overflow-hidden",
+    "bg-white dark:bg-slate-900",
+    "border border-slate-100 dark:border-slate-800",
+    "shadow-sm",
+    "flex flex-col",
+    extraClass,
+  ]}
+  aria-busy="true"
+  aria-label="Loading content"
+>
+
+  <!-- Image placeholder -->
+  {showImage && (
+    <div class:list={["skeleton w-full rounded-none", imageHeight]} />
+  )}
+
+  <div class="p-5 flex flex-col gap-4 flex-1 skeleton-stagger">
+
+    <!-- Badge placeholder -->
+    {showBadge && (
+      <div class="skeleton skeleton-rounded h-5 w-20" />
+    )}
+
+    <!-- Title placeholder -->
+    <div class="space-y-2">
+      <div class="skeleton h-5 w-4/5 rounded" />
+      <div class="skeleton h-5 w-3/5 rounded" />
+    </div>
+
+    <!-- Body text placeholder -->
+    <div class="space-y-2 flex-1">
+      {bodyLines.map((_, i) => (
+        <div
+          class:list={["skeleton h-3.5 rounded", lineWidth(i, lines)]}
+        />
+      ))}
+    </div>
+
+    <!-- Author / avatar row placeholder -->
+    {showAvatar && (
+      <div class="flex items-center gap-3 pt-1">
+        <div class="skeleton skeleton-circle h-8 w-8 shrink-0" />
+        <div class="flex-1 space-y-1.5">
+          <div class="skeleton h-3 w-24 rounded" />
+          <div class="skeleton h-3 w-16 rounded" />
+        </div>
+      </div>
+    )}
+
+    <!-- CTA button placeholder -->
+    {showCta && (
+      <div class="skeleton skeleton-rounded h-10 w-full mt-auto" />
+    )}
+
+  </div>
+</article>

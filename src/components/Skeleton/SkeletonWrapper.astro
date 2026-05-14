@@ -1,0 +1,63 @@
+---
+/**
+ * SkeletonWrapper.astro
+ * ─────────────────────────────────────────────────────────────
+ * Optional higher-level wrapper that conditionally renders
+ * its skeleton slot or its real content slot based on the
+ * `loading` prop.
+ *
+ * Slots:
+ *   skeleton  — skeleton placeholder markup (shown when loading)
+ *   default   — real content (shown when not loading)
+ *
+ * Props:
+ *   loading  — when true, renders the skeleton slot    (default: false)
+ *   label    — aria-label for the busy region          (default: "Loading")
+ *   class    — extra wrapper classes                   (default: "")
+ *
+ * Usage:
+ *   import SkeletonWrapper from '@/components/Skeletons/SkeletonWrapper.astro'
+ *   import SkeletonCard    from '@/components/Skeletons/SkeletonCard.astro'
+ *
+ *   const isLoading = !data;           // or from Astro.props / fetch
+ *
+ *   <SkeletonWrapper loading={isLoading} label="Loading blog post">
+ *     <SkeletonCard slot="skeleton" showAvatar showBadge />
+ *     <article>...real content...</article>
+ *   </SkeletonWrapper>
+ *
+ * Notes:
+ *   - In server-rendered Astro pages, `loading` is evaluated at
+ *     build/request time. For truly dynamic states you'll want
+ *     client-side JavaScript or View Transitions.
+ *   - Pair with Astro's `transition:animate` or `<ViewTransitions />`
+ *     to animate the swap between skeleton and real content.
+ */
+
+interface Props {
+  loading?: boolean;
+  label?:   string;
+  class?:   string;
+}
+
+const {
+  loading = false,
+  label   = "Loading",
+  class: extraClass = "",
+} = Astro.props;
+---
+
+{loading ? (
+  <div
+    class:list={["skeleton-group", extraClass]}
+    role="status"
+    aria-busy="true"
+    aria-label={label}
+  >
+    <slot name="skeleton" />
+  </div>
+) : (
+  <div class:list={[extraClass]}>
+    <slot />
+  </div>
+)}

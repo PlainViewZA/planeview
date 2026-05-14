@@ -4,7 +4,7 @@ const navItems = [
   { href: '/about',    label: 'About'    },
   { href: '/services', label: 'Services' },
   { href: '/work',     label: 'Work'     },
-  { href: '/insights',  label: 'Insights'  },
+  { href: '/insights', label: 'Insights' },
   { href: '/pricing',  label: 'Pricing'  },
   { href: '/contact',  label: 'Contact'  },
 ];
@@ -38,34 +38,52 @@ const navItems = [
       Start a Project <span class="arrow" aria-hidden="true">→</span>
     </a>
 
-    <!-- Mobile burger -->
-    <button
-      class="burger-btn"
-      aria-label="Open navigation menu"
-      aria-expanded="false"
-      aria-controls="mobile-drawer"
-    >
-      <span class="bar bar1" aria-hidden="true"></span>
-      <span class="bar bar2" aria-hidden="true"></span>
-      <span class="bar bar3" aria-hidden="true"></span>
-    </button>
+  
+<!-- Mobile menu button -->
+<button
+  class="burger-btn"
+  aria-label="Open navigation menu"
+  aria-expanded="false"
+  aria-controls="mobile-drawer"
+>
+  <span class="burger-label">Menu</span>
+</button>
 
   </div>
 </nav>
 
 <!-- Mobile slide-out drawer -->
-<div id="mobile-drawer" class="drawer" role="dialog" aria-modal="true" aria-label="Navigation menu" hidden>
-  <ul class="drawer-links" role="list">
-    {navItems.map((item) => (
-      <li>
-        <a href={item.href} class="drawer-link">{item.label}</a>
-      </li>
-    ))}
-  </ul>
-  <a href="/contact" class="btn-cta drawer-cta">
-    Start a Project <span class="arrow" aria-hidden="true">→</span>
-  </a>
+<aside
+  id="mobile-drawer"
+  class="drawer"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Navigation menu"
+  aria-hidden="true"
+>
+  <div class="drawer-inner">
+
+<div class="drawer-top">
+  <p class="drawer-eyebrow">Inspire</p>
+
+  <button
+    class="drawer-close"
+    type="button"
+    aria-label="Close navigation menu"
+  >
+    Close
+  </button>
 </div>
+    <ul class="drawer-links" role="list">
+      {navItems.map((item, index) => (
+        <li style={`--i: ${index}`}>
+          <a href={item.href} class="drawer-link">{item.label}</a>
+        </li>
+      ))}
+    </ul>
+
+ 
+</aside>
 
 <!-- Overlay -->
 <div class="overlay" aria-hidden="true"></div>
@@ -75,17 +93,21 @@ const navItems = [
 
 
 <script>
-  let cleanup: (() => void) | null = null;
+ let cleanup: (() => void) | null = null;
 
   function initNav() {
-    if (cleanup) { cleanup(); cleanup = null; }
+    if (cleanup) {
+      cleanup();
+      cleanup = null;
+    }
 
-    const nav         = document.querySelector<HTMLElement>('.nav');
-    const pill        = document.querySelector<HTMLElement>('.nav-pill');
-    const burgerBtn   = document.querySelector<HTMLButtonElement>('.burger-btn');
-    const drawer      = document.getElementById('mobile-drawer');
-    const overlay     = document.querySelector<HTMLElement>('.overlay');
-    const spacer      = document.querySelector<HTMLElement>('.nav-spacer');
+    const nav = document.querySelector<HTMLElement>('.nav');
+    const pill = document.querySelector<HTMLElement>('.nav-pill');
+    const burgerBtn = document.querySelector<HTMLButtonElement>('.burger-btn');
+    const drawer = document.getElementById('mobile-drawer');
+    const overlay = document.querySelector<HTMLElement>('.overlay');
+    const spacer = document.querySelector<HTMLElement>('.nav-spacer');
+    const drawerClose = document.querySelector<HTMLButtonElement>('.drawer-close');
 
     if (!nav || !pill) return;
 
@@ -94,6 +116,7 @@ const navItems = [
       const scrolled = window.pageYOffset > 40;
       pill.classList.toggle('scrolled', scrolled);
     };
+
     window.addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
@@ -101,61 +124,115 @@ const navItems = [
     const syncHeight = () => {
       const h = Math.ceil(nav.getBoundingClientRect().height);
       document.documentElement.style.setProperty('--nav-height', h + 'px');
-      if (spacer) spacer.style.height = h + 'px';
+
+      if (spacer) {
+        spacer.style.height = h + 'px';
+      }
     };
+
     const onResize = () => requestAnimationFrame(syncHeight);
+
     window.addEventListener('resize', onResize);
     syncHeight();
 
     // ── Mobile drawer ──
     const openDrawer = () => {
-      drawer?.removeAttribute('hidden');
+      drawer?.classList.add('is-open');
+      drawer?.setAttribute('aria-hidden', 'false');
+
       overlay?.classList.add('visible');
+
       burgerBtn?.classList.add('active');
       burgerBtn?.setAttribute('aria-expanded', 'true');
       burgerBtn?.setAttribute('aria-label', 'Close navigation menu');
+
+    
+
       document.body.classList.add('menu-open');
-      // Focus first link
-      drawer?.querySelector<HTMLElement>('.drawer-link')?.focus();
+
+      window.setTimeout(() => {
+        drawer?.querySelector<HTMLElement>('.drawer-link')?.focus();
+      }, 120);
     };
 
     const closeDrawer = () => {
-      drawer?.setAttribute('hidden', '');
+      drawer?.classList.remove('is-open');
+      drawer?.setAttribute('aria-hidden', 'true');
+
       overlay?.classList.remove('visible');
+
       burgerBtn?.classList.remove('active');
       burgerBtn?.setAttribute('aria-expanded', 'false');
       burgerBtn?.setAttribute('aria-label', 'Open navigation menu');
+
+   
+
       document.body.classList.remove('menu-open');
     };
 
-    burgerBtn?.addEventListener('click', () => {
-      const isOpen = burgerBtn.getAttribute('aria-expanded') === 'true';
-      isOpen ? closeDrawer() : openDrawer();
-    });
+    const toggleDrawer = () => {
+      const isOpen = burgerBtn?.getAttribute('aria-expanded') === 'true';
+
+      if (isOpen) {
+        closeDrawer();
+      } else {
+        openDrawer();
+      }
+    };
+
+    burgerBtn?.addEventListener('click', toggleDrawer);
+    drawerClose?.addEventListener('click', closeDrawer);
 
     // Close on overlay click
     overlay?.addEventListener('click', closeDrawer);
+    
 
     // Close on drawer link click
     const drawerLinks = drawer?.querySelectorAll('a');
-    drawerLinks?.forEach(l => l.addEventListener('click', closeDrawer));
+
+    drawerLinks?.forEach((link) => {
+      link.addEventListener('click', closeDrawer);
+    });
 
     // Close on Escape
     const onKeydown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') closeDrawer();
+      if (e.key === 'Escape') {
+        closeDrawer();
+      }
     };
+
     document.addEventListener('keydown', onKeydown);
 
-    // MO for height
+    // Close drawer if resizing back to desktop
+    const onDesktopResize = () => {
+      if (window.innerWidth > 900) {
+        closeDrawer();
+      }
+    };
+
+    window.addEventListener('resize', onDesktopResize);
+
+    // Watch for nav height changes
     const mo = new MutationObserver(syncHeight);
-    mo.observe(nav, { attributes: true });
+    mo.observe(nav, {
+      attributes: true,
+      childList: true,
+      subtree: true,
+    });
 
     cleanup = () => {
       window.removeEventListener('scroll', onScroll);
       window.removeEventListener('resize', onResize);
+      window.removeEventListener('resize', onDesktopResize);
       document.removeEventListener('keydown', onKeydown);
+
+      burgerBtn?.removeEventListener('click', toggleDrawer);
       overlay?.removeEventListener('click', closeDrawer);
-      drawerLinks?.forEach(l => l.removeEventListener('click', closeDrawer));
+
+      drawerLinks?.forEach((link) => {
+        link.removeEventListener('click', closeDrawer);
+      });
+
       mo.disconnect();
       closeDrawer();
     };
@@ -166,7 +243,6 @@ const navItems = [
   });
 </script>
 
-
 <style>
   /* ─── NAV SHELL ──────────────────────────────────────────────── */
   .nav {
@@ -176,7 +252,7 @@ const navItems = [
     right: 0;
     z-index: 1000;
     padding: 16px 24px;
-    pointer-events: none; /* let clicks through to the pill only */
+    pointer-events: none;
   }
 
   /* ─── PILL CONTAINER ─────────────────────────────────────────── */
@@ -189,7 +265,7 @@ const navItems = [
 
     max-width: 1200px;
     margin: 0 auto;
-    padding: 10px 20px 10px 20px;
+    padding: 10px 20px;
 
     background: rgba(13, 13, 13, 0.82);
     backdrop-filter: blur(22px) saturate(180%);
@@ -200,7 +276,8 @@ const navItems = [
     transition:
       padding var(--transition-base, 0.25s ease),
       background var(--transition-base, 0.25s ease),
-      box-shadow var(--transition-base, 0.25s ease);
+      box-shadow var(--transition-base, 0.25s ease),
+      border-color var(--transition-base, 0.25s ease);
   }
 
   .nav-pill.scrolled {
@@ -275,7 +352,6 @@ const navItems = [
     background: rgba(255, 255, 255, 0.07);
   }
 
-  /* Active state — matches current route */
   .nav-link[aria-current="page"] {
     color: #ffffff;
     background: rgba(255, 255, 255, 0.1);
@@ -327,94 +403,172 @@ const navItems = [
     transform: translateX(3px);
   }
 
-  /* ─── BURGER ─────────────────────────────────────────────────── */
+  /* ─── MOBILE MENU BUTTON ─────────────────────────────────────── */
   .burger-btn {
     display: none;
     position: relative;
-    z-index: 1301;
-    width: 40px;
-    height: 40px;
-    padding: 8px;
-    flex-direction: column;
+    z-index: 1001;
+
     align-items: center;
     justify-content: center;
-    gap: 5px;
-    flex-shrink: 0;
-    background: rgba(255, 255, 255, 0.06);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    height: 40px;
+    padding: 0 16px;
+
+    background: transparent;
+    border: 0;
     border-radius: 999px;
+
+    color: #ffffff;
     cursor: pointer;
-    transition: background 0.2s ease;
+
+    transition:
+      color 0.2s ease,
+      opacity 0.2s ease;
   }
 
   .burger-btn:hover {
-    background: rgba(255, 255, 255, 0.12);
+    opacity: 0.68;
   }
 
   .burger-btn:focus-visible {
     outline: 2px solid var(--color-steel-blue, #4a90d9);
-    outline-offset: 2px;
+    outline-offset: 4px;
   }
 
-  .bar {
-    display: block;
-    width: 18px;
-    height: 1.5px;
-    background: #f0f0f0;
-    border-radius: 2px;
-    transition:
-      transform 230ms cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 180ms ease;
-  }
-
-  .burger-btn.active .bar1 {
-    transform: translateY(6.5px) rotate(45deg);
-  }
-
-  .burger-btn.active .bar2 {
-    opacity: 0;
-    transform: scaleX(0);
-  }
-
-  .burger-btn.active .bar3 {
-    transform: translateY(-6.5px) rotate(-45deg);
+  .burger-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
   }
 
   /* ─── SPACER ─────────────────────────────────────────────────── */
   .nav-spacer {
     width: 100%;
-    height: 88px; /* overridden by JS */
+    height: 88px;
   }
 
-  /* ─── MOBILE DRAWER ──────────────────────────────────────────── */
+  /* ─── MOBILE DROPDOWN DRAWER ─────────────────────────────────── */
   .drawer {
     position: fixed;
     top: 0;
+    left: 0;
     right: 0;
     z-index: 1200;
-    width: min(300px, 88vw);
+
+    width: 100%;
+
+    /* Safari + mobile browser viewport fallback stack */
     height: 100vh;
+    height: 100svh;
+    height: 100dvh;
+
     display: flex;
     flex-direction: column;
-    padding: 80px 28px 40px;
-    background: #111111;
-    border-left: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: -8px 0 40px rgba(0, 0, 0, 0.5);
+
+    background:
+      radial-gradient(circle at top right, rgba(230, 126, 34, 0.16), transparent 34%),
+      radial-gradient(circle at bottom left, rgba(74, 144, 217, 0.13), transparent 38%),
+      rgba(10, 10, 10, 0.96);
+
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+
+    border-left: 0;
+    box-shadow: 0 18px 70px rgba(0, 0, 0, 0.62);
+
     overflow-y: auto;
-    transform: translateX(100%);
-    transition: transform 300ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
 
-  /* When NOT hidden, animate in */
-  .drawer:not([hidden]) {
-    transform: translateX(0);
-  }
-
-  /* Override the hidden attribute display:none so we can animate */
-  .drawer[hidden] {
-    display: flex !important;
-    transform: translateX(100%);
+    transform: translateY(-105%);
+    opacity: 0;
     pointer-events: none;
+
+    transition:
+      transform 420ms cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 260ms ease;
+  }
+
+  .drawer.is-open {
+    transform: translateY(0);
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .drawer-inner {
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    max-width: 1200px;
+    width: 100%;
+    margin: 0 auto;
+
+    /* iPhone notch + Safari safe-area support */
+    padding:
+      calc(110px + env(safe-area-inset-top))
+      max(32px, env(safe-area-inset-right))
+      calc(48px + env(safe-area-inset-bottom))
+      max(32px, env(safe-area-inset-left));
+  }
+
+  .drawer-top {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+
+    margin-bottom: 34px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    background: transparent;
+  }
+
+  .drawer-eyebrow {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.48);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .drawer-close {
+    appearance: none;
+    -webkit-appearance: none;
+
+    border: 0;
+    background: transparent;
+    color: #ffffff;
+    padding: 0;
+
+    cursor: pointer;
+
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+
+    opacity: 0.75;
+
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .drawer-close:hover {
+    opacity: 1;
+    transform: translateX(-2px);
+  }
+
+  .drawer-close:focus-visible {
+    outline: 2px solid var(--color-steel-blue, #4a90d9);
+    outline-offset: 4px;
+    border-radius: 4px;
   }
 
   .drawer-links {
@@ -425,33 +579,87 @@ const navItems = [
   }
 
   .drawer-links li {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    transform: translateY(-18px);
+    opacity: 0;
+
+    transition:
+      transform 420ms cubic-bezier(0.16, 1, 0.3, 1),
+      opacity 320ms ease;
+
+    transition-delay: calc(var(--i) * 45ms);
+  }
+
+  .drawer.is-open .drawer-links li {
+    transform: translateY(0);
+    opacity: 1;
   }
 
   .drawer-link {
-    display: block;
-    padding: 16px 0;
-    color: rgba(240, 240, 240, 0.85);
-    font-size: 1.0625rem;
-    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 18px 0;
+
+    color: rgba(245, 245, 245, 0.9);
+    font-size: clamp(1.55rem, 6.5vw, 2.75rem);
+    font-weight: 600;
+    letter-spacing: -0.045em;
+    line-height: 0.95;
     text-decoration: none;
-    transition: color 0.2s ease;
+
+    transition:
+      color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .drawer-link::after {
+    content: "→";
+    color: rgba(230, 126, 34, 0.75);
+    font-size: 0.55em;
+    opacity: 0;
+    transform: translateX(-8px);
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
   }
 
   .drawer-link:hover {
     color: #ffffff;
+    transform: translateX(4px);
+  }
+
+  .drawer-link:hover::after {
+    opacity: 1;
+    transform: translateX(0);
   }
 
   .drawer-link:focus-visible {
     outline: 2px solid var(--color-steel-blue, #4a90d9);
-    outline-offset: 2px;
-    border-radius: 4px;
+    outline-offset: 6px;
+    border-radius: 8px;
+    color: #ffffff;
+  }
+
+  .drawer-bottom {
+    margin-top: 32px;
+    display: grid;
+    gap: 18px;
   }
 
   .drawer-cta {
-    display: flex;
+    width: 100%;
     justify-content: center;
-    margin-top: 28px;
+    padding: 13px 20px;
+  }
+
+  .drawer-note {
+    max-width: 320px;
+    margin: 0;
+    color: rgba(255, 255, 255, 0.52);
+    font-size: 0.875rem;
+    line-height: 1.55;
   }
 
   /* ─── OVERLAY ────────────────────────────────────────────────── */
@@ -459,10 +667,14 @@ const navItems = [
     position: fixed;
     inset: 0;
     z-index: 1100;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(2px);
+
+    background: rgba(0, 0, 0, 0.58);
+    backdrop-filter: blur(3px);
+    -webkit-backdrop-filter: blur(3px);
+
     opacity: 0;
     pointer-events: none;
+
     transition: opacity 300ms ease;
   }
 
@@ -471,9 +683,30 @@ const navItems = [
     pointer-events: all;
   }
 
+  /* Fallback for browsers that do not support backdrop-filter */
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .drawer {
+      background: rgba(10, 10, 10, 0.98);
+    }
+
+    .overlay {
+      background: rgba(0, 0, 0, 0.72);
+    }
+  }
+
   /* ─── BODY LOCK ──────────────────────────────────────────────── */
   :global(body.menu-open) {
     overflow: hidden;
+    width: 100%;
+    overscroll-behavior: none;
+    touch-action: none;
+  }
+
+  @supports selector(html:has(body.menu-open)) {
+    :global(html:has(body.menu-open)) {
+      overflow: hidden;
+      overscroll-behavior: none;
+    }
   }
 
   /* ─── RESPONSIVE ─────────────────────────────────────────────── */
@@ -495,6 +728,61 @@ const navItems = [
     }
   }
 
+  @media (max-width: 520px) {
+    .nav {
+      padding: 12px 14px;
+    }
+
+    .nav-pill {
+      padding: 10px 16px;
+    }
+
+    .logo img {
+      width: 138px;
+    }
+
+    .drawer-inner {
+      padding:
+        calc(92px + env(safe-area-inset-top))
+        24px
+        calc(100px + env(safe-area-inset-bottom))
+        24px;
+    }
+
+    .drawer-top {
+      margin-bottom: 32px;
+    }
+
+    .drawer-link {
+      font-size: clamp(1.65rem, 10vw, 3rem);
+      padding: 16px 0;
+    }
+
+    .drawer-note {
+      max-width: 100%;
+    }
+  }
+
+  @media (max-width: 380px) {
+    .logo img {
+      width: 124px;
+    }
+
+    .burger-btn {
+      padding: 0 10px;
+    }
+
+    .drawer-inner {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .drawer-link {
+      font-size: clamp(1.45rem, 9vw, 2.55rem);
+      padding: 14px 0;
+    }
+  }
+
   @media (min-width: 901px) and (max-width: 1100px) {
     .nav-link {
       font-size: 0.85rem;
@@ -503,6 +791,19 @@ const navItems = [
 
     .logo img {
       width: 130px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .drawer,
+    .drawer-links li,
+    .drawer-link,
+    .overlay,
+    .btn-cta,
+    .nav-pill,
+    .burger-btn,
+    .drawer-close {
+      transition: none;
     }
   }
 </style>
