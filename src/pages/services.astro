@@ -4,9 +4,10 @@ import MainLayout from '../layouts/MainLayout.astro';
 const services = [
   {
     id: 'brand-strategy',
+    eyebrow: 'FOCUS AREA 01',
     title: 'Brand Strategy',
     summary: 'Clear positioning and messaging that gives your business a voice people understand and remember.',
-    description: 'We help you define who you are, who you serve, and what makes you different — then build the foundation that everything else grows from.',
+    description: 'We help you define who you are, who you serve, and what makes you different then build the foundation that everything else grows from.',
     forWho: 'Best for businesses that feel invisible, inconsistent, or unsure how to communicate their value.',
     icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
     items: [
@@ -19,9 +20,10 @@ const services = [
   },
   {
     id: 'website-design-development',
+    eyebrow: 'FOCUS AREA 02',
     title: 'Website Design & Development',
     summary: 'Fast, credible websites built to convert visitors into customers, not just look good.',
-    description: 'We design and build websites with clear hierarchy, strong calls to action, and performance baked in — so your site works as hard as you do.',
+    description: 'We design and build websites with clear hierarchy, strong calls to action, and performance baked in so your site works as hard as you do.',
     forWho: 'Best for businesses launching a new site, rebranding, or running a site that no longer reflects their quality.',
     icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M9 3V21" stroke="currentColor" stroke-width="2"/></svg>`,
     items: [
@@ -34,9 +36,10 @@ const services = [
   },
   {
     id: 'digital-marketing',
+    eyebrow: 'FOCUS AREA 03',
     title: 'Digital Marketing',
     summary: 'Campaigns that reach the right people and move them from attention to action.',
-    description: 'We create marketing strategies that are built around your audience and your goals — not templates. Every campaign is planned, tracked, and improved.',
+    description: 'We create marketing strategies that are built around your audience and your goals not templates. Every campaign is planned, tracked, and improved.',
     forWho: 'Best for businesses ready to grow beyond word of mouth and invest in consistent lead generation.',
     icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 11.5C21 16.75 16.75 21 11.5 21C6.25 21 2 16.75 2 11.5C2 6.25 6.25 2 11.5 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M22 2L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
     items: [
@@ -49,9 +52,10 @@ const services = [
   },
   {
     id: 'social-media-content',
+    eyebrow: 'FOCUS AREA 04',
     title: 'Social Media & Content',
-    summary: 'Consistent, on-brand content that builds trust and keeps your business visible.',
-    description: 'We handle the strategy, design, copy, and scheduling so your brand shows up professionally and regularly — without you having to think about it daily.',
+    summary: 'Consistent, on brand content that builds trust and keeps your business visible.',
+    description: 'We handle the strategy, design, copy, and scheduling so your brand shows up professionally and regularly without you having to think about it daily.',
     forWho: 'Best for businesses that know they need a social presence but do not have the time or team to do it well.',
     icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="2"/><path d="M14 8H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14 12H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14 16H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 16H10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
     items: [
@@ -78,7 +82,7 @@ const steps = [
   {
     step: '03',
     title: 'Creation',
-    description: 'We design, build, write, edit, and refine the work with purpose — not guesswork or filler.',
+    description: 'We design, build, write, edit, and refine the work with purpose not guesswork or filler.',
   },
   {
     step: '04',
@@ -123,7 +127,7 @@ const reasons = [
 
         <div class="split-body">
           <p>
-            Most agencies specialise in one thing. We combine brand strategy, design, website development, marketing, content, and digital systems — so your business gets a consistent presence instead of disconnected pieces.
+            Most agencies specialise in one thing. We combine brand strategy, design, website development, marketing, content, and digital systems so your business gets a consistent presence instead of disconnected pieces.
           </p>
           <p>
             We work specifically with small businesses that need both creative quality and practical execution. No unnecessary complexity. Just work that helps you grow.
@@ -146,6 +150,7 @@ const reasons = [
         {services.map((service) => (
           <a href={`#${service.id}`} class="overview-card spotlight-card" data-reveal>
             <div class="overview-icon" set:html={service.icon} />
+            <p class="eyebrow">{service.eyebrow}</p>
             <h3>{service.title}</h3>
             <p>{service.summary}</p>
             <span class="card-link">
@@ -163,9 +168,9 @@ const reasons = [
       <div class="container">
         <div class={`detail-grid ${i % 2 === 1 ? 'detail-grid--reversed' : ''}`} data-reveal>
           <div class="detail-copy">
-            <p class="eyebrow">{service.title}</p>
-            <h2>{service.title}</h2>
-            <p class="detail-description">{service.description}</p>
+           <p class="eyebrow">{service.eyebrow}</p>
+          <h2>{service.title}</h2>
+          <p class="detail-description">{service.description}</p>
 
             <div class="for-who">
               <span class="for-who-label">Who this is for</span>
@@ -250,7 +255,7 @@ const reasons = [
 
         <div class="cta-actions">
           <a href="/work" class="btn btn-outline btn-lg btn-orange-hover">
-            View Our Work <span class="arrow">→</span>
+            View Selected Work <span class="arrow">→</span>
           </a>
         </div>
       </div>

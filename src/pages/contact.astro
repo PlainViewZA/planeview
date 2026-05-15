@@ -47,45 +47,18 @@ import MainLayout from '../layouts/MainLayout.astro';
                 <label for="email">Email Address</label>
                 <input type="email" id="email" name="email" required placeholder="john@example.com" />
               </div>
-
-              <div class="form-group">
-                <label for="company">Company</label>
-                <input type="text" id="company" name="company" placeholder="Your Company (Optional)" />
-              </div>
-
-              <div class="form-group">
-              <label for="service">What are you interested in?</label>
-              <select id="service" name="service" required>
-              <option value="">Select a service</option>
-              <optgroup label="Websites">
-              <option value="website-starter"> Starter (R4,500)</option>
-              <option value="website-growth"> Growth (R8,500)</option>
-              <option value="website-professional">Professional (R12,000)</option>
-              <option value="store-starter">Online Store Starter (R14,500)</option>
-              <option value="store-growth">Online Store Growth (R18,000)</option>
-              <option value="maintenance-basic">Basic Care (R750/mo)</option>
-              <option value="maintenance-growth">Growth Care (R1,500/mo)</option>
-             </optgroup>
-          <optgroup label="Social Media">
-              <option value="social-starter">Starter (R4,500/mo)</option>
-              <option value="social-growth">Growth (R7,500/mo)</option>
-              <option value="social-authority">Authority (R11,000–R12,500/mo)</option>
-            </optgroup>
-              <optgroup label="Paid Ads">
-              <option value="ads-meta">Meta Ads (R2,500/mo)</option>
-              <option value="ads-google">Google Ads (R3,500/mo)</option>
-              <option value="ads-linkedin">LinkedIn Ads (R3,000/mo)</option>
-            </optgroup>
-            <optgroup label="SEO">
-            <option value="seo-local">Local (R5,000/mo)</option>
-            <option value="seo-growth">Growth (R9,500/mo)</option>
-            <option value="seo-advanced">Advanced (R13,000/mo)</option>
-            </optgroup>
-            <optgroup label="Other">
-            <option value="standalone">Standalone Services</option>
-            <option value="combo">Combination Package</option>
-            <option value="other">Something Else</option>
-         </optgroup>
+<div class="form-group">
+  <label for="service">Service Needed</label>
+  <select id="service" name="service" required>
+    <option value="">Select one</option>
+    <option value="website">Website / Online Store</option>
+    <option value="social-media">Social Media Management</option>
+    <option value="paid-ads">Paid Advertising</option>
+    <option value="seo">SEO / Google Visibility</option>
+    <option value="branding">Branding / Design</option>
+    <option value="maintenance">Website Maintenance</option>
+    <option value="combo">Combination Package</option>
+    <option value="other">Something Else</option>
   </select>
 </div>
 
@@ -200,11 +173,7 @@ import MainLayout from '../layouts/MainLayout.astro';
     z-index: 1;
     display: grid;
     grid-template-columns: 1.5fr 1fr;
-    gap: var(--spacing-3xl);
-  }
-
-  @media (max-width: 968px) {
-    .contact-grid { grid-template-columns: 1fr; }
+    gap: clamp(2rem, 5vw, var(--spacing-3xl));
   }
 
   /* Form container — dark card */
@@ -246,13 +215,11 @@ import MainLayout from '../layouts/MainLayout.astro';
     transition: border-color var(--transition-base), background var(--transition-base);
   }
 
-  /* Placeholder text */
   .form-group input::placeholder,
   .form-group textarea::placeholder {
     color: var(--text-muted);
   }
 
-  /* Select option text needs OS-level colour — set it explicitly */
   .form-group select option {
     background: var(--bg-card);
     color: var(--text-primary);
@@ -271,7 +238,10 @@ import MainLayout from '../layouts/MainLayout.astro';
     min-height: 120px;
   }
 
-  .btn-full { width: 100%; justify-content: center; }
+  .btn-full {
+    width: 100%;
+    justify-content: center;
+  }
 
   /* Info column */
   .contact-info {
@@ -384,13 +354,133 @@ import MainLayout from '../layouts/MainLayout.astro';
     font-size: 1.125rem;
   }
 
+  /* Tablet and below: stack form and cards with proper breathing room */
+  @media (max-width: 968px) {
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: clamp(2.5rem, 7vw, 4rem);
+    }
+
+    .form-container {
+      margin-bottom: 0;
+    }
+
+    .contact-info {
+      gap: var(--spacing-lg);
+    }
+  }
+
+  /* Tablet-specific spacing: prevents button from feeling glued to cards */
+  @media (min-width: 769px) and (max-width: 968px) {
+    .contact-grid-wrapper {
+      padding: 2rem;
+      margin: -2rem;
+    }
+
+    .contact-form {
+      gap: 1.25rem;
+    }
+
+    .btn-full {
+      margin-top: 0.75rem;
+    }
+
+    .contact-info {
+      margin-top: 0.75rem;
+    }
+  }
+
+  /* Small tablets and large phones */
   @media (max-width: 768px) {
+    .contact-grid-wrapper {
+      padding: 1.25rem;
+      margin: -1.25rem;
+    }
+
+    .contact-grid {
+      gap: 2.5rem;
+    }
+
     .form-container {
       padding: var(--spacing-lg);
     }
 
     .info-card {
       padding: var(--spacing-lg);
+    }
+
+    .btn-full {
+      margin-top: 0.5rem;
+    }
+
+    .contact-info {
+      gap: var(--spacing-md);
+    }
+  }
+
+  /* Phones */
+  @media (max-width: 520px) {
+    .contact-section {
+      padding-top: var(--spacing-md);
+    }
+
+    .contact-grid-wrapper {
+      padding: 0;
+      margin: 0;
+      overflow: visible;
+    }
+
+    .contact-grid {
+      gap: 2rem;
+    }
+
+    .form-container {
+      padding: 1rem;
+      border-radius: var(--radius-md);
+    }
+
+    .info-card {
+      padding: 1rem;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      font-size: 0.95rem;
+      padding: 0.85rem;
+    }
+
+    .btn-lg {
+      font-size: 1rem;
+      padding: 0.9rem 1rem;
+    }
+  }
+
+  /* Awkward narrow devices like 393px, 390px, 375px */
+  @media (max-width: 400px) {
+    .contact-grid {
+      gap: 1.75rem;
+    }
+
+    .form-container,
+    .info-card {
+      padding: 0.9rem;
+    }
+
+    .contact-form {
+      gap: 1rem;
+    }
+
+    .btn-full {
+      margin-top: 0.35rem;
+    }
+
+    .social-link {
+      padding: 0.8rem;
+    }
+
+    .expectations-list {
+      padding-left: 1.1rem;
     }
   }
 </style>

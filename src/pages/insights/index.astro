@@ -3,6 +3,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
 import { getCollection } from 'astro:content';
 import PostGrid from '../../components/insights/PostGrid.astro';
 
+
 const posts = await getCollection('insights');
 posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
@@ -15,17 +16,25 @@ const totalPosts = posts.length;
 >
   <div class="insights-page">
 
+  
+
     <div class="insights-container">
 
       <!-- Top bar -->
       <nav class="topbar" aria-label="Page navigation">
         <a href="/" class="back-btn" aria-label="Back to home">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-            <path d="M9 2L4 7L9 12" stroke="currentColor" stroke-width="1.6"
-              stroke-linecap="round" stroke-linejoin="round"/>
+            <path
+              d="M9 2L4 7L9 12"
+              stroke="currentColor"
+              stroke-width="1.6"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
           </svg>
           <span>Back to home</span>
         </a>
+
         <span class="archive-label" aria-hidden="true">Insights archive</span>
       </nav>
 
@@ -66,6 +75,27 @@ const totalPosts = posts.length;
       <!-- Grid -->
       <PostGrid posts={posts} />
 
+      <!-- Coming Soon Box -->
+      <section class="coming-soon-box" aria-labelledby="coming-soon-title">
+        <div class="coming-soon-content">
+          <p class="coming-soon-kicker">More on the way</p>
+
+          <h2 id="coming-soon-title">
+            More content coming soon.
+          </h2>
+
+          <p>
+            We’re building out more campaign breakdowns, design notes, and digital strategy
+            insights from our work with small businesses.
+          </p>
+        </div>
+
+        <a href="/contact" class="coming-soon-link">
+          Start a project
+          <span aria-hidden="true">→</span>
+        </a>
+      </section>
+
     </div>
 
     <!-- Ambient glow — purely decorative -->
@@ -92,17 +122,37 @@ const totalPosts = posts.length;
   }
 
   /* ── Shell ── */
-  .insights-page {
-    position: relative;
-    background: var(--c-bg);
-    min-height: 100vh;
-    overflow-x: hidden;
-    color: var(--c-ink);
+ .insights-page {
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+  color: var(--c-ink);
+
+  /* Let MainLayout BrandLines + FloatingCanvas show through */
+  background:
+    linear-gradient(
+      180deg,
+      rgba(8, 8, 8, 0.92) 0%,
+      rgba(8, 8, 8, 0.88) 45%,
+      rgba(8, 8, 8, 0.94) 100%
+    );
+}
+
+  .insights-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .insights-background :global(*) {
+    pointer-events: none;
   }
 
   .insights-container {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     max-width: 1280px;
     margin: 0 auto;
     padding: 0 2rem 8rem;
@@ -114,20 +164,26 @@ const totalPosts = posts.length;
     pointer-events: none;
     border-radius: 50%;
     filter: blur(110px);
-    z-index: 0;
+    z-index: 1;
   }
 
   .glow-a {
-    width: 55vw; height: 55vw;
-    max-width: 700px; max-height: 700px;
-    top: -12%; left: -12%;
+    width: 55vw;
+    height: 55vw;
+    max-width: 700px;
+    max-height: 700px;
+    top: -12%;
+    left: -12%;
     background: radial-gradient(circle, rgba(249,115,22,0.09) 0%, transparent 70%);
   }
 
   .glow-b {
-    width: 40vw; height: 40vw;
-    max-width: 500px; max-height: 500px;
-    top: 4%; right: -10%;
+    width: 40vw;
+    height: 40vw;
+    max-width: 500px;
+    max-height: 500px;
+    top: 4%;
+    right: -10%;
     background: radial-gradient(circle, rgba(255,255,255,0.04) 0%, transparent 70%);
   }
 
@@ -154,11 +210,12 @@ const totalPosts = posts.length;
     font-weight: 600;
     letter-spacing: 0.04em;
     backdrop-filter: blur(8px);
-    transition: background var(--dur) var(--ease),
-                color var(--dur) var(--ease),
-                border-color var(--dur) var(--ease),
-                transform var(--dur) var(--ease),
-                box-shadow var(--dur) var(--ease);
+    transition:
+      background var(--dur) var(--ease),
+      color var(--dur) var(--ease),
+      border-color var(--dur) var(--ease),
+      transform var(--dur) var(--ease),
+      box-shadow var(--dur) var(--ease);
   }
 
   .back-btn:hover {
@@ -169,8 +226,13 @@ const totalPosts = posts.length;
     box-shadow: 0 8px 28px var(--c-oglow);
   }
 
-  .back-btn svg { transition: transform var(--dur) var(--ease); }
-  .back-btn:hover svg { transform: translateX(-2px); }
+  .back-btn svg {
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .back-btn:hover svg {
+    transform: translateX(-2px);
+  }
 
   .archive-label {
     font-size: 0.65rem;
@@ -199,7 +261,8 @@ const totalPosts = posts.length;
   }
 
   .kicker-dot {
-    width: 6px; height: 6px;
+    width: 6px;
+    height: 6px;
     border-radius: 50%;
     background: var(--c-orange);
     box-shadow: 0 0 10px var(--c-orange);
@@ -242,7 +305,8 @@ const totalPosts = posts.length;
   }
 
   .strip-div {
-    width: 1px; height: 1rem;
+    width: 1px;
+    height: 1rem;
     background: var(--c-border);
     flex-shrink: 0;
   }
@@ -271,32 +335,164 @@ const totalPosts = posts.length;
     background: linear-gradient(to right, var(--c-border), transparent);
   }
 
+  /* ── Coming Soon Box ── */
+  .coming-soon-box {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    margin-top: 4.5rem;
+    padding: clamp(1.5rem, 4vw, 2.5rem);
+    border-radius: var(--radius);
+    border: 1px solid var(--c-border);
+    background:
+      linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)),
+      rgba(255,255,255,0.035);
+    box-shadow: 0 24px 70px rgba(0,0,0,0.28);
+    backdrop-filter: blur(16px);
+    overflow: hidden;
+  }
+
+  .coming-soon-box::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at top right, rgba(249,115,22,0.14), transparent 35%),
+      radial-gradient(circle at bottom left, rgba(255,255,255,0.05), transparent 38%);
+    pointer-events: none;
+  }
+
+  .coming-soon-box > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .coming-soon-content {
+    max-width: 680px;
+  }
+
+  .coming-soon-kicker {
+    margin: 0 0 0.75rem;
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--c-orange);
+  }
+
+  .coming-soon-box h2 {
+    margin: 0 0 0.75rem;
+    color: var(--c-ink);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1.05;
+    letter-spacing: -0.03em;
+  }
+
+  .coming-soon-box p {
+    max-width: 620px;
+    margin: 0;
+    color: var(--c-ink-soft);
+    line-height: 1.75;
+  }
+
+  .coming-soon-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    flex-shrink: 0;
+    padding: 0.85rem 1.15rem;
+    border-radius: 999px;
+    border: 1px solid rgba(249,115,22,0.45);
+    background: rgba(249,115,22,0.12);
+    color: var(--c-orange);
+    text-decoration: none;
+    font-size: 0.82rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    transition:
+      background var(--dur) var(--ease),
+      color var(--dur) var(--ease),
+      transform var(--dur) var(--ease),
+      box-shadow var(--dur) var(--ease);
+  }
+
+  .coming-soon-link:hover {
+    background: var(--c-orange);
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 34px var(--c-oglow);
+  }
+
+  .coming-soon-link span {
+    transition: transform var(--dur) var(--ease);
+  }
+
+  .coming-soon-link:hover span {
+    transform: translateX(3px);
+  }
+
   /* ── Responsive ── */
   @media (max-width: 768px) {
-    .insights-container { padding: 0 1.25rem 6rem; }
+    .insights-container {
+      padding: 0 1.25rem 6rem;
+    }
 
     .topbar {
       padding-top: 1.75rem;
       margin-bottom: 3.5rem;
     }
 
-    .archive-label { display: none; }
+    .archive-label {
+      display: none;
+    }
 
-    .hero { margin-bottom: 3.5rem; }
+    .hero {
+      margin-bottom: 3.5rem;
+    }
 
     .hero h1 {
       font-size: clamp(2.5rem, 12vw, 3.8rem);
       line-height: 0.95;
     }
 
-    .intro { font-size: 0.97rem; }
+    .intro {
+      font-size: 0.97rem;
+    }
 
-    .strip-div { display: none; }
+    .strip-div {
+      display: none;
+    }
 
-    .meta-strip { gap: 0.5rem; }
+    .meta-strip {
+      gap: 0.5rem;
+    }
+
+    .coming-soon-box {
+      flex-direction: column;
+      align-items: flex-start;
+      margin-top: 3rem;
+    }
+
+    .coming-soon-link {
+      width: 100%;
+    }
   }
 
   @media (max-width: 480px) {
-    .topbar { margin-bottom: 2.75rem; }
+    .topbar {
+      margin-bottom: 2.75rem;
+    }
+
+    .insights-container {
+      padding-inline: 1rem;
+    }
+
+    .coming-soon-box {
+      border-radius: 1rem;
+    }
   }
 </style>

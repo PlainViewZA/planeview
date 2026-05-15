@@ -4,7 +4,6 @@ const navItems = [
   { href: '/about',    label: 'About'    },
   { href: '/services', label: 'Services' },
   { href: '/work',     label: 'Work'     },
-  { href: '/insights', label: 'Insights' },
   { href: '/pricing',  label: 'Pricing'  },
   { href: '/contact',  label: 'Contact'  },
 ];
@@ -33,10 +32,7 @@ const navItems = [
       ))}
     </ul>
 
-    <!-- Desktop CTA -->
-    <a href="/contact" class="btn-cta" aria-label="Start a project with Plane View Collective">
-      Start a Project <span class="arrow" aria-hidden="true">→</span>
-    </a>
+
 
   
 <!-- Mobile menu button -->
@@ -255,30 +251,31 @@ const navItems = [
     pointer-events: none;
   }
 
-  /* ─── PILL CONTAINER ─────────────────────────────────────────── */
-  .nav-pill {
-    pointer-events: all;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: var(--spacing-lg, 2rem);
 
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 10px 20px;
+/* ─── PILL CONTAINER ─────────────────────────────────────────── */
+.nav-pill {
+  pointer-events: all;
+  display: grid;
+  grid-template-columns: 160px 1fr 160px;
+  align-items: center;
+  gap: var(--spacing-lg, 2rem);
 
-    background: rgba(13, 13, 13, 0.82);
-    backdrop-filter: blur(22px) saturate(180%);
-    -webkit-backdrop-filter: blur(22px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.09);
-    border-radius: 999px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 20px;
 
-    transition:
-      padding var(--transition-base, 0.25s ease),
-      background var(--transition-base, 0.25s ease),
-      box-shadow var(--transition-base, 0.25s ease),
-      border-color var(--transition-base, 0.25s ease);
-  }
+  background: rgba(13, 13, 13, 0.82);
+  backdrop-filter: blur(22px) saturate(180%);
+  -webkit-backdrop-filter: blur(22px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 999px;
+
+  transition:
+    padding var(--transition-base, 0.25s ease),
+    background var(--transition-base, 0.25s ease),
+    box-shadow var(--transition-base, 0.25s ease),
+    border-color var(--transition-base, 0.25s ease);
+}
 
   .nav-pill.scrolled {
     padding: 8px 20px;
@@ -288,14 +285,15 @@ const navItems = [
   }
 
   /* ─── LOGO ───────────────────────────────────────────────────── */
-  .logo {
-    display: flex;
-    align-items: center;
-    flex-shrink: 0;
-    text-decoration: none;
-    opacity: 1;
-    transition: opacity 0.2s ease;
-  }
+.logo {
+  display: flex;
+  align-items: center;
+  justify-self: start;
+  flex-shrink: 0;
+  text-decoration: none;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
 
   .logo:hover,
   .logo:focus-visible {
@@ -316,14 +314,17 @@ const navItems = [
   }
 
   /* ─── NAV LINKS ──────────────────────────────────────────────── */
-  .nav-links {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-  }
+.nav-links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+
+  grid-column: 2;
+}
 
   .nav-link {
     position: relative;
@@ -710,24 +711,29 @@ const navItems = [
   }
 
   /* ─── RESPONSIVE ─────────────────────────────────────────────── */
-  @media (max-width: 900px) {
-    .nav {
-      padding: 12px 16px;
-    }
-
-    .nav-links {
-      display: none;
-    }
-
-    .btn-cta:not(.drawer-cta) {
-      display: none;
-    }
-
-    .burger-btn {
-      display: flex;
-    }
+@media (max-width: 900px) {
+  .nav {
+    padding: 12px 16px;
   }
 
+  .nav-pill {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-lg, 2rem);
+  }
+
+  .nav-links {
+    display: none;
+  }
+
+  .btn-cta:not(.drawer-cta) {
+    display: none;
+  }
+
+  .burger-btn {
+    display: flex;
+  }
+}
   @media (max-width: 520px) {
     .nav {
       padding: 12px 14px;
