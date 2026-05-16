@@ -1,0 +1,25 @@
+---
+import { getCollection } from 'astro:content';
+import ChemcreteCaseStudy from '../../components/case-studies/ChemcreteCaseStudy.astro';
+import UnexpectedOpportunitiesCaseStudy from '../../components/case-studies/UnexpectedOpportunitiesCaseStudy.astro';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('work');
+
+  return entries.map((entry) => ({
+    params: { slug: entry.data.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+
+if (!entry) {
+  throw new Error('Case study not found');
+}
+
+const data = entry.data;
+---
+
+{data.theme === 'chemcrete' && <ChemcreteCaseStudy data={data} />}
+{data.theme === 'unexpected-opportunities' && <UnexpectedOpportunitiesCaseStudy data={data} />}

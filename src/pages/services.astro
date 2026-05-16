@@ -1,318 +1,738 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import Navigation from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
-import BrandLines from '../components/BrandLines.astro';
+
+const services = [
+  {
+    id: 'brand-strategy',
+    eyebrow: 'FOCUS AREA 01',
+    title: 'Brand Strategy',
+    summary: 'Clear positioning and messaging that gives your business a voice people understand and remember.',
+    description: 'We help you define who you are, who you serve, and what makes you different then build the foundation that everything else grows from.',
+    forWho: 'Best for businesses that feel invisible, inconsistent, or unsure how to communicate their value.',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+    items: [
+      'Brand positioning & messaging',
+      'Competitive analysis',
+      'Target audience research',
+      'Brand voice & tone guidelines',
+      'Strategic roadmap',
+    ],
+  },
+  {
+    id: 'website-design-development',
+    eyebrow: 'FOCUS AREA 02',
+    title: 'Website Design & Development',
+    summary: 'Fast, credible websites built to convert visitors into customers, not just look good.',
+    description: 'We design and build websites with clear hierarchy, strong calls to action, and performance baked in so your site works as hard as you do.',
+    forWho: 'Best for businesses launching a new site, rebranding, or running a site that no longer reflects their quality.',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/><path d="M9 3V21" stroke="currentColor" stroke-width="2"/></svg>`,
+    items: [
+      'Custom website design',
+      'Responsive development',
+      'Performance optimization',
+      'Content management setup',
+      'Analytics integration',
+    ],
+  },
+  {
+    id: 'digital-marketing',
+    eyebrow: 'FOCUS AREA 03',
+    title: 'Digital Marketing',
+    summary: 'Campaigns that reach the right people and move them from attention to action.',
+    description: 'We create marketing strategies that are built around your audience and your goals not templates. Every campaign is planned, tracked, and improved.',
+    forWho: 'Best for businesses ready to grow beyond word of mouth and invest in consistent lead generation.',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M21 11.5C21 16.75 16.75 21 11.5 21C6.25 21 2 16.75 2 11.5C2 6.25 6.25 2 11.5 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M22 2L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+    items: [
+      'Campaign strategy & planning',
+      'Paid advertising (Google, Meta)',
+      'Email marketing campaigns',
+      'Performance tracking & reporting',
+      'A/B testing & optimization',
+    ],
+  },
+  {
+    id: 'social-media-content',
+    eyebrow: 'FOCUS AREA 04',
+    title: 'Social Media & Content',
+    summary: 'Consistent, on brand content that builds trust and keeps your business visible.',
+    description: 'We handle the strategy, design, copy, and scheduling so your brand shows up professionally and regularly without you having to think about it daily.',
+    forWho: 'Best for businesses that know they need a social presence but do not have the time or team to do it well.',
+    icon: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2"/><circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="2"/><path d="M14 8H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14 12H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M14 16H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 16H10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>`,
+    items: [
+      'Social media strategy',
+      'Content calendar planning',
+      'Graphic design & video',
+      'Copywriting & captions',
+      'Community management',
+    ],
+  },
+];
+
+const steps = [
+  {
+    step: '01',
+    title: 'Discovery',
+    description: 'We learn everything about your brand, audience, current challenges, and where your digital presence needs to improve.',
+  },
+  {
+    step: '02',
+    title: 'Strategy',
+    description: 'We map the plan, structure, messaging, content direction, and technical requirements before we create anything.',
+  },
+  {
+    step: '03',
+    title: 'Creation',
+    description: 'We design, build, write, edit, and refine the work with purpose not guesswork or filler.',
+  },
+  {
+    step: '04',
+    title: 'Launch & Improve',
+    description: 'We help you ship the work, review performance, and keep improving your presence over time.',
+  },
+];
+
+const reasons = [
+  'Start with one service or combine several',
+  'Strategy comes before any creative work',
+  'One team handles design, content, and systems',
+  'Built specifically for small businesses',
+  'Clear communication throughout every project',
+  'Execution that is practical, not just pretty',
+];
 ---
 
-<MainLayout 
+<MainLayout
   title="Services | Plane View Collective"
-  description="Brand strategy, website design, digital marketing, and social content that helps brands stand out."
+  description="Brand strategy, website design, digital marketing, and social content that helps small businesses get noticed, understood, and remembered."
 >
-  <Navigation/>
-  <BrandLines />
-
-  <!-- Hero Section -->
-  <!-- FIX: Replaced .services-hero with .page-hero from global.css -->
-  <!-- REMOVED: padding-top: calc(var(--nav-height, 85px) + var(--spacing-lg)) -->
+  <!-- HERO -->
   <section class="section page-hero">
     <div class="container container-narrow">
-      <h1>What We Do</h1>
+      <p class="eyebrow">What We Do</p>
+      <h1>Strategy, creative, and digital execution built for small businesses.</h1>
       <p class="intro-text">
-        We help brands get noticed, understood, and remembered through strategic clarity and creative execution.
+        We help brands get noticed, understood, and remembered through clarity of message, quality of design, and consistent execution.
       </p>
     </div>
   </section>
 
-  <!-- Services Grid -->
+  <!-- POSITIONING SPLIT -->
+  <section class="section section-surface">
+    <div class="container">
+      <div class="split-header" data-reveal>
+        <div>
+          <p class="eyebrow">Our approach</p>
+          <h2>One team. Every piece of your digital presence.</h2>
+        </div>
+
+        <div class="split-body">
+          <p>
+            Most agencies specialise in one thing. We combine brand strategy, design, website development, marketing, content, and digital systems so your business gets a consistent presence instead of disconnected pieces.
+          </p>
+          <p>
+            We work specifically with small businesses that need both creative quality and practical execution. No unnecessary complexity. Just work that helps you grow.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES OVERVIEW GRID -->
   <section class="section">
     <div class="container">
-      <div class="services-grid">
-        
-        <!-- Brand Strategy -->
-        <article class="service-card" id="branding">
-          <div class="service-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <h2>Brand Strategy</h2>
-          <p class="service-description">Clear direction and positioning that resonates with real people. We help you understand who you are, what you stand for, and how to communicate that effectively.</p>
-          <h4>What's Included</h4>
-          <ul class="service-list">
-            <li>Brand positioning & messaging</li>
-            <li>Competitive analysis</li>
-            <li>Target audience research</li>
-            <li>Brand voice & tone guidelines</li>
-            <li>Strategic roadmap</li>
-          </ul>
-        </article>
+      <div class="section-header" data-reveal>
+        <p class="eyebrow">Core services</p>
+        <h2>Four ways we help your business grow.</h2>
+        <p>Each service is designed to work on its own or as part of a combined growth package.</p>
+      </div>
 
-        <!-- Website Design -->
-        <article class="service-card" id="web">
-          <div class="service-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
-              <path d="M9 3V21" stroke="currentColor" stroke-width="2"/>
-            </svg>
-          </div>
-          <h2>Website Design & Development</h2>
-          <p class="service-description">Performance-first design with clear hierarchy and strong CTAs. We build websites that are fast, accessible, and convert visitors into customers.</p>
-          <h4>What's Included</h4>
-          <ul class="service-list">
-            <li>Custom website design</li>
-            <li>Responsive development</li>
-            <li>Performance optimization</li>
-            <li>Content management setup</li>
-            <li>Analytics integration</li>
-          </ul>
-        </article>
-
-        <!-- Digital Marketing -->
-        <article class="service-card" id="marketing">
-          <div class="service-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M21 11.5C21 16.75 16.75 21 11.5 21C6.25 21 2 16.75 2 11.5C2 6.25 6.25 2 11.5 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M22 2L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <h2>Digital Marketing</h2>
-          <p class="service-description">Campaigns that turn attention into action. We create marketing strategies that reach the right people with the right message at the right time.</p>
-          <h4>What's Included</h4>
-          <ul class="service-list">
-            <li>Campaign strategy & planning</li>
-            <li>Paid advertising (Google, Meta)</li>
-            <li>Email marketing campaigns</li>
-            <li>Performance tracking & reporting</li>
-            <li>A/B testing & optimization</li>
-          </ul>
-        </article>
-
-        <!-- Social Content -->
-        <article class="service-card" id="social">
-          <div class="service-icon">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <rect x="2" y="2" width="20" height="20" rx="2" stroke="currentColor" stroke-width="2"/>
-              <circle cx="8" cy="8" r="2" stroke="currentColor" stroke-width="2"/>
-              <path d="M14 8H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M14 12H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M14 16H18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-              <path d="M6 16H10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <h2>Social Media & Content</h2>
-          <p class="service-description">Content that gets attention and drives engagement. We create social strategies and content that feels authentic and performs consistently.</p>
-          <h4>What's Included</h4>
-          <ul class="service-list">
-            <li>Social media strategy</li>
-            <li>Content calendar planning</li>
-            <li>Graphic design & video</li>
-            <li>Copywriting & captions</li>
-            <li>Community management</li>
-          </ul>
-        </article>
-
+      <div class="overview-grid">
+        {services.map((service) => (
+          <a href={`#${service.id}`} class="overview-card spotlight-card" data-reveal>
+            <div class="overview-icon" set:html={service.icon} />
+            <p class="eyebrow">{service.eyebrow}</p>
+            <h3>{service.title}</h3>
+            <p>{service.summary}</p>
+            <span class="card-link">
+              Explore service <span class="arrow">→</span>
+            </span>
+          </a>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- Process Section -->
-  <section class="section high-contrast">
-    <div class="container container-narrow">
-      <h2 class="text-center">Our Process</h2>
-      <p class="lead text-center">Every project follows a clear, proven process designed to deliver results.</p>
-      
-      <div class="process-timeline">
-        <div class="timeline-item">
-          <div class="timeline-marker">1</div>
-          <div class="timeline-content">
-            <h4>Discovery</h4>
-            <p>We learn everything about your brand, audience, and goals.</p>
+  <!-- SERVICE DETAIL SECTIONS -->
+  {services.map((service, i) => (
+    <section id={service.id} class={`section service-detail ${i % 2 === 1 ? 'section-surface' : ''}`}>
+      <div class="container">
+        <div class={`detail-grid ${i % 2 === 1 ? 'detail-grid--reversed' : ''}`} data-reveal>
+          <div class="detail-copy">
+           <p class="eyebrow">{service.eyebrow}</p>
+          <h2>{service.title}</h2>
+          <p class="detail-description">{service.description}</p>
+
+            <div class="for-who">
+              <span class="for-who-label">Who this is for</span>
+              <p>{service.forWho}</p>
+            </div>
+          </div>
+
+          <div class="detail-panel spotlight-card">
+            <p class="panel-heading">What's included</p>
+            <ul class="included-list">
+              {service.items.map((item) => (
+                <li>
+                  <span class="included-tick">→</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-        <div class="timeline-item">
-          <div class="timeline-marker">2</div>
-          <div class="timeline-content">
-            <h4>Strategy</h4>
-            <p>We develop a clear plan with measurable objectives.</p>
+      </div>
+    </section>
+  ))}
+
+  <!-- PROCESS -->
+  <section class="section high-contrast process-section">
+    <div class="container">
+      <div class="section-header" data-reveal>
+        <p class="eyebrow">How we work</p>
+        <h2>Simple process. Clear direction. Strong execution.</h2>
+        <p>We keep the process practical so you always know what is happening and what comes next.</p>
+      </div>
+
+      <div class="process-grid">
+        {steps.map((item) => (
+          <div class="process-card spotlight-card" data-reveal>
+            <span class="process-number">{item.step}</span>
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
           </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-marker">3</div>
-          <div class="timeline-content">
-            <h4>Creation</h4>
-            <p>We design and build with purpose, testing as we go.</p>
-          </div>
-        </div>
-        <div class="timeline-item">
-          <div class="timeline-marker">4</div>
-          <div class="timeline-content">
-            <h4>Launch</h4>
-            <p>We ship, measure, and optimize for continued growth.</p>
-          </div>
-        </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- CTA Section -->
+  <!-- WHY / SUPPORT SECTION -->
   <section class="section">
     <div class="container">
-      <div class="cta-box">
-        <h2>Ready to get started?</h2>
-        <p>Let's discuss which services are right for your brand.</p>
-        <a href="/contact" class="btn btn-primary btn-lg">
-          Book a Call
-          <span class="arrow">→</span>
-        </a>
+      <div class="support-grid" data-reveal>
+        <div class="support-copy">
+          <p class="eyebrow">Flexible by design</p>
+          <h2>Start where you are. Scale when you are ready.</h2>
+          <p>
+            You do not need to buy everything at once. Many clients start with brand strategy or a new website, then add content and marketing support as their business grows.
+          </p>
+          <p>
+            We scope every project to what you actually need — not a fixed package that does not fit. If your needs change, we adapt.
+          </p>
+          <a href="/pricing" class="btn btn-secondary btn-orange-hover">View pricing</a>
+        </div>
+
+        <div class="support-reasons">
+          {reasons.map((reason) => (
+            <div class="reason-item spotlight-card">
+              <span class="reason-tick">✓</span>
+              <p>{reason}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   </section>
 
-  <Footer />
+  <!-- FINAL WORK CTA -->
+  <section class="section final-cta-section">
+    <div class="container">
+      <div class="final-cta" data-reveal>
+        <p class="eyebrow">Explore our work</p>
+        <h2>See how these services come together in real projects.</h2>
+        <p>
+          View selected work to see how strategy, design, websites, and content support small business growth.
+        </p>
+
+        <div class="cta-actions">
+          <a href="/work" class="btn btn-outline btn-lg btn-orange-hover">
+            View Selected Work <span class="arrow">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
 </MainLayout>
 
 <style>
-  /* FIX: .services-hero removed entirely — using .page-hero from global.css instead */
-
+  /* ── HERO ─────────────────────────────────────────────────────────────────── */
   .intro-text {
-    font-size: 1.375rem;
-    line-height: 1.6;
-    color: var(--color-slate-grey);
+    font-size: clamp(1.1rem, 2vw, 1.3rem);
+    line-height: 1.7;
+    color: var(--text-secondary);
+    max-width: 680px;
+    margin-top: var(--spacing-md);
   }
 
-  .services-grid {
-    display: grid;
-    gap: var(--spacing-3xl);
-  }
-
-  .service-card {
-    padding: var(--spacing-2xl);
-    border: 1px solid rgba(17, 17, 17, 0.1);
-    border-radius: var(--radius-lg);
-    transition: all var(--transition-base);
-  }
-
-  .service-card:hover {
-    border-color: var(--color-steel-blue);
-    box-shadow: 0 12px 32px rgba(47, 111, 237, 0.1);
-  }
-
-  .service-icon {
-    width: 64px;
-    height: 64px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: var(--spacing-lg);
-    color: var(--color-steel-blue);
-  }
-
-  .service-card h2 {
-    margin-bottom: var(--spacing-md);
-  }
-
-  .service-description {
-    font-size: 1.125rem;
-    color: var(--color-slate-grey);
-    margin-bottom: var(--spacing-xl);
-  }
-
-  .service-card h4 {
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: var(--spacing-md);
-    color: var(--color-steel-blue);
-  }
-
-  .service-list {
-    list-style: none;
-    display: grid;
-    gap: var(--spacing-sm);
-  }
-
-  .service-list li {
-    padding-left: var(--spacing-lg);
-    position: relative;
-  }
-
-  .service-list li::before {
-    content: '→';
-    position: absolute;
-    left: 0;
-    color: var(--color-steel-blue);
-    font-weight: 700;
-  }
-
-  .text-center {
+  /* ── SHARED ──────────────────────────────────────────────────────────────── */
+  .section-header {
     text-align: center;
+    max-width: 780px;
+    margin: 0 auto var(--spacing-2xl);
   }
 
-  .lead {
+  .section-header p {
+    color: var(--text-secondary);
     margin-left: auto;
     margin-right: auto;
   }
 
-  .process-timeline {
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-steel-blue);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 2px;
+    background: var(--color-steel-blue);
+    border-radius: var(--radius-full);
+  }
+
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: auto;
+    color: var(--color-steel-blue);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  .btn-orange-hover:hover {
+    background-color: var(--color-signal-orange);
+    border-color: var(--color-signal-orange);
+    color: var(--color-pure-white);
+    transform: translateY(-2px);
+  }
+
+  /* ── POSITIONING SPLIT ───────────────────────────────────────────────────── */
+  .section-surface {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .split-header {
     display: grid;
-    gap: var(--spacing-xl);
-    margin-top: var(--spacing-2xl);
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 0.9fr);
+    gap: var(--spacing-2xl);
+    align-items: start;
   }
 
-  .timeline-item {
-    display: flex;
+  .split-header h2 {
+    margin-bottom: 0;
+  }
+
+  .split-body p {
+    color: var(--text-secondary);
+    margin-bottom: var(--spacing-md);
+  }
+
+  .split-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ── OVERVIEW GRID ───────────────────────────────────────────────────────── */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--spacing-lg);
-    align-items: flex-start;
   }
 
-  .timeline-marker {
+  .overview-card {
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-xl);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    color: inherit;
+    text-decoration: none;
+    transition:
+      transform var(--transition-base),
+      border-color var(--transition-base),
+      background var(--transition-base),
+      box-shadow var(--transition-base);
+    min-height: 280px;
+  }
+
+  .overview-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-medium);
+    background: var(--bg-card-hover);
+    box-shadow: var(--shadow-card);
+  }
+
+  .overview-icon {
     width: 48px;
     height: 48px;
-    border-radius: 50%;
-    background-color: var(--color-steel-blue);
-    color: var(--color-pure-white);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
-    font-size: 1.25rem;
+    color: var(--color-steel-blue);
+    margin-bottom: var(--spacing-lg);
     flex-shrink: 0;
   }
 
-  .timeline-content h4 {
-    color: var(--color-pure-white);
-    margin-bottom: var(--spacing-xs);
+  .overview-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-sm);
   }
 
-  .timeline-content p {
-    color: var(--color-slate-grey);
+  .overview-card p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    flex: 1;
+    margin-bottom: var(--spacing-lg);
+    max-width: 100%;
+  }
+
+  /* ── SERVICE DETAIL SECTIONS ─────────────────────────────────────────────── */
+  .service-detail {
+    scroll-margin-top: 100px;
+  }
+
+  .detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-3xl);
+    align-items: start;
+  }
+
+  .detail-grid--reversed {
+    direction: rtl;
+  }
+
+  .detail-grid--reversed > * {
+    direction: ltr;
+  }
+
+  .detail-copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .detail-copy h2 {
     margin: 0;
   }
 
-  .cta-box {
-    text-align: center;
-    padding: var(--spacing-3xl) var(--spacing-xl);
-    background-color: rgba(47, 111, 237, 0.05);
+  .detail-description {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .for-who {
+    padding: var(--spacing-lg);
+    border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
+    background: var(--bg-card);
+  }
+
+  .for-who-label {
+    display: block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-signal-orange);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .for-who p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    max-width: 100%;
+  }
+
+  .detail-panel {
+    padding: var(--spacing-xl);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+  }
+
+  .panel-heading {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-steel-blue);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .included-list {
+    list-style: none;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: var(--spacing-md);
+    padding: 0;
+    margin: 0;
+  }
+
+  .included-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    color: var(--text-primary);
+    font-size: 0.95rem;
+    padding-bottom: var(--spacing-md);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .included-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .included-tick {
+    color: var(--color-steel-blue);
+    font-weight: 700;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── PROCESS ─────────────────────────────────────────────────────────────── */
+  .process-section .section-header p {
+    color: inherit;
+    opacity: 0.7;
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--spacing-lg);
+  }
+
+  .process-card {
+    padding: var(--spacing-xl);
+    border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, currentColor 5%, transparent);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .process-number {
+    display: inline-flex;
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--color-steel-blue);
+    line-height: 1;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .process-card h3 {
+    color: inherit;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .process-card p {
+    color: inherit;
+    opacity: 0.75;
+    margin: 0;
+    max-width: 100%;
+  }
+
+  /* ── SUPPORT / FLEXIBLE ──────────────────────────────────────────────────── */
+  .support-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(320px, 1fr);
+    gap: var(--spacing-3xl);
+    align-items: start;
+  }
+
+  .support-copy {
+    display: flex;
+    flex-direction: column;
     gap: var(--spacing-md);
   }
 
-  .cta-box h2 { margin: 0; }
-
-  .cta-box p {
-    font-size: 1.125rem;
-    color: var(--color-slate-grey);
+  .support-copy h2 {
     margin: 0;
   }
 
-  .btn-lg {
-    padding: var(--spacing-md) var(--spacing-xl);
-    font-size: 1.125rem;
+  .support-copy p {
+    color: var(--text-secondary);
+    margin: 0;
+    max-width: 100%;
+  }
+
+  .support-reasons {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--spacing-md);
+  }
+
+  .reason-item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+  }
+
+  .reason-tick {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: var(--radius-full);
+    background: rgba(47, 111, 237, 0.14);
+    color: var(--color-steel-blue);
+    font-weight: 800;
+    font-size: 0.85rem;
+  }
+
+  .reason-item p {
+    margin: 0;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+    max-width: 100%;
+  }
+
+  /* ── FINAL CTA ───────────────────────────────────────────────────────────── */
+  .final-cta-section {
+    padding-top: var(--spacing-2xl);
+  }
+
+  .final-cta {
+    position: relative;
+    overflow: hidden;
+    padding: var(--spacing-3xl);
+    border: 1px solid var(--border-subtle);
+    border-radius: 32px;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(47, 111, 237, 0.22), transparent 32%),
+      radial-gradient(circle at 80% 80%, rgba(255, 106, 0, 0.16), transparent 32%),
+      var(--bg-card);
+    text-align: center;
+    box-shadow: var(--shadow-card);
+  }
+
+  .final-cta .eyebrow {
+    justify-content: center;
+  }
+
+  .final-cta .eyebrow::before {
+    display: none;
+  }
+
+  .final-cta h2 {
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .final-cta p {
+    color: var(--text-secondary);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    margin-top: var(--spacing-xl);
+  }
+
+  /* ── RESPONSIVE ─────────────────────────────────────────────────────────── */
+  @media (max-width: 1100px) {
+    .overview-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .process-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 900px) {
+    .split-header,
+    .support-grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-xl);
+    }
+
+    .detail-grid,
+    .detail-grid--reversed {
+      grid-template-columns: 1fr;
+      direction: ltr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .overview-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .overview-card {
+      min-height: auto;
+    }
+
+    .support-reasons {
+      grid-template-columns: 1fr;
+    }
+
+    .process-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .final-cta {
+      padding: var(--spacing-xl);
+      border-radius: 24px;
+    }
+
+    .cta-actions {
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .cta-actions .btn {
+      width: 100%;
+      max-width: 360px;
+    }
+
+    .detail-grid {
+      gap: var(--spacing-xl);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .eyebrow::before {
+      width: 20px;
+    }
+
+    .process-number {
+      font-size: 2rem;
+    }
   }
 </style>

@@ -1,0 +1,93 @@
+---
+/**
+ * SkeletonGallery.astro
+ * ─────────────────────────────────────────────────────────────
+ * Responsive image-grid skeleton for photo galleries,
+ * portfolio grids, product listings, and media feeds.
+ *
+ * Props:
+ *   count       — total grid items to render             (default: 6)
+ *   columns     — responsive column config               (default: "default")
+ *                 "default"  → 1 col / sm:2 / lg:3
+ *                 "tight"    → 2 col / md:3 / lg:4
+ *                 "masonry"  → 2 col / lg:3 (tall items)
+ *                 "wide"     → 1 col / md:2
+ *   aspectRatio — Tailwind aspect-* class string         (default: "aspect-video")
+ *                 "aspect-square" | "aspect-video" | "aspect-[4/3]" etc.
+ *   showCaption — render a caption line under each item  (default: false)
+ *   gap         — Tailwind gap-* class                   (default: "gap-4")
+ *   rounded     — Tailwind rounded-* class               (default: "rounded-xl")
+ *   class       — extra wrapper classes                  (default: "")
+ *
+ * Usage:
+ *   import SkeletonGallery from '@/components/Skeletons/SkeletonGallery.astro'
+ *
+ *   <!-- Basic 6-item grid -->
+ *   <SkeletonGallery />
+ *
+ *   <!-- Portfolio grid, square crops, with captions -->
+ *   <SkeletonGallery count={9} aspectRatio="aspect-square" showCaption />
+ *
+ *   <!-- Product listing, 4 columns, tighter gap -->
+ *   <SkeletonGallery count={8} columns="tight" gap="gap-3" />
+ *
+ *   <!-- Wide 2-col feature layout -->
+ *   <SkeletonGallery count={4} columns="wide" aspectRatio="aspect-[4/3]" />
+ */
+
+interface Props {
+  count?:       number;
+  columns?:     "default" | "tight" | "masonry" | "wide";
+  aspectRatio?: string;
+  showCaption?: boolean;
+  gap?:         string;
+  rounded?:     string;
+  class?:       string;
+}
+
+const {
+  count       = 6,
+  columns     = "default",
+  aspectRatio = "aspect-video",
+  showCaption = false,
+  gap         = "gap-4",
+  rounded     = "rounded-xl",
+  class: extraClass = "",
+} = Astro.props;
+
+const gridMap: Record<string, string> = {
+  default: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
+  tight:   "grid-cols-2 md:grid-cols-3 lg:grid-cols-4",
+  masonry: "grid-cols-2 lg:grid-cols-3",
+  wide:    "grid-cols-1 md:grid-cols-2",
+};
+const gridClass = gridMap[columns] ?? gridMap.default;
+
+const items = Array.from({ length: count });
+
+// In "masonry" mode, make every 3rd item taller for visual variety
+function itemAspect(i: number): string {
+  if (columns === "masonry" && i % 3 === 1) return "aspect-[3/4]";
+  return aspectRatio;
+}
+---
+
+<div
+  class:list={["skeleton-group grid", gridClass, gap, extraClass]}
+  aria-busy="true"
+  aria-label="Loading gallery"
+>
+  {items.map((_, i) => (
+    <figure class="skeleton-stagger flex flex-col gap-2">
+      <!-- Image placeholder -->
+      <div
+        class:list={["skeleton w-full", itemAspect(i), rounded]}
+      />
+
+      <!-- Optional caption placeholder -->
+      {showCaption && (
+        <figcaption class="skeleton h-3 rounded w-3/5" />
+      )}
+    </figure>
+  ))}
+</div>

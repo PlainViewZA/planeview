@@ -1,6 +1,7 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-
+import Navigation from '../../components/Navbar.astro';
+import Footer from '../../components/Footer.astro';
 
 // ============================================================
 //  EDIT THIS SECTION ONLY — everything else stays the same
@@ -77,7 +78,7 @@ const project = {
 ---
 
 <MainLayout title={project.metaTitle} description={project.metaDescription}>
-
+  <Navigation />
 
   <!-- ═══════════════════════════════════════════
        1. HERO — Case Study Intro
@@ -459,7 +460,7 @@ const project = {
     </div>
   </section>
 
-
+  <Footer />
 </MainLayout>
 
 <style>

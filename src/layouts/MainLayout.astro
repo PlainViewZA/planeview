@@ -1,10 +1,14 @@
 ---
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
 import FloatingCanvas from '../components/FloatingCanvas.astro';
 import Preloader from '../components/Preloader.astro';
-import '../styles/global.css';
-import { ClientRouter } from 'astro:transitions';
-import OrganizationSchema from '../seo/OrganizationSchema.astro';
 import BrandLines from '../components/BrandLines.astro';
+import OrganizationSchema from '../seo/OrganizationSchema.astro';
+
+import { ClientRouter } from 'astro:transitions';
+import '../styles/global.css';
+import '../styles/skeleton.css';
 
 interface Props {
   title?: string;
@@ -23,237 +27,355 @@ const {
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, 'https://www.planeview.co.za');
+const absoluteImageURL = new URL(image, 'https://www.planeview.co.za');
+
+
 ---
 
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <head>
 
-  <title>{title}</title>
-  <meta name="description" content={description} />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <link rel="canonical" href={canonicalURL} />
-  <meta name="robots" content="index, follow" />
-  <meta name="author" content="Plane View Collective" />
-  <meta name="copyright" content="Plane View Collective" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
 
-  <meta name="geo.region" content="ZA-WC" />
-  <meta name="geo.placename" content="Cape Town" />
-  <meta name="geo.position" content="-33.9249;18.4241" />
-  <meta name="ICBM" content="-33.9249, 18.4241" />
+    <link rel="canonical" href={canonicalURL} />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="Plane View Collective" />
+    <meta name="copyright" content="Plane View Collective" />
 
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  <link rel="apple-touch-icon" href="/favicon.svg" />
+    <meta name="geo.region" content="ZA-WC" />
+    <meta name="geo.placename" content="Cape Town" />
+    <meta name="geo.position" content="-33.9249;18.4241" />
+    <meta name="ICBM" content="-33.9249, 18.4241" />
 
-  <meta property="og:site_name" content="Plane View Collective" />
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:type" content={type} />
-  <meta property="og:url" content={canonicalURL} />
-  <meta property="og:image" content={image} />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Plane View Collective — Cape Town Marketing & Design Agency" />
-  <meta property="og:locale" content="en_ZA" />
+    <!-- Favicons -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 
-  <meta name="theme-color" content="#111111" />
+    <!-- Open Graph -->
+    <meta property="og:site_name" content="Plane View Collective" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={absoluteImageURL} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Plane View Collective — Cape Town Marketing & Design Agency"
+    />
+    <meta property="og:locale" content="en_ZA" />
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteImageURL} />
 
-  <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#111111" />
 
-  <ClientRouter />
-  <OrganizationSchema />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
 
-  <slot name="head" />
-</head>
+    <link rel="manifest" href="/site.webmanifest" />
 
-<body>
-  <Preloader transition:persist />
+    <ClientRouter />
+    <OrganizationSchema />
+    
 
-  <div class="page-wrapper">
-    <FloatingCanvas transition:persist />
-    <BrandLines transition:persist />
+    <slot name="head" />
+  </head>
 
-    <!-- FIX: closing tag was misplaced — </div> was before <slot /> -->
-    <div class="page-content">
-      <slot />
+  <body>
+    <Preloader transition:persist />
+
+    <div class="page-background" aria-hidden="true">
+      <FloatingCanvas transition:persist />
+      <BrandLines/>
     </div>
-  </div>
 
-  <script>
-    // ── Types ──────────────────────────────────────────────────
-    let scrollObserver: IntersectionObserver | null = null;
+    <div class="page-content">
+      <Navbar transition:persist />
 
-    // ── Scroll Reveal ──────────────────────────────────────────
-    function initScrollReveal() {
-      // Disconnect stale observer
-      if (scrollObserver) {
-        scrollObserver.disconnect();
-        scrollObserver = null;
-      }
+      <main class="site-main">
+        <slot />
+      </main>
 
-      // Clean up previous state
-      document.querySelectorAll('[data-reveal]').forEach(el => {
-        el.removeAttribute('data-reveal');
-        el.removeAttribute('data-reveal-delay');
-        el.classList.remove('revealed');
-      });
+      <Footer />
+    </div>
 
-      // Build observer before touching the DOM
-      scrollObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (!entry.isIntersecting) return;
-          const el = entry.target as HTMLElement;
-          const delay = parseInt(el.getAttribute('data-reveal-delay') || '0', 10);
-          setTimeout(() => el.classList.add('revealed'), delay);
-          scrollObserver?.unobserve(el);
-        });
-      }, {
-        threshold: 0.06,
-        rootMargin: '0px 0px -20px 0px',
-      });
+    <script>
+      // ── Types ──────────────────────────────────────────────────
+      let scrollObserver: IntersectionObserver | null = null;
 
-      // Single combined selector — one DOM query instead of 17
-      const combined = [
-        'h1', 'h2', 'h3',
-        'p.intro-text',
-        '.card',
-        '.service-card',
-        '.work-card',
-        '.pillar-item',
-        '.value-card',
-        '.process-step',
-        '.timeline-item',
-        '.meaning-item',
-        '.info-card',
-        '.cta-box',
-        '.location-box',
-        '.tone-item',
-        '.faq-item',
-        '.service-list',
-      ].join(', ');
-
-      const elements = document.querySelectorAll(combined);
-      const seen = new Set<Element>();
-      const parentIndexMap = new Map<Element, number>();
-
-      elements.forEach(el => {
-        if (seen.has(el)) return;
-        if (el.closest('#lightbox, nav, .nav, footer, .preloader')) return;
-        seen.add(el);
-
-        el.setAttribute('data-reveal', '');
-
-        const parent = el.parentElement || document.body;
-        const idx = parentIndexMap.get(parent) ?? 0;
-        parentIndexMap.set(parent, idx + 1);
-
-        if (idx > 0) {
-          el.setAttribute('data-reveal-delay', String(Math.min(idx * 50, 200)));
+      // ── Scroll Reveal ──────────────────────────────────────────
+      function initScrollReveal() {
+        // Disconnect stale observer
+        if (scrollObserver) {
+          scrollObserver.disconnect();
+          scrollObserver = null;
         }
 
-        scrollObserver!.observe(el);
+        // Clean up previous state
+        document.querySelectorAll('[data-reveal]').forEach((el) => {
+          el.removeAttribute('data-reveal');
+          el.removeAttribute('data-reveal-delay');
+          el.classList.remove('revealed');
+        });
+
+        // Build observer before touching the DOM
+        scrollObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return;
+
+              const el = entry.target as HTMLElement;
+              const delay = parseInt(el.getAttribute('data-reveal-delay') || '0', 10);
+
+              setTimeout(() => el.classList.add('revealed'), delay);
+
+              scrollObserver?.unobserve(el);
+            });
+          },
+          {
+            threshold: 0.06,
+            rootMargin: '0px 0px -20px 0px',
+          }
+        );
+
+        const combined = [
+          'h1',
+          'h2',
+          'h3',
+          'p.intro-text',
+          '.card',
+          '.service-card',
+          '.work-card',
+          '.pillar-item',
+          '.value-card',
+          '.process-step',
+          '.timeline-item',
+          '.meaning-item',
+          '.info-card',
+          '.cta-box',
+          '.location-box',
+          '.tone-item',
+          '.faq-item',
+          '.service-list',
+        ].join(', ');
+
+        const elements = document.querySelectorAll(combined);
+        const seen = new Set<Element>();
+        const parentIndexMap = new Map<Element, number>();
+
+        elements.forEach((el) => {
+          if (seen.has(el)) return;
+          if (el.closest('#lightbox, nav, .nav, footer, .preloader')) return;
+
+          seen.add(el);
+
+          el.setAttribute('data-reveal', '');
+
+          const parent = el.parentElement || document.body;
+          const idx = parentIndexMap.get(parent) ?? 0;
+
+          parentIndexMap.set(parent, idx + 1);
+
+          if (idx > 0) {
+            el.setAttribute('data-reveal-delay', String(Math.min(idx * 50, 200)));
+          }
+
+          scrollObserver!.observe(el);
+        });
+      }
+
+      // ── Contact form pre-fill ──────────────────────────────────
+      function initContactPrefill() {
+        const params = new URLSearchParams(window.location.search);
+        const pkg = params.get('package');
+
+        if (!pkg) return;
+
+        const select = document.getElementById('service') as HTMLSelectElement;
+
+        if (select) {
+          select.value = pkg;
+        }
+
+        const labels: Record<string, string> = {
+          'website-starter': 'Website — Starter (R4,500)',
+          'website-growth': 'Website — Growth (R8,500)',
+          'website-professional': 'Website — Professional (R12,000)',
+          'store-starter': 'Online Store — Starter (R14,500)',
+          'store-growth': 'Online Store — Growth (R18,000)',
+          'maintenance-basic': 'Website Maintenance — Basic Care (R750/mo)',
+          'maintenance-growth': 'Website Maintenance — Growth Care (R1,500/mo)',
+          'social-starter': 'Social Media — Starter (R4,500/mo)',
+          'social-growth': 'Social Media — Growth (R7,500/mo)',
+          'social-authority': 'Social Media — Authority (R11,000–R12,500/mo)',
+          'ads-meta': 'Meta Ads (R2,500/mo)',
+          'ads-google': 'Google Ads (R3,500/mo)',
+          'ads-linkedin': 'LinkedIn Ads (R3,000/mo)',
+          'seo-local': 'SEO — Local (R5,000/mo)',
+          'seo-growth': 'SEO — Growth (R9,500/mo)',
+          'seo-advanced': 'SEO — Advanced (R13,000/mo)',
+          standalone: 'Standalone Services',
+          combo: 'Combination Package',
+        };
+
+        const label = labels[pkg];
+
+        if (!label) return;
+
+        const message = document.getElementById('message') as HTMLTextAreaElement;
+
+        if (message && !message.value) {
+          message.value = `Hi, I'm interested in the ${label} package. I'd like to discuss next steps.`;
+        }
+      }
+
+      // ── Run on every Astro page load ───────────────────────────
+      document.addEventListener('astro:page-load', () => {
+        requestAnimationFrame(() => {
+          initScrollReveal();
+          initContactPrefill();
+          initSpotlightCards();
+        });
       });
+
+function initSpotlightCards() {
+  const SELECTOR = [
+    '.card',
+    '.service-card',
+    '.work-card',
+    '.value-card',
+    '.info-card',
+    '.pricing-card',
+    '.spotlight-card',
+    '[class*="card"]',
+  ].join(', ');
+
+  const cards = document.querySelectorAll<HTMLElement>(SELECTOR);
+
+  cards.forEach((card) => {
+    // Remove previous listeners to avoid stacking on Astro page transitions
+    const existing = (card as any).__spotlightHandlers;
+
+    if (existing) {
+      card.removeEventListener('mousemove', existing.onMouseMove);
+      card.removeEventListener('mouseleave', existing.onMouseLeave);
     }
 
-    // ── Contact form pre-fill ──────────────────────────────────
-    function initContactPrefill() {
-      const params = new URLSearchParams(window.location.search);
-      const pkg = params.get('package');
-      if (!pkg) return;
+    function onMouseMove(e: MouseEvent) {
+      const rect = card.getBoundingClientRect();
 
-      const select = document.getElementById('service') as HTMLSelectElement;
-      if (select) select.value = pkg;
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
 
-      const labels: Record<string, string> = {
-        'website-starter':      'Website — Starter (R4,500)',
-        'website-growth':       'Website — Growth (R8,500)',
-        'website-professional': 'Website — Professional (R12,000)',
-        'store-starter':        'Online Store — Starter (R14,500)',
-        'store-growth':         'Online Store — Growth (R18,000)',
-        'maintenance-basic':    'Website Maintenance — Basic Care (R750/mo)',
-        'maintenance-growth':   'Website Maintenance — Growth Care (R1,500/mo)',
-        'social-starter':       'Social Media — Starter (R4,500/mo)',
-        'social-growth':        'Social Media — Growth (R7,500/mo)',
-        'social-authority':     'Social Media — Authority (R11,000–R12,500/mo)',
-        'ads-meta':             'Meta Ads (R2,500/mo)',
-        'ads-google':           'Google Ads (R3,500/mo)',
-        'ads-linkedin':         'LinkedIn Ads (R3,000/mo)',
-        'seo-local':            'SEO — Local (R5,000/mo)',
-        'seo-growth':           'SEO — Growth (R9,500/mo)',
-        'seo-advanced':         'SEO — Advanced (R13,000/mo)',
-        'standalone':           'Standalone Services',
-        'combo':                'Combination Package',
-      };
+      card.style.setProperty('--mouse-x', `${x}%`);
+      card.style.setProperty('--mouse-y', `${y}%`);
+    }
 
-      const label = labels[pkg];
-      if (!label) return;
+    function onMouseLeave() {
+      card.style.setProperty('--mouse-x', '50%');
+      card.style.setProperty('--mouse-y', '50%');
+    }
 
-      const message = document.getElementById('message') as HTMLTextAreaElement;
-      if (message && !message.value) {
-        message.value = `Hi, I'm interested in the ${label} package. I'd like to discuss next steps.`;
+    card.addEventListener('mousemove', onMouseMove);
+    card.addEventListener('mouseleave', onMouseLeave);
+
+    // Store both handlers for cleanup
+    (card as any).__spotlightHandlers = {
+      onMouseMove,
+      onMouseLeave,
+    };
+  });
+}
+
+document.addEventListener('astro:page-load', initSpotlightCards);
+document.addEventListener('DOMContentLoaded', initSpotlightCards);
+
+
+    </script>
+  </body>
+
+  <style is:global>
+    .page-background {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .page-content {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+    }
+
+    .site-main {
+      position: relative;
+      z-index: 1;
+    }
+
+    ::view-transition-old(root) {
+      animation: page-out 0.18s ease-in both;
+    }
+
+    ::view-transition-new(root) {
+      animation: page-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+      animation-delay: 0.08s;
+    }
+
+    @keyframes page-out {
+      from {
+        opacity: 1;
+      }
+
+      to {
+        opacity: 0;
       }
     }
 
-    // ── Run on every page load, after paint ───────────────────
-    // FIX: was registered twice — once inside initScrollReveal (never called)
-    // and once outside. Now only registered once, wrapped in rAF.
-    document.addEventListener('astro:page-load', () => {
-      requestAnimationFrame(() => {
-        initScrollReveal();
-        initContactPrefill();
-      });
-    });
-  </script>
-</body>
+    @keyframes page-in {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
 
-<style is:global>
-.page-wrapper {
-  position: relative;
-  width: 100%;
-  min-height: 100vh;
-}
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-.page-content {
-  position: relative;
-  z-index: 1;
-}
+    @media (max-width: 768px) {
+      ::view-transition-old(root) {
+        animation-duration: 0.12s;
+      }
 
-::view-transition-old(root) {
-  animation: page-out 0.18s ease-in both;
-}
+      ::view-transition-new(root) {
+        animation-duration: 0.2s;
+      }
+    }
 
-::view-transition-new(root) {
-  animation: page-in 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: 0.08s;
-}
-
-@keyframes page-out {
-  from { opacity: 1; }
-  to   { opacity: 0; }
-}
-
-@keyframes page-in {
-  from { opacity: 0; transform: translateY(6px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 768px) {
-  ::view-transition-old(root) { animation-duration: 0.12s; }
-  ::view-transition-new(root) { animation-duration: 0.2s; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  ::view-transition-old(root),
-  ::view-transition-new(root) { animation: none; }
-}
-</style>
+    @media (prefers-reduced-motion: reduce) {
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation: none;
+      }
+    }
+  </style>
 </html>

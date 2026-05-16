@@ -1,0 +1,102 @@
+---
+/**
+ * SkeletonText.astro
+ * ─────────────────────────────────────────────────────────────
+ * Flexible text-block skeleton for headings, paragraphs,
+ * testimonials, labels, stat numbers, and nav items.
+ *
+ * Props:
+ *   lines       — number of lines to render           (default: 3)
+ *   size        — line height variant                  (default: "sm")
+ *                 "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl"
+ *   widths      — custom array of Tailwind w-* strings
+ *                 (auto-generated if omitted)
+ *   align       — "left" | "center" | "right"          (default: "left")
+ *   showHeading — prepend a large heading line          (default: false)
+ *   gap         — Tailwind space-y-* value              (default: "space-y-2")
+ *   class       — extra classes on the wrapper          (default: "")
+ *
+ * Usage:
+ *   import SkeletonText from '@/components/Skeletons/SkeletonText.astro'
+ *
+ *   <!-- Paragraph block -->
+ *   <SkeletonText lines={4} />
+ *
+ *   <!-- Section heading + body -->
+ *   <SkeletonText showHeading lines={3} size="sm" />
+ *
+ *   <!-- Centered testimonial -->
+ *   <SkeletonText lines={3} align="center" size="base" />
+ *
+ *   <!-- Single stat number -->
+ *   <SkeletonText lines={1} size="3xl" widths={["w-24"]} />
+ */
+
+interface Props {
+  lines?:       number;
+  size?:        "xs" | "sm" | "base" | "lg" | "xl" | "2xl" | "3xl";
+  widths?:      string[];
+  align?:       "left" | "center" | "right";
+  showHeading?: boolean;
+  gap?:         string;
+  class?:       string;
+}
+
+const {
+  lines       = 3,
+  size        = "sm",
+  widths,
+  align       = "left",
+  showHeading = false,
+  gap         = "space-y-2",
+  class: extraClass = "",
+} = Astro.props;
+
+// Height map — mirrors Tailwind's text scale
+const heightMap: Record<string, string> = {
+  xs:   "h-2.5",
+  sm:   "h-3.5",
+  base: "h-4",
+  lg:   "h-5",
+  xl:   "h-6",
+  "2xl":"h-7",
+  "3xl":"h-9",
+};
+const lineH = heightMap[size] ?? "h-3.5";
+
+// Default width pattern: full → 11/12 → 4/5 → 3/4 → 2/3 …
+const defaultWidths = ["w-full", "w-11/12", "w-4/5", "w-3/4", "w-2/3", "w-3/5"];
+function resolveWidth(i: number, total: number): string {
+  if (widths && widths[i]) return widths[i];
+  if (i === total - 1) return defaultWidths[3 + (i % 3)]; // shorter last line
+  return defaultWidths[i % defaultWidths.length];
+}
+
+const alignClass = {
+  left:   "items-start",
+  center: "items-center",
+  right:  "items-end",
+}[align];
+
+const bodyLines = Array.from({ length: lines });
+---
+
+<div
+  class:list={["skeleton-group flex flex-col", gap, alignClass, extraClass]}
+  aria-busy="true"
+  aria-label="Loading text"
+>
+
+  <!-- Optional heading line (visually larger) -->
+  {showHeading && (
+    <div class="skeleton h-6 w-2/5 rounded mb-1" />
+  )}
+
+  <!-- Body lines -->
+  {bodyLines.map((_, i) => (
+    <div
+      class:list={["skeleton rounded", lineH, resolveWidth(i, lines)]}
+    />
+  ))}
+
+</div>

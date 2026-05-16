@@ -1,0 +1,102 @@
+/* ============================================================
+   skeleton.css — Universal Skeleton Loading System
+   Import once in your root layout (e.g. MainLayout.astro)
+   ============================================================ */
+
+/* ── CSS Custom Properties ── */
+:root {
+  --sk-base: #e2e8f0;
+  --sk-shine: #f8fafc;
+  --sk-radius: 0.5rem;
+  --sk-duration: 1.6s;
+  --sk-timing: cubic-bezier(0.4, 0, 0.6, 1);
+}
+
+.dark {
+  --sk-base: #1e293b;
+  --sk-shine: #334155;
+}
+
+/* ── Core Shimmer Animation ── */
+@keyframes sk-shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@keyframes sk-pulse {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.45; }
+}
+
+/* ── Base Skeleton Block ── */
+.skeleton {
+  display: block;
+  border-radius: var(--sk-radius);
+  background-color: var(--sk-base);
+  background-image: linear-gradient(
+    105deg,
+    transparent 40%,
+    var(--sk-shine) 50%,
+    transparent 60%
+  );
+  background-size: 200% 100%;
+  animation: sk-shimmer var(--sk-duration) var(--sk-timing) infinite;
+  will-change: background-position;
+  /* Accessibility: keep element in layout so screen readers skip gracefully */
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Animation Variants ── */
+.skeleton-pulse {
+  animation: sk-pulse var(--sk-duration) ease-in-out infinite;
+  background-image: none;
+  background-color: var(--sk-base);
+}
+
+.skeleton-wave {
+  /* Slightly different wave angle for visual variety */
+  background-image: linear-gradient(
+    90deg,
+    transparent 25%,
+    var(--sk-shine) 50%,
+    transparent 75%
+  );
+  background-size: 400% 100%;
+  animation: sk-shimmer calc(var(--sk-duration) * 1.2) linear infinite;
+}
+
+/* ── Shape Helpers ── */
+.skeleton-circle  { border-radius: 9999px; }
+.skeleton-rounded { border-radius: 1rem; }
+.skeleton-sharp   { border-radius: 0; }
+
+/* ── Stagger Delays (up to 6 children) ── */
+.skeleton-stagger > *:nth-child(1) { animation-delay: 0s; }
+.skeleton-stagger > *:nth-child(2) { animation-delay: 0.08s; }
+.skeleton-stagger > *:nth-child(3) { animation-delay: 0.16s; }
+.skeleton-stagger > *:nth-child(4) { animation-delay: 0.24s; }
+.skeleton-stagger > *:nth-child(5) { animation-delay: 0.32s; }
+.skeleton-stagger > *:nth-child(6) { animation-delay: 0.40s; }
+
+/* ── Reduced Motion — Accessibility First ── */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton,
+  .skeleton-pulse,
+  .skeleton-wave {
+    animation: none;
+    background-image: none;
+    background-color: var(--sk-base);
+    opacity: 0.7;
+  }
+}
+
+/* ── Wrapper Utility ── */
+.skeleton-group {
+  /* Semantic wrapper — use aria-busy="true" + aria-label on this */
+  display: contents;
+}

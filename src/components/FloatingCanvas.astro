@@ -9,23 +9,73 @@ function initFloatingCanvas() {
   const canvas = document.getElementById('floating-canvas') as HTMLCanvasElement | null;
   if (!canvas) return;
 
-  const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+  const ctx = canvas.getContext('2d') as CanvasRenderingContext2D | null;
   if (!ctx) return;
 
-  // Cancel any previous animation loop (Astro page transitions)
+  // Cancel any previous animation loop caused by Astro page transitions
   if ((window as any).__pvCanvasFrame) {
     cancelAnimationFrame((window as any).__pvCanvasFrame);
     (window as any).__pvCanvasFrame = null;
   }
 
-  // ── Constants ────────────────────────────────────────────────────────────────
-  const NODE_COUNT       = 36;
-  const MAX_DIST         = 150;
-  const AVOID_PADDING    = 24;
-  const AVOID_SELECTORS  = 'h1, h2, h3, h4, h5, h6, p, a, button, input, textarea, select, label, nav, .card, section, footer, header';
-  const COLORS           = ['#2F6FED', '#2F6FED', '#6B6B6B', '#111111'];
-  const PLANE_COLOR      = '#0a0a0a';
-  const SHAPES           = ['plane', 'triangle', 'diamond', 'circle', 'cross'] as const;
+  // ── Responsive checks ────────────────────────────────────────────────────────
+  let viewportW = window.innerWidth;
+  let viewportH = window.visualViewport?.height || window.innerHeight;
+
+  let isSmallMobile = viewportW <= 430;
+  let isMobile = viewportW <= 600;
+  let isTablet = viewportW <= 900;
+
+  function updateViewportFlags() {
+    viewportW = window.innerWidth;
+    viewportH = window.visualViewport?.height || window.innerHeight;
+
+    isSmallMobile = viewportW <= 430;
+    isMobile = viewportW <= 600;
+    isTablet = viewportW <= 900;
+  }
+
+  // ── Constants / settings ─────────────────────────────────────────────────────
+
+  // Shape count per screen size.
+  // 393px wide screens fall under isSmallMobile, so they get fewer shapes.
+  function getNodeCount() {
+    if (isSmallMobile) return 16;
+    if (isMobile) return 22;
+    if (isTablet) return 34;
+    return 58;
+  }
+
+  function getAvoidPadding() {
+    if (isSmallMobile) return 14;
+    if (isMobile) return 18;
+    return 28;
+  }
+
+  function getAvoidSelectors() {
+    // On very small screens, do NOT avoid every paragraph/section.
+    // That causes the shapes to fight the layout and disappear awkwardly.
+    if (isSmallMobile) {
+      return 'nav, header, footer, .card, .service-card, .work-card, .pricing-card, .overview-card, .detail-panel, button, input, textarea, select';
+    }
+
+    return 'h1, h2, h3, h4, h5, h6, p, a, button, input, textarea, select, label, nav, .card, .service-card, .work-card, .pricing-card, .overview-card, .detail-panel, section, footer, header';
+  }
+
+  // Darker, richer colours for a more premium background effect.
+  const COLORS = [
+    '#0F2F6B', // deep blue
+    '#143F8F', // rich navy blue
+    '#202020', // charcoal
+    '#2A2A2A', // graphite
+    '#9A3F00', // burnt orange
+    '#B85612', // premium orange accent
+  ];
+
+  // Paper-plane colour.
+  const PLANE_COLOR = '#111111';
+
+  const SHAPES = ['plane', 'triangle', 'diamond', 'circle', 'cross'] as const;
   type Shape = typeof SHAPES[number];
 
   // ── State ────────────────────────────────────────────────────────────────────
@@ -34,32 +84,53 @@ function initFloatingCanvas() {
   let mouse = { x: null as number | null, y: null as number | null };
   let t = 0;
   let frameCount = 0;
+  let fadeProgress = 0;
+
+  const FADE_FRAMES = 60;
 
   // ── Resize ───────────────────────────────────────────────────────────────────
   function resize() {
-    canvas.width  = window.innerWidth;
-    canvas.height = window.innerHeight;
+    updateViewportFlags();
+
+    // Lower DPR cap on mobile to reduce GPU pressure.
+    const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.5 : 2);
+
+    const width = window.innerWidth;
+    const height = window.visualViewport?.height || window.innerHeight;
+
+    canvas.width = Math.floor(width * dpr);
+    canvas.height = Math.floor(height * dpr);
+
+    canvas.style.width = `${width}px`;
+    canvas.style.height = `${height}px`;
+
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
   resize();
 
   // ── Avoid zones ──────────────────────────────────────────────────────────────
-  // Debounced so rapid scroll/resize events don't thrash layout
   let avoidDebounce: ReturnType<typeof setTimeout>;
+
   function scheduleAvoidRefresh(delay = 100) {
     clearTimeout(avoidDebounce);
     avoidDebounce = setTimeout(refreshAvoidZones, delay);
   }
 
   function refreshAvoidZones() {
+    const AVOID_PADDING = getAvoidPadding();
+    const AVOID_SELECTORS = getAvoidSelectors();
+
     avoidZones = [];
-    document.querySelectorAll(AVOID_SELECTORS).forEach(el => {
+
+    document.querySelectorAll(AVOID_SELECTORS).forEach((el) => {
       const r = el.getBoundingClientRect();
+
       if (r.width > 0 && r.height > 0) {
         avoidZones.push({
-          x: r.left   - AVOID_PADDING,
-          y: r.top    - AVOID_PADDING,
-          w: r.width  + AVOID_PADDING * 2,
+          x: r.left - AVOID_PADDING,
+          y: r.top - AVOID_PADDING,
+          w: r.width + AVOID_PADDING * 2,
           h: r.height + AVOID_PADDING * 2,
         });
       }
@@ -68,65 +139,183 @@ function initFloatingCanvas() {
 
   function isInAvoidZone(x: number, y: number): boolean {
     for (const z of avoidZones) {
-      if (x >= z.x && x <= z.x + z.w && y >= z.y && y <= z.y + z.h) return true;
+      if (x >= z.x && x <= z.x + z.w && y >= z.y && y <= z.y + z.h) {
+        return true;
+      }
     }
+
     return false;
   }
 
-  // ── Mouse ────────────────────────────────────────────────────────────────────
-  window.addEventListener('mousemove', (e) => { mouse.x = e.clientX; mouse.y = e.clientY; });
-  document.addEventListener('mouseleave', () => { mouse.x = null; mouse.y = null; });
-
-  // ── Resize handler ───────────────────────────────────────────────────────────
-  window.addEventListener('resize', () => {
-    resize();
-    scheduleAvoidRefresh(150);
-    nodes.forEach(n => n.init());
+  // ── Mouse interaction ────────────────────────────────────────────────────────
+  window.addEventListener('mousemove', (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
   });
 
-  window.addEventListener('scroll', () => scheduleAvoidRefresh(200), { passive: true });
+  document.addEventListener('mouseleave', () => {
+    mouse.x = null;
+    mouse.y = null;
+  });
+
+  // ── Resize / scroll handlers ─────────────────────────────────────────────────
+  function handleResize() {
+    const previousSmallMobile = isSmallMobile;
+    const previousMobile = isMobile;
+    const previousTablet = isTablet;
+
+    resize();
+    scheduleAvoidRefresh(150);
+
+    const screenModeChanged =
+      previousSmallMobile !== isSmallMobile ||
+      previousMobile !== isMobile ||
+      previousTablet !== isTablet;
+
+    // If the screen mode changes, respawn nodes with correct count and sizing.
+    if (screenModeChanged) {
+      spawnNodes();
+    } else {
+      nodes.forEach((n) => n.init());
+    }
+  }
+
+  window.addEventListener('resize', handleResize);
+  window.visualViewport?.addEventListener('resize', handleResize);
+
+  window.addEventListener(
+    'scroll',
+    () => scheduleAvoidRefresh(200),
+    { passive: true }
+  );
+
+  // ── Helpers ──────────────────────────────────────────────────────────────────
+  function rand(a: number, b: number) {
+    return a + Math.random() * (b - a);
+  }
 
   // ── Node class ───────────────────────────────────────────────────────────────
-  function rand(a: number, b: number) { return a + Math.random() * (b - a); }
-
   class Node {
-    homeX = 0; homeY = 0;
-    x = 0; y = 0;
+    homeX = 0;
+    homeY = 0;
+    x = 0;
+    y = 0;
     size = 0;
     shape: Shape = 'circle';
     color = '';
     alpha = 0;
-    rotation = 0; rotSpeed = 0;
-    phase = 0; phaseSpeed = 0;
+    rotation = 0;
+    rotSpeed = 0;
+    phase = 0;
+    phaseSpeed = 0;
     bobRadius = 0;
-    vx = 0; vy = 0;
+    vx = 0;
+    vy = 0;
 
-    readonly springK       = 0.045;
-    readonly damping       = 0.87;
-    readonly repelRadius   = 100;
-    readonly repelStrength = 10;
+    constructor() {
+      this.init();
+    }
 
-    constructor() { this.init(); }
+    get springK() {
+      if (isSmallMobile) return 0.03;
+      if (isMobile) return 0.035;
+      return 0.045;
+    }
+
+    get damping() {
+      if (isSmallMobile) return 0.92;
+      if (isMobile) return 0.9;
+      return 0.87;
+    }
+
+    get repelRadius() {
+      if (isSmallMobile) return 55;
+      if (isMobile) return 70;
+      return 110;
+    }
+
+    get repelStrength() {
+      if (isSmallMobile) return 3.5;
+      if (isMobile) return 5;
+      return 10;
+    }
 
     init() {
       let attempts = 0;
-      do {
-        this.homeX = rand(0, canvas.width);
-        this.homeY = rand(0, canvas.height);
-        attempts++;
-      } while (isInAvoidZone(this.homeX, this.homeY) && attempts < 30);
 
-      this.x         = this.homeX;
-      this.y         = this.homeY;
-      this.size      = rand(7, 19);
-      this.shape     = SHAPES[Math.floor(Math.random() * SHAPES.length)];
-      this.color     = COLORS[Math.floor(Math.random() * COLORS.length)];
-      this.alpha     = rand(0.05, 0.18);
-      this.rotation  = rand(0, Math.PI * 2);
-      this.rotSpeed  = rand(-0.007, 0.007);
-      this.phase     = rand(0, Math.PI * 2);
-      this.phaseSpeed = rand(0.004, 0.012);
-      this.bobRadius = rand(5, 16);
+      do {
+        if (isSmallMobile) {
+          const edge = Math.random();
+
+          // On narrow screens, keep shapes closer to the left and right edges.
+          // This prevents them from sitting awkwardly over central content.
+          if (edge < 0.5) {
+            this.homeX = rand(8, window.innerWidth * 0.18);
+          } else {
+            this.homeX = rand(window.innerWidth * 0.82, window.innerWidth - 8);
+          }
+
+          this.homeY = rand(80, viewportH - 40);
+        } else {
+          this.homeX = rand(0, window.innerWidth);
+          this.homeY = rand(0, viewportH);
+        }
+
+        attempts++;
+      } while (isInAvoidZone(this.homeX, this.homeY) && attempts < 20);
+
+      this.x = this.homeX;
+      this.y = this.homeY;
+
+      // Shape sizing.
+      // 393px screens use the smallest range.
+      this.size = isSmallMobile
+        ? rand(5, 11)
+        : isMobile
+          ? rand(6, 14)
+          : isTablet
+            ? rand(8, 19)
+            : rand(10, 26);
+
+      this.shape = SHAPES[Math.floor(Math.random() * SHAPES.length)];
+      this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+
+      // Shape visibility.
+      this.alpha = isSmallMobile
+        ? rand(0.12, 0.2)
+        : isMobile
+          ? rand(0.14, 0.24)
+          : isTablet
+            ? rand(0.15, 0.28)
+            : rand(0.18, 0.34);
+
+      this.rotation = rand(0, Math.PI * 2);
+
+      // Slower rotation feels more premium.
+      this.rotSpeed = isSmallMobile
+        ? rand(-0.003, 0.003)
+        : isMobile
+          ? rand(-0.004, 0.004)
+          : rand(-0.007, 0.007);
+
+      this.phase = rand(0, Math.PI * 2);
+
+      // Movement speed.
+      this.phaseSpeed = isSmallMobile
+        ? rand(0.002, 0.006)
+        : isMobile
+          ? rand(0.003, 0.008)
+          : rand(0.004, 0.012);
+
+      // Floating distance.
+      this.bobRadius = isSmallMobile
+        ? rand(2, 6)
+        : isMobile
+          ? rand(3, 9)
+          : isTablet
+            ? rand(4, 12)
+            : rand(6, 18);
+
       this.vx = 0;
       this.vy = 0;
     }
@@ -139,27 +328,31 @@ function initFloatingCanvas() {
       this.vy += (ty - this.y) * this.springK;
 
       if (mouse.x !== null && mouse.y !== null) {
-        const dx   = this.x - mouse.x;
-        const dy   = this.y - mouse.y;
+        const dx = this.x - mouse.x;
+        const dy = this.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
+
         if (dist < this.repelRadius && dist > 0) {
-          const force = (1 - dist / this.repelRadius);
+          const force = 1 - dist / this.repelRadius;
           const angle = Math.atan2(dy, dx);
+
           this.vx += Math.cos(angle) * force * this.repelStrength;
           this.vy += Math.sin(angle) * force * this.repelStrength;
         }
       }
 
       for (const z of avoidZones) {
-        const cx    = z.x + z.w / 2;
-        const cy    = z.y + z.h / 2;
-        const dx2   = this.x - cx;
-        const dy2   = this.y - cy;
+        const cx = z.x + z.w / 2;
+        const cy = z.y + z.h / 2;
+        const dx2 = this.x - cx;
+        const dy2 = this.y - cy;
         const dist2 = Math.sqrt(dx2 * dx2 + dy2 * dy2);
         const zoneRadius = Math.sqrt(z.w * z.w + z.h * z.h) / 2 + 30;
+
         if (dist2 < zoneRadius && dist2 > 0) {
-          const force  = (1 - dist2 / zoneRadius) * 1.5;
+          const force = (1 - dist2 / zoneRadius) * (isSmallMobile ? 0.8 : 1.5);
           const angle2 = Math.atan2(dy2, dx2);
+
           this.vx += Math.cos(angle2) * force;
           this.vy += Math.sin(angle2) * force;
         }
@@ -167,21 +360,40 @@ function initFloatingCanvas() {
 
       this.vx *= this.damping;
       this.vy *= this.damping;
-      this.x  += this.vx;
-      this.y  += this.vy;
+
+      this.x += this.vx;
+      this.y += this.vy;
+
       this.rotation += this.rotSpeed;
-      this.phase    += this.phaseSpeed;
+      this.phase += this.phaseSpeed;
     }
 
     draw() {
       ctx.save();
-      ctx.globalAlpha = this.shape === 'plane'
-        ? Math.min(this.alpha * 1.7, 0.28)
-        : this.alpha;
+
+      // Planes stand out slightly because they connect to the Plane View identity.
+      ctx.globalAlpha =
+        this.shape === 'plane'
+          ? Math.min(this.alpha * 1.85, isSmallMobile ? 0.3 : 0.42)
+          : this.alpha;
+
       ctx.translate(this.x, this.y);
       ctx.rotate(this.rotation);
+
       ctx.strokeStyle = this.shape === 'plane' ? PLANE_COLOR : this.color;
-      ctx.lineWidth   = this.shape === 'plane' ? 1.5 : 1.1;
+
+      ctx.lineWidth = this.shape === 'plane'
+        ? isSmallMobile
+          ? 1.2
+          : isMobile
+            ? 1.55
+            : 2
+        : isSmallMobile
+          ? 1
+          : isMobile
+            ? 1.25
+            : 1.65;
+
       const s = this.size;
 
       switch (this.shape) {
@@ -190,96 +402,78 @@ function initFloatingCanvas() {
           ctx.moveTo(s, 0);
           ctx.lineTo(-s * 0.6, -s * 0.5);
           ctx.lineTo(-s * 0.3, 0);
-          ctx.lineTo(-s * 0.6,  s * 0.5);
+          ctx.lineTo(-s * 0.6, s * 0.5);
           ctx.closePath();
           ctx.stroke();
+
           ctx.beginPath();
           ctx.moveTo(-s * 0.3, 0);
-          ctx.lineTo( s * 0.3, s * 0.15);
+          ctx.lineTo(s * 0.3, s * 0.15);
           ctx.stroke();
           break;
+
         case 'triangle':
           ctx.beginPath();
           ctx.moveTo(0, -s);
-          ctx.lineTo( s * 0.87, s * 0.5);
+          ctx.lineTo(s * 0.87, s * 0.5);
           ctx.lineTo(-s * 0.87, s * 0.5);
           ctx.closePath();
           ctx.stroke();
           break;
+
         case 'diamond':
           ctx.beginPath();
           ctx.moveTo(0, -s);
-          ctx.lineTo( s * 0.6, 0);
-          ctx.lineTo(0,  s);
+          ctx.lineTo(s * 0.6, 0);
+          ctx.lineTo(0, s);
           ctx.lineTo(-s * 0.6, 0);
           ctx.closePath();
           ctx.stroke();
           break;
+
         case 'circle':
           ctx.beginPath();
           ctx.arc(0, 0, s * 0.55, 0, Math.PI * 2);
           ctx.stroke();
           break;
+
         case 'cross':
           ctx.beginPath();
-          ctx.moveTo(-s * 0.5, 0); ctx.lineTo(s * 0.5, 0);
-          ctx.moveTo(0, -s * 0.5); ctx.lineTo(0, s * 0.5);
+          ctx.moveTo(-s * 0.5, 0);
+          ctx.lineTo(s * 0.5, 0);
+          ctx.moveTo(0, -s * 0.5);
+          ctx.lineTo(0, s * 0.5);
           ctx.stroke();
           break;
       }
+
       ctx.restore();
     }
   }
 
-  // ── Connectors ───────────────────────────────────────────────────────────────
-  function drawConnectors() {
-    ctx.save();
-    ctx.strokeStyle  = '#2F6FED';
-    ctx.lineWidth    = 0.7;
-    ctx.setLineDash([3, 7]);
-
-    for (let i = 0; i < nodes.length; i++) {
-      for (let j = i + 1; j < nodes.length; j++) {
-        const dx   = nodes[i].x - nodes[j].x;
-        const dy   = nodes[i].y - nodes[j].y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < MAX_DIST) {
-          ctx.globalAlpha = (1 - dist / MAX_DIST) * 0.22;
-          ctx.beginPath();
-          ctx.moveTo(nodes[i].x, nodes[i].y);
-          ctx.lineTo(nodes[j].x, nodes[j].y);
-          ctx.stroke();
-        }
-      }
-    }
-    ctx.restore();
-  }
-
-  // ── Spawn — waits for a full paint cycle after avoid zones are ready ─────────
+  // ── Spawn nodes ──────────────────────────────────────────────────────────────
   function spawnNodes() {
+    updateViewportFlags();
     refreshAvoidZones();
-    // Extra rAF ensures the browser has painted once with the new layout
-    // before we place nodes, eliminating the post-preloader jump
+
     requestAnimationFrame(() => {
-      nodes = Array.from({ length: NODE_COUNT }, () => new Node());
+      nodes = Array.from({ length: getNodeCount() }, () => new Node());
+      fadeProgress = 0;
     });
   }
 
-  // ── Fade-in nodes gradually so first appearance is smooth ───────────────────
-  // Nodes start at alpha 0 and ease to their target alpha over ~60 frames
-  let fadeProgress = 0;
-  const FADE_FRAMES = 60;
-
   // ── Animation loop ───────────────────────────────────────────────────────────
   function animate() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.clearRect(0, 0, window.innerWidth, viewportH);
 
-    // Refresh avoid zones every 2 seconds, not every frame
-    if (frameCount % 120 === 0) refreshAvoidZones();
+    // Refresh avoid zones every 2 seconds, not every frame.
+    if (frameCount % 120 === 0) {
+      refreshAvoidZones();
+    }
+
     frameCount++;
 
     if (nodes.length > 0) {
-      // Ease the global canvas alpha in on first spawn to avoid a hard pop
       if (fadeProgress < FADE_FRAMES) {
         fadeProgress++;
         ctx.globalAlpha = fadeProgress / FADE_FRAMES;
@@ -287,42 +481,47 @@ function initFloatingCanvas() {
         ctx.globalAlpha = 1;
       }
 
-      drawConnectors();
-      nodes.forEach(n => { n.update(t); n.draw(); });
+      // Connector lines intentionally removed.
+      // Shapes now float freely for a cleaner, more premium look.
+      nodes.forEach((n) => {
+        n.update(t);
+        n.draw();
+      });
     }
 
     t++;
     (window as any).__pvCanvasFrame = requestAnimationFrame(animate);
   }
 
-  // ── Boot sequence ─────────────────────────────────────────────────────────────
-  // We need to distinguish three cases:
-  //   1. Preloader already seen — spawn after two rAFs (DOM settled)
-  //   2. Preloader is playing — wait for its 'pvc:preloader-done' signal
-  //   3. Preloader dismissed itself immediately (error/autoplay blocked) — same as case 1
-
+  // ── Boot sequence ────────────────────────────────────────────────────────────
   let alreadySeen = false;
-  try { alreadySeen = !!localStorage.getItem('pvc-intro-seen'); } catch(e) {}
+
+  try {
+    alreadySeen = !!localStorage.getItem('pvc-intro-seen');
+  } catch (e) {}
 
   if (alreadySeen) {
-    // Page loaded without preloader — wait for fonts + images to settle
     if (document.readyState === 'complete') {
       requestAnimationFrame(() => requestAnimationFrame(spawnNodes));
     } else {
-      window.addEventListener('load', () => {
-        requestAnimationFrame(() => requestAnimationFrame(spawnNodes));
-      }, { once: true });
+      window.addEventListener(
+        'load',
+        () => {
+          requestAnimationFrame(() => requestAnimationFrame(spawnNodes));
+        },
+        { once: true }
+      );
     }
   } else {
-    // Preloader is active — wait for its explicit done signal
-    window.addEventListener('pvc:preloader-done', () => {
-      // Give the browser one full frame to repaint after preloader hides
-      // before calculating avoid zones and spawning nodes
-      requestAnimationFrame(() => requestAnimationFrame(spawnNodes));
-    }, { once: true });
+    window.addEventListener(
+      'pvc:preloader-done',
+      () => {
+        requestAnimationFrame(() => requestAnimationFrame(spawnNodes));
+      },
+      { once: true }
+    );
   }
 
-  // Start the render loop immediately (canvas is blank until nodes spawn)
   animate();
 }
 
@@ -332,11 +531,53 @@ document.addEventListener('astro:page-load', initFloatingCanvas);
 <style>
   #floating-canvas {
     position: fixed;
-    top: 0;
-    left: 0;
+    inset: 0;
+
     width: 100vw;
     height: 100vh;
+    height: 100svh;
+    height: 100dvh;
+
     pointer-events: none;
     z-index: -1;
+
+    overflow: hidden;
+  }
+
+  /* Tablet */
+  @media (max-width: 900px) {
+    #floating-canvas {
+      width: 100%;
+      height: 100svh;
+      opacity: 0.68;
+    }
+  }
+
+  /* Mobile */
+  @media (max-width: 600px) {
+    #floating-canvas {
+      opacity: 0.56;
+    }
+  }
+
+  /* Common narrow phones: 393px, 390px, 414px, 430px */
+  @media (max-width: 430px) {
+    #floating-canvas {
+      opacity: 0.46;
+    }
+  }
+
+  /* Very small phones */
+  @media (max-width: 380px) {
+    #floating-canvas {
+      opacity: 0.38;
+    }
+  }
+
+  /* Respect users who prefer reduced animation */
+  @media (prefers-reduced-motion: reduce) {
+    #floating-canvas {
+      opacity: 0.25;
+    }
   }
 </style>

@@ -1,8 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import Navigation from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
-import BrandLines from '../components/BrandLines.astro';
+
 
 
 
@@ -105,8 +103,8 @@ const categories = [
 ---
 
 <MainLayout title={page.metaTitle} description={page.metaDescription}>
-  <Navigation />
-  <BrandLines />
+
+ 
 
   <!-- Hero -->
   <section class="section page-hero">
@@ -169,6 +167,7 @@ const categories = [
   <section class="section faq-cta-strip">
     <div class="container">
       <div class="cta-box">
+        <div class="skeleton-line"></div>
         <h2>Didn't find your answer?</h2>
         <p>Send us a message and we'll get back to you within 24 hours.</p>
         <div class="cta-actions">
@@ -179,25 +178,28 @@ const categories = [
           <a href="mailto:info@planeview.co.za" class="btn btn-outline btn-lg">
             info@planeview.co.za
           </a>
+
         </div>
       </div>
     </div>
   </section>
 
-  <Footer />
 </MainLayout>
 
 <style>
   .intro-text {
     font-size: 1.375rem;
     line-height: 1.6;
-    color: var(--color-slate-grey);
+    color: rgba(245, 245, 245, 0.72);
     max-width: 600px;
     margin: 0 auto;
   }
 
   /* Layout */
-  .faq-section { padding-top: 0; }
+  .faq-section {
+    padding-top: 0;
+    background: var(--color-jet-black);
+  }
 
   .faq-layout {
     display: grid;
@@ -223,7 +225,7 @@ const categories = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--color-slate-grey);
+    color: rgba(245, 245, 245, 0.55);
     margin: 0;
   }
 
@@ -232,7 +234,7 @@ const categories = [
     padding: 9px 12px;
     font-size: 0.9rem;
     font-weight: 500;
-    color: var(--color-slate-grey);
+    color: rgba(245, 245, 245, 0.68);
     text-decoration: none;
     border-radius: var(--radius-sm);
     border-left: 2px solid transparent;
@@ -240,21 +242,21 @@ const categories = [
   }
 
   .faq-nav-link:hover {
-    color: var(--color-jet-black);
-    background: rgba(17,17,17,0.04);
-    border-left-color: rgba(17,17,17,0.15);
+    color: var(--color-sunset-orange);
+    background: rgba(255, 122, 24, 0.12);
+    border-left-color: rgba(255, 122, 24, 0.45);
   }
 
   .faq-nav-link.active {
-    color: var(--color-steel-blue);
-    background: rgba(47,111,237,0.06);
-    border-left-color: var(--color-steel-blue);
+    color: var(--color-sunset-orange);
+    background: rgba(255, 122, 24, 0.1);
+    border-left-color: var(--color-sunset-orange);
   }
 
   .faq-nav-cta {
     margin-top: var(--spacing-lg);
     padding-top: var(--spacing-lg);
-    border-top: 1px solid rgba(17,17,17,0.08);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
     display: flex;
     flex-direction: column;
     gap: var(--spacing-md);
@@ -262,7 +264,7 @@ const categories = [
 
   .faq-nav-cta p {
     font-size: 0.875rem;
-    color: var(--color-slate-grey);
+    color: rgba(245, 245, 245, 0.62);
     margin: 0;
   }
 
@@ -285,10 +287,10 @@ const categories = [
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    color: var(--color-slate-grey);
+    color: rgba(245, 245, 245, 0.82);
     margin-bottom: var(--spacing-lg);
     padding-bottom: var(--spacing-md);
-    border-bottom: 2px solid var(--color-jet-black);
+    border-bottom: 2px solid rgba(255, 122, 24, 0.85);
   }
 
   /* FAQ items */
@@ -296,16 +298,20 @@ const categories = [
     display: flex;
     flex-direction: column;
     gap: 0;
-    border: 1px solid rgba(17,17,17,0.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: var(--radius-lg);
     overflow: hidden;
+    background: rgba(255, 255, 255, 0.025);
+    box-shadow: 0 24px 70px rgba(0, 0, 0, 0.28);
   }
 
   .faq-item {
-    border-bottom: 1px solid rgba(17,17,17,0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   }
 
-  .faq-item:last-child { border-bottom: none; }
+  .faq-item:last-child {
+    border-bottom: none;
+  }
 
   .faq-question {
     display: flex;
@@ -315,20 +321,24 @@ const categories = [
     padding: var(--spacing-lg) var(--spacing-xl);
     font-size: 1.0625rem;
     font-weight: 600;
-    color: var(--color-jet-black);
+    color: var(--color-pure-white);
     cursor: pointer;
     list-style: none;
-    transition: background var(--transition-fast);
+    transition: background var(--transition-fast), color var(--transition-fast);
     user-select: none;
   }
 
-  .faq-question::-webkit-details-marker { display: none; }
+  .faq-question::-webkit-details-marker {
+    display: none;
+  }
 
-  .faq-question:hover { background: rgba(17,17,17,0.02); }
+  .faq-question:hover {
+    background: rgba(255, 255, 255, 0.045);
+  }
 
   .faq-item[open] .faq-question {
-    background: rgba(47,111,237,0.04);
-    color: var(--color-steel-blue);
+    background: rgba(255, 122, 24, 0.1);
+    color: var(--color-sunset-orange);
   }
 
   /* Icon toggle */
@@ -340,19 +350,22 @@ const categories = [
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    border: 1.5px solid rgba(17,17,17,0.15);
-    color: var(--color-jet-black);
+    border: 1.5px solid rgba(255, 255, 255, 0.16);
+    color: var(--color-pure-white);
+    background: rgba(255, 255, 255, 0.04);
     transition: all var(--transition-base);
   }
 
   .faq-item[open] .faq-icon {
-    background: var(--color-steel-blue);
-    border-color: var(--color-steel-blue);
-    color: white;
+    background: var(--color-sunset-orange);
+    border-color: var(--color-sunset-orange);
+    color: var(--color-jet-black);
     transform: rotate(45deg);
   }
 
-  .icon-minus { display: none; }
+  .icon-minus {
+    display: none;
+  }
 
   /* Answer */
   .faq-answer {
@@ -363,18 +376,27 @@ const categories = [
   .faq-answer p {
     font-size: 1rem;
     line-height: 1.75;
-    color: var(--color-slate-grey);
+    color: rgba(245, 245, 245, 0.68);
     margin: 0;
     max-width: 68ch;
   }
 
   @keyframes faq-open {
-    from { opacity: 0; transform: translateY(-6px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 
   /* CTA */
-  .faq-cta-strip { padding-top: 0; }
+  .faq-cta-strip {
+    padding-top: 0;
+  }
 
   /* Responsive */
   @media (max-width: 1024px) {
@@ -390,26 +412,38 @@ const categories = [
       flex-direction: row;
       flex-wrap: wrap;
       align-items: center;
-      gap: var(--spacing-sm);
+      column-gap: var(--spacing-md);
+      row-gap: var(--spacing-md);
     }
 
-    .faq-nav-label { width: 100%; }
+    .faq-nav-label {
+      width: 100%;
+    }
 
-    .faq-nav-cta { display: none; }
+    .faq-nav-cta {
+      display: none;
+    }
 
     .faq-nav-link {
       border-left: none;
-      border: 1.5px solid rgba(17,17,17,0.1);
+      border: 1.5px solid rgba(255, 255, 255, 0.12);
       border-radius: var(--radius-full);
-      padding: 6px 14px;
+      padding: 7px 16px;
       font-size: 0.875rem;
+      background: rgba(255, 255, 255, 0.035);
+      color: rgba(245, 245, 245, 0.72);
     }
 
-    .faq-nav-link:hover,
+    .faq-nav-link:hover {
+      background: rgba(255, 122, 24, 0.12);
+      border-color: rgba(255, 122, 24, 0.45);
+      color: var(--color-sunset-orange);
+    }
+
     .faq-nav-link.active {
-      background: var(--color-jet-black);
-      border-color: var(--color-jet-black);
-      color: var(--color-pure-white);
+      background: var(--color-sunset-orange);
+      border-color: var(--color-sunset-orange);
+      color: var(--color-jet-black);
     }
   }
 
@@ -423,8 +457,14 @@ const categories = [
       padding: 0 var(--spacing-lg) var(--spacing-lg);
     }
 
-    .cta-actions { flex-direction: column; }
-    .btn-lg { width: 100%; justify-content: center; }
+    .cta-actions {
+      flex-direction: column;
+    }
+
+    .btn-lg {
+      width: 100%;
+      justify-content: center;
+    }
   }
 </style>
 

@@ -1,412 +1,1273 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import Hero from '../components/Hero.astro';
-import Navbar from '../components/Navbar.astro';
-import Footer from '../components/Footer.astro';
 
+// ── Real project data (same source of truth as work.astro) ──────────────────
+const projects = [
+  {
+    id: 1,
+    client: "DAC's Transport Services",
+    category: "Branding",
+    year: "2024",
+    description: "Logo design, brand identity, social media content, email campaigns, and a full website for a Cape Town-based transport company.",
+    images: ["/images/2.webp", "/images/3.webp", "/images/4.webp", "/images/5.webp"],
+    gradient: "linear-gradient(135deg, #1a1f5e 0%, #6b70b8 100%)",
+    accentColor: "#6b70b8",
+    tags: ["Logo Design", "Social Media", "Web Design"],
+  },
+  {
+    id: 2,
+    client: "Tendr Buddi",
+    category: "Branding",
+    year: "2024",
+    description: "Full brand identity system — wordmark, figure mark, combination mark, business cards, and poster design for a tender-matching platform.",
+    images: ["/images/10.webp","/images/11.webp","/images/12.webp","/images/13.webp","/images/14.webp","/images/15.webp","/images/16.webp","/images/17.webp","/images/18.webp","/images/19.webp","/images/20.webp","/images/21.webp","/images/22.webp","/images/23.webp","/images/24.webp","/images/25.webp","/images/26.webp","/images/27.webp","/images/28.webp","/images/29.webp"],
+    gradient: "linear-gradient(135deg, #111111 0%, #3a2c00 100%)",
+    accentColor: "#f5c400",
+    tags: ["Brand Identity", "Print Design", "Guidelines"],
+  },
+  {
+    id: 3,
+    client: "WebNexo",
+    category: "Web Design",
+    year: "2024",
+    description: "Logo, brand identity, colour system, typography guide, and full brand rollout across digital and physical touchpoints.",
+    images: ["/images/34.webp","/images/35.webp","/images/36.webp","/images/37.webp","/images/38.webp","/images/39.webp","/images/40.webp"],
+    gradient: "linear-gradient(135deg, #212121 0%, #005f6b 100%)",
+    accentColor: "#00a5b5",
+    tags: ["Web Design", "Brand Identity", "UI/UX"],
+  },
+  {
+    id: 4,
+    client: "Chemcrete",
+    category: "Branding",
+    year: "2024",
+    description: "Gave a 35-year-old Cape Town concrete specialist a brand and digital presence that matched their industry standing.",
+    images: ["/images/Chemcretelogo.png"],
+    gradient: "linear-gradient(135deg, #1A1A2E 0%, #2F4858 100%)",
+    accentColor: "#C8A951",
+    tags: ["Web Design", "Branding", "Digital Marketing"],
+    caseStudyUrl: "/work/chemcrete",
+  },
+  {
+    id: 5,
+    client: "Unexpected Opportunities",
+    category: "NGO Digital Presence",
+    year: "2025",
+    description: "Developed a compassionate digital platform for a Cape Town NGO supporting families affected by aviation disasters, creating space for healing and advocacy.",
+    images: ["/UnexpectedOpportunities/UPlogo.webp"],
+    gradient: "linear-gradient(135deg, #1B4B6B 0%, #2C5F7E 100%)",
+    accentColor: "#7FB3D5",
+    tags: ["Web Design", "NGO Branding", "Digital Strategy"],
+    caseStudyUrl: "/work/unexpected-opportunities",
+  },
+];
+
+// ── Only show projects that have a case study ────────────────────────────────
+const featuredWork = projects.filter((project) => project.caseStudyUrl);
+
+const outcomes = [
+  {
+    number: '01',
+    title: 'Be seen clearly',
+    description: 'We shape your message, visual identity, and digital presence so people understand what you do faster.',
+    href: '/services'
+  },
+  {
+    number: '02',
+    title: 'Turn attention into action',
+    description: 'We shape your message, visuals, and calls-to-action so interest does not stop at a scroll, click, or visit.',
+    href: '/work'
+  },
+  {
+    number: '03',
+    title: 'Build a digital presence that works',
+    description: 'From websites to digital systems, we create foundations that make your business easier to find, understand, and engage with.',
+    href: '/services'
+  },
+  {
+    number: '04',
+    title: 'Create content people remember',
+    description: 'We help you show up with content that feels consistent, intentional, and aligned with the business behind it.',
+    href: '/insights'
+  }
+];
+
+const services = [
+  {
+    title: 'Brand & Strategy',
+    description: 'Positioning, messaging, campaign direction, and creative planning that gives your business a clear voice.',
+    tags: ['Brand clarity', 'Messaging', 'Campaign direction'],
+    href: '/services'
+  },
+  {
+    title: 'Websites & Digital Systems',
+    description: 'Websites, landing pages, digital workflows, and technical support built around performance and usability.',
+    tags: ['Web design', 'Development', 'Digital systems'],
+    href: '/services'
+  },
+  {
+    title: 'Marketing & Content',
+    description: 'Social media, creative content, copywriting, visuals, and campaigns that help your brand stay visible.',
+    tags: ['Social media', 'Content', 'Creative direction'],
+    href: '/services'
+  }
+];
+
+const process = [
+  {
+    step: '01',
+    title: 'Discover',
+    description: 'We learn about your business, audience, goals, and what is currently holding your digital presence back.'
+  },
+  {
+    step: '02',
+    title: 'Plan',
+    description: 'We map out the structure, content, design direction, and deliverables before production begins.'
+  },
+  {
+    step: '03',
+    title: 'Create',
+    description: 'We design, build, write, refine, and prepare everything for launch or handover.'
+  },
+  {
+    step: '04',
+    title: 'Launch & Improve',
+    description: 'We help you ship the work, review performance, and keep improving your brand presence over time.'
+  }
+];
+
+const reasons = [
+  'Small business focused',
+  'Strategy before visuals',
+  'Creative and technical team',
+  'Clear communication',
+  'Built for long-term growth',
+  'Practical execution'
+];
 ---
 
-<MainLayout 
-  title="Plane View Collective | Clarity, created with people in mind"
-  description="We help brands get noticed, understood, and remembered through strategic clarity and creative execution."
+<MainLayout
+  title="Plane View Collective | Marketing, Websites & Digital Strategy in Cape Town"
+  description="Plane View Collective helps small businesses look clear, credible, and ready to grow through strategy, websites, content, marketing, and digital systems."
 >
-
   <Fragment slot="head">
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "MarketingAgency",
-      "name": "Plane View Collective",
-      "url": "https://www.planeview.co.za",
-      "logo": "https://www.planeview.co.za/logo/Plane View Collective Logos-01.png",
-      "image": "https://www.planeview.co.za/logo/Plane View Collective Logos-01.png",
-      "description": "Cape Town-based marketing, design, and digital agency helping brands get noticed, understood, and remembered.",
-      "telephone": "+27-83-966-9392",
-      "email": "info@planeview.co.za",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "Cape Town",
-        "addressRegion": "Western Cape",
-        "addressCountry": "ZA"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": -33.9249,
-        "longitude": 18.4241
-      },
-      "openingHoursSpecification": [
-        {
-          "@type": "OpeningHoursSpecification",
-          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-          "opens": "08:00",
-          "closes": "17:00"
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <script type="application/ld+json" is:inline>
+      {
+        "@context": "https://schema.org",
+        "@type": "MarketingAgency",
+        "name": "Plane View Collective",
+        "url": "https://www.planeview.co.za",
+        "logo": "https://www.planeview.co.za/logo/Pvc.png",
+        "image": "https://www.planeview.co.za/logo/Pvc.png",
+        "description": "Cape Town-based marketing, design, website, content, and digital strategy agency helping small businesses get noticed, understood, and remembered.",
+        "telephone": "+27-83-966-9392",
+        "email": "info@planeview.co.za",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Cape Town",
+          "addressRegion": "Western Cape",
+          "addressCountry": "ZA"
+        },
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": -33.9249,
+          "longitude": 18.4241
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+            "opens": "08:00",
+            "closes": "17:00"
+          }
+        ],
+        "areaServed": {
+          "@type": "City",
+          "name": "Cape Town"
+        },
+        "sameAs": [
+          "https://www.instagram.com/plane_view_collective?igsh=MWtrODJ6M2lsMGptOA%3D%3D&utm_source=qr",
+          "https://www.linkedin.com/company/planeviewco/",
+          "https://www.facebook.com/share/1AQg4ankHx/?mibextid=wwXIfr",
+          "https://youtube.com/@planeviewcollective?si=nH-wXaomeGrJp3ZU"
+        ],
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Plane View Collective Services",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Brand Strategy"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Website Design and Development"
+              }
+            },
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "name": "Digital Marketing and Content Creation"
+              }
+            }
+          ]
         }
-      ],
-      "areaServed": {
-        "@type": "City",
-        "name": "Cape Town"
-      },
-      "sameAs": [
-        "https://www.instagram.com/plane_view_collective?igsh=MWtrODJ6M2lsMGptOA%3D%3D&utm_source=qr",
-        "https://www.linkedin.com/company/planeviewco/",
-        "https://www.facebook.com/share/1AQg4ankHx/?mibextid=wwXIfr",
-        "https://youtube.com/@planeviewcollective?si=nH-wXaomeGrJp3ZU"
-      ],
-      "hasOfferCatalog": {
-        "@type": "OfferCatalog",
-        "name": "Services",
-        "itemListElement": [
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Brand Strategy" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Website Design" } },
-          { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Digital Marketing" } }
-        ]
       }
-    }
     </script>
   </Fragment>
- <Navbar />
-  <Hero />
 
-  <!-- Services Section -->
-  <section class="section">
-    <div class="container">
-      <div class="section-header">
-        <h2>What We Do</h2>
-        <p>
-          We remove confusion through strategic
-          <a href="/services/">brand strategy services</a>
-          and help brands stand out through results driven
-          <a href="/work/">digital marketing campaigns</a>.
-        </p>
-      </div>
+  <main>
 
-      <div class="grid grid-3">
+    <!-- HERO -->
+    <section class="home-hero section">
+      <div class="container">
+        <div class="home-hero-grid">
+          <div class="home-hero-copy" data-reveal>
+            <p class="eyebrow">Marketing • Websites • Content • Digital Systems</p>
 
-        <!-- Card 1: Brand Strategy — links to case study -->
-        <a href="/work/unexpected-opportunities" class="card">
-          <div class="card-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
+            <h1>Helping small businesses look clear, credible, and ready to grow.</h1>
+
+            <p class="hero-lead">
+              We help small businesses improve how they show up online through websites, brand direction, content, marketing, and practical digital systems.
+            </p>
+
+            <div class="hero-actions">
+              <a href="/contact" class="btn btn-primary btn-lg">
+                Start a Project <span class="arrow">→</span>
+              </a>
+              <a href="/work" class="btn btn-secondary btn-lg">
+                View Our Work
+              </a>
+            </div>
           </div>
-          <h3>Brand Strategy</h3>
-          <p>Clear direction and positioning that resonates with real people.</p>
-        </a>
 
-        <!-- Card 2: Website Design — links to case study -->
-        <a href="/work/chemcrete" class="card">
-          <div class="card-icon">
-            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" stroke-width="2"/>
-              <path d="M9 3V21" stroke="currentColor" stroke-width="2"/>
-            </svg>
+          <div class="home-hero-panel" data-reveal>
+            <div class="panel-header">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+
+            <div class="panel-body">
+              <p class="panel-kicker">Plane View Method</p>
+              <h2>Clarity before creativity.</h2>
+              <p>
+                We do not start with random designs. We start with what your audience needs to understand, feel, and do next.
+              </p>
+
+              <div class="panel-list">
+                <div>
+                  <strong>01</strong>
+                  <span>Clear message</span>
+                </div>
+                <div>
+                  <strong>02</strong>
+                  <span>Strong visuals</span>
+                </div>
+                <div>
+                  <strong>03</strong>
+                  <span>Digital execution</span>
+                </div>
+              </div>
+            </div>
           </div>
-          <h3>Website Design</h3>
-          <p>Performance first design with clear hierarchy and strong CTAs.</p>
-        </a>
-
-       <!-- Card 3: Digital Marketing — links to work page -->
-       <a href="/work" class="card">
-         <div class="card-icon">
-        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <path d="M21 11.5C21 16.75 16.75 21 11.5 21C6.25 21 2 16.75 2 11.5C2 6.25 6.25 2 11.5 2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-      <path d="M22 2L12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-       </svg>
-       </div>
-       <h3>Digital Marketing</h3>
-       <p>Campaigns that turn attention into action.</p>
-     </a>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- How We Work Section -->
-  <section class="section high-contrast">
-    <div class="container">
-      <div class="section-header">
-        <h2>How We Work</h2>
-      </div>
-
-      <div class="work-process">
-        <div class="process-step">
-          <div class="step-number">01</div>
-          <h3>Listen First</h3>
-          <p>We start by understanding your challenge, audience, and goals.</p>
-        </div>
-
-        <div class="process-step">
-          <div class="step-number">02</div>
-          <h3>Think Clearly</h3>
-          <p>Strategic clarity before creative execution. We solve real problems.</p>
-        </div>
-
-        <div class="process-step">
-          <div class="step-number">03</div>
-          <h3>Create with Purpose</h3>
-          <p>Every design, campaign, and build focuses on measurable impact.</p>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Messaging Pillars Section -->
-  <section class="section">
-    <div class="container container-narrow">
-      <div class="section-header">
-        <h2>Our Approach</h2>
-        <p class="lead">Everything we create helps people understand brands faster, feel something when they see them, and know what to do next.</p>
-      </div>
-
-      <div class="pillars">
-        <div class="pillar-item">
-          <h4>Clarity</h4>
-          <p>We remove confusion</p>
-        </div>
-        <div class="pillar-item">
-          <h4>Attention</h4>
-          <p>We help brands stand out naturally</p>
-        </div>
-        <div class="pillar-item">
-          <h4>Connection</h4>
-          <p>People connect with people, not logos</p>
-        </div>
-        <div class="pillar-item">
-          <h4>Creativity</h4>
-          <p>Design that actually serves a purpose</p>
-        </div>
-        <div class="pillar-item">
-          <h4>Execution</h4>
-          <p>Ideas are useless if they don't ship</p>
+    <!-- TRUST STRIP -->
+    <section class="trust-strip" aria-label="Plane View Collective capabilities">
+      <div class="container">
+        <div class="trust-strip-inner">
+          <span>Strategy</span>
+          <span>Websites</span>
+          <span>Social Media</span>
+          <span>Content</span>
+          <span>IT Systems</span>
+          <span>Cape Town Based</span>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Explore More Section -->
-  <section class="section">
-    <div class="container">
-      <h2>Explore More</h2>
-      <div class="grid grid-3">
+    <!-- OUTCOMES -->
+    <section class="section outcomes-section">
+      <div class="container">
+        <div class="section-header" data-reveal>
+          <p class="eyebrow">What we help you achieve</p>
+          <h2>More than looking good. Built to help people understand, trust and choose you.</h2>
+          <p>
+            Your business does not need random posts, scattered visuals, or a website that simply exists. It needs a digital presence that explains what you do, supports your goals, and gives people a reason to take the next step.
+          </p>
+        </div>
 
-        <a href="/about" class="card">
-          <h3>About Us</h3>
-          <p>Learn how we think and work.</p>
-        </a>
-
-        <a href="/work" class="card">
-          <h3>Our Work</h3>
-          <p>See how we've helped brands grow.</p>
-        </a>
-
-        <a href="/pricing" class="card">
-          <h3>Pricing</h3>
-          <p>Clear, simple pricing structures.</p>
-        </a>
-
+        <div class="outcome-grid">
+          {outcomes.map((item) => (
+            <a href={item.href} class="outcome-card" data-reveal>
+              <span class="card-number">{item.number}</span>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+              <span class="card-link">Explore <span class="arrow">→</span></span>
+            </a>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- CTA Section -->
-  <section class="section section-sm">
-    <div class="container">
-      <div class="cta-box">
-        <p>
-          Ready to get started?
-          <a href="/contact">Get in touch</a>
-          or explore our <a href="/pricing">pricing</a>.
-        </p>
+    <!-- SERVICES -->
+    <section class="section section-surface">
+      <div class="container">
+        <div class="split-header" data-reveal>
+          <div>
+            <p class="eyebrow">Our services</p>
+            <h2>Creative, technical, and strategic support in one place.</h2>
+          </div>
+          <p>
+            We support growing businesses with the tools they need to look professional, communicate better, and stay consistent across their digital channels.
+          </p>
+        </div>
+
+        <div class="service-grid">
+          {services.map((service) => (
+            <a href={service.href} class="service-card spotlight-card" data-reveal>
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
+              <div class="tag-list">
+                {service.tags.map((tag) => (
+                  <span>{tag}</span>
+                ))}
+              </div>
+            </a>
+          ))}
+        </div>
       </div>
-    </div>
-  </section>
-   <Footer />
+    </section>
+
+    <!-- FEATURED WORK -->
+    <section class="section">
+      <div class="container">
+        <div class="section-header" data-reveal>
+          <p class="eyebrow">Featured Work</p>
+          <h2>Recent work shaped around real business needs.</h2>
+        </div>
+
+        <div class="work-grid">
+          {featuredWork.map((project) => (
+            <a href={project.caseStudyUrl} class="work-card spotlight-card" data-reveal>
+              <div class="work-image">
+                {project.images.length > 1 ? (
+                  <div class="work-gallery" data-gallery>
+                    {project.images.map((src, i) => (
+                      <img
+                        src={src}
+                        alt={`${project.client} — image ${i + 1}`}
+                        class={i === 0 ? 'active' : ''}
+                      />
+                    ))}
+                    <div class="gallery-dots">
+                      {project.images.map((_, i) => (
+                        <span class={`dot${i === 0 ? ' active' : ''}`} />
+                      ))}
+                    </div>
+                  </div>
+                ) : (
+                  <img
+                    src={project.images[0]}
+                    alt={`${project.client} project`}
+                    loading="lazy"
+                  />
+                )}
+              </div>
+
+              <div class="work-content">
+                <div class="work-meta">
+                  <span
+                    class="work-category"
+                    style={`color: ${['#e8d44d','#f5c400'].includes(project.accentColor) ? 'var(--text-muted)' : project.accentColor}`}
+                  >
+                    {project.category}
+                  </span>
+                  <span class="work-year">{project.year}</span>
+                </div>
+                <h3>{project.client}</h3>
+                <p>{project.description}</p>
+                <div class="work-tags">
+                  {project.tags.map((tag) => (
+                    <span class="work-tag">{tag}</span>
+                  ))}
+                </div>
+                <span class="work-link">
+                  Read case study <span class="arrow">→</span>
+                </span>
+              </div>
+            </a>
+          ))}
+        </div>
+
+        <div class="featured-cta" data-reveal>
+          <a href="/work" class="btn btn-secondary">View All Work <span class="arrow">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="section high-contrast process-section">
+      <div class="container">
+        <div class="section-header" data-reveal>
+          <p class="eyebrow">How we work</p>
+          <h2>A practical process from first conversation to final launch.</h2>
+          <p>
+            We keep every project easy to follow, with clear steps, honest communication, and decisions that connect back to your business goals.
+          </p>
+        </div>
+
+        <div class="process-grid">
+          {process.map((item) => (
+            <div class="process-step spotlight-card">
+              <span>{item.step}</span>
+              <h3>{item.title}</h3>
+              <p>{item.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY US -->
+    <section class="section why-section">
+      <div class="container">
+        <div class="why-grid">
+          <div class="why-copy" data-reveal>
+            <p class="eyebrow">Why Plane View?</p>
+            <h2>For small businesses that need more than a once-off design job.</h2>
+            <p>
+             We bring creative thinking, technical ability, and practical planning together so your business has support across the full digital picture.
+            </p>
+            <a href="/about" class="btn btn-secondary">Learn about us</a>
+          </div>
+
+          <div class="reason-list" data-reveal>
+            {reasons.map((reason) => (
+              <div class="reason-item spotlight-card">
+                <span>✓</span>
+                <p>{reason}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- INSIGHTS / RESOURCES -->
+    <section class="section section-surface">
+      <div class="container">
+        <div class="split-header" data-reveal>
+          <div>
+            <p class="eyebrow">Explore more</p>
+            <h2>Explore the team, the work, and the options before starting a project.</h2>
+          </div>
+          <p>
+           Learn more about who we are, what we have built, and how our services can fit your next stage of growth.
+          </p>
+        </div>
+
+        <div class="resource-grid">
+          <a href="/about" class="resource-card spotlight-card" data-reveal>
+            <h3>About Us</h3>
+            <p>Learn how we think, collaborate, and approach digital growth.</p>
+            <span class="card-link">Read more <span class="arrow">→</span></span>
+          </a>
+
+          <a href="/pricing" class="resource-card spotlight-card" data-reveal>
+            <h3>Pricing</h3>
+            <p>Explore simple pricing structures for websites, strategy, and marketing support.</p>
+            <span class="card-link">View pricing <span class="arrow">→</span></span>
+          </a>
+
+          <a href="/insights" class="resource-card spotlight-card" data-reveal>
+            <h3>Insights</h3>
+            <p>Read ideas, campaigns, and content lessons from the Plane View perspective.</p>
+            <span class="card-link">Explore insights <span class="arrow">→</span></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- FINAL CTA -->
+    <section class="section final-cta-section">
+      <div class="container">
+        <div class="final-cta" data-reveal>
+          <p class="eyebrow">Ready when you are</p>
+          <h2>Ready to make your business look as strong online as it is in real life?</h2>
+          <p>
+            Tell us what you are working on. We will help you understand the next best step and what support makes sense.
+          </p>
+
+          <div class="cta-actions">
+            <a href="/contact" class="btn btn-primary btn-lg">
+              Start a Project <span class="arrow">→</span>
+            </a>
+            <a href="/pricing" class="btn btn-outline btn-lg">
+              View Pricing
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
 </MainLayout>
 
 <style>
+  /* =============================================
+     SHARED
+     ============================================= */
+
   .section-header {
     text-align: center;
-    max-width: 700px;
+    max-width: 780px;
     margin: 0 auto var(--spacing-2xl);
   }
 
-  .lead {
-    font-size: 1.25rem;
-    color: var(--color-slate-grey);
+  .section-header p {
+    margin-left: auto;
+    margin-right: auto;
+    color: var(--text-secondary);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-steel-blue);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    line-height: 1.2;
+    text-transform: uppercase;
     max-width: 100%;
   }
 
-  .card-icon {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: var(--spacing-md);
-    color: var(--color-steel-blue);
+  .eyebrow::before {
+    content: '';
+    width: 28px;
+    height: 2px;
+    background: var(--color-steel-blue);
+    border-radius: var(--radius-full);
   }
 
-  /*
-   * Makes the entire card feel interactive.
-   * The .card styles likely already exist in your global CSS,
-   * but these overrides ensure linked cards behave correctly.
-   */
-  a.card {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-  }
-
-  a.card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
-  }
-
-  a.card:focus-visible {
-    outline: 2px solid var(--color-steel-blue);
-    outline-offset: 4px;
-  }
-
-  .work-process {
+  .split-header {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: minmax(0, 1.1fr) minmax(280px, 0.7fr);
     gap: var(--spacing-2xl);
-    margin-top: var(--spacing-2xl);
+    align-items: end;
+    margin-bottom: var(--spacing-2xl);
   }
 
-  .process-step {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-md);
+  .split-header h2 { margin-bottom: 0; }
+
+  .split-header > p {
+    color: var(--text-secondary);
+    margin: 0;
+    max-width: 100%;
   }
 
-  .step-number {
-    font-size: 3rem;
-    font-weight: 700;
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-top: auto;
     color: var(--color-steel-blue);
-    line-height: 1;
+    font-weight: 600;
   }
 
-  .pillars {
+  /* =============================================
+     HERO
+     ============================================= */
+
+  .home-hero {
+    position: relative;
+    overflow: hidden;
+    padding-top: calc(var(--spacing-3xl) + 1rem);
+  }
+
+  .home-hero::before {
+    content: '';
+    position: absolute;
+    inset: 10% auto auto -10%;
+    width: 360px;
+    height: 360px;
+    background: radial-gradient(circle, rgba(47, 111, 237, 0.22), transparent 65%);
+    pointer-events: none;
+  }
+
+  .home-hero::after {
+    content: '';
+    position: absolute;
+    inset: auto -12% 5% auto;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(circle, rgba(255, 106, 0, 0.16), transparent 68%);
+    pointer-events: none;
+  }
+
+  .home-hero-grid {
+    position: relative;
+    z-index: 1;
     display: grid;
-    gap: var(--spacing-lg);
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.75fr);
+    gap: var(--spacing-3xl);
+    align-items: center;
+  }
+
+  .home-hero-copy h1 {
+    max-width: 900px;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .hero-lead {
+    font-size: clamp(1.125rem, 2vw, 1.35rem);
+    line-height: 1.7;
+    color: var(--text-secondary);
+    max-width: 720px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
     margin-top: var(--spacing-xl);
   }
 
-  .pillar-item {
-    padding: var(--spacing-lg);
-    border-left: 3px solid var(--color-steel-blue);
+  .home-hero-panel {
+    overflow: hidden;
+    border: 1px solid var(--border-subtle);
+    border-radius: 24px;
+    background:
+      linear-gradient(145deg, rgba(47, 111, 237, 0.13), transparent 45%),
+      var(--bg-card);
+    box-shadow: var(--shadow-lift);
   }
 
-  .pillar-item h4 {
-    margin-bottom: var(--spacing-xs);
-    font-size: 1.25rem;
+  .panel-header {
+    display: flex;
+    gap: 8px;
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--surface-hover);
   }
 
-  .pillar-item p {
-    color: var(--color-slate-grey);
-    margin: 0;
+  .panel-header span {
+    width: 10px;
+    height: 10px;
+    border-radius: var(--radius-full);
+    background: var(--border-strong);
   }
 
-  .cta-box {
-    text-align: center;
-    padding: var(--spacing-3xl) var(--spacing-xl);
-    background-color: rgba(47, 111, 237, 0.05);
+  .panel-body { padding: var(--spacing-xl); }
+
+  .panel-kicker {
+    color: var(--color-signal-orange);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .panel-body h2 { font-size: clamp(1.75rem, 3vw, 2.5rem); }
+  .panel-body p  { color: var(--text-secondary); }
+
+  .panel-list {
+    display: grid;
+    gap: var(--spacing-sm);
+    margin-top: var(--spacing-xl);
+  }
+
+  .panel-list div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    border: 1px solid var(--border-subtle);
     border-radius: var(--radius-lg);
+    background: var(--surface-hover);
+  }
+
+  .panel-list strong { color: var(--color-steel-blue); }
+  .panel-list span   { color: var(--text-primary); font-weight: 600; }
+
+  /* =============================================
+     TRUST STRIP
+     ============================================= */
+
+  .trust-strip {
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+    background: var(--bg-secondary);
+  }
+
+  .trust-strip-inner {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-lg);
+    flex-wrap: wrap;
+    padding: var(--spacing-md) 0;
+  }
+
+  .trust-strip-inner span {
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* =============================================
+     OUTCOMES
+     ============================================= */
+
+  .outcome-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--spacing-lg);
+  }
+
+  .outcome-card,
+  .service-card,
+  .resource-card {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .outcome-card {
+    min-height: 310px;
     display: flex;
     flex-direction: column;
+    padding: var(--spacing-lg);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    transition:
+      transform var(--transition-base),
+      border-color var(--transition-base),
+      background var(--transition-base),
+      box-shadow var(--transition-base);
+  }
+
+  .outcome-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-medium);
+    background: var(--bg-card-hover);
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-number {
+    color: var(--color-signal-orange);
+    font-weight: 800;
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .outcome-card h3 { font-size: 1.35rem; }
+  .outcome-card p  { color: var(--text-secondary); max-width: 100%; }
+
+  /* =============================================
+     SERVICES
+     ============================================= */
+
+  .section-surface {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-subtle);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .service-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-lg);
+  }
+
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 320px;
+    padding: var(--spacing-xl);
+    border: 1px solid var(--border-subtle);
+    border-radius: 24px;
+    background: var(--bg-card);
+    transition:
+      transform var(--transition-base),
+      border-color var(--transition-base),
+      background var(--transition-base),
+      box-shadow var(--transition-base);
+  }
+
+  .service-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-medium);
+    background: var(--bg-card-hover);
+    box-shadow: var(--shadow-card);
+  }
+
+  .service-card p { color: var(--text-secondary); max-width: 100%; }
+
+  .tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+    padding-top: var(--spacing-lg);
+  }
+
+  .tag-list span {
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-full);
+    color: var(--text-secondary);
+    background: var(--surface-hover);
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+
+  /* =============================================
+     FEATURED WORK — reuses work card styles
+     ============================================= */
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--spacing-2xl);
+  }
+
+  .work-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background-color: var(--bg-card);
+    text-decoration: none;
+    color: inherit;
+    transition: all var(--transition-base);
+  }
+
+  .work-card:hover {
+    border-color: var(--border-medium);
+    background-color: var(--bg-card-hover);
+    box-shadow: var(--shadow-lift);
+    transform: translateY(-4px);
+  }
+
+  .work-image {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+  }
+
+  .work-image > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .work-card:hover .work-image > img {
+    transform: scale(1.03);
+  }
+
+  .work-gallery {
+    position: relative;
+    width: 100%;
+    height: 100%;
+  }
+
+  .work-gallery img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .work-gallery img.active { opacity: 1; }
+
+  .gallery-dots {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    z-index: 2;
+    display: flex;
+    gap: 5px;
+    transform: translateX(-50%);
+  }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.45);
+    transition: background 0.3s ease;
+  }
+
+  .dot.active { background: rgba(255, 255, 255, 0.95); }
+
+ .work-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-lg);
+  padding-bottom: var(--spacing-xl);  /* ← add this line */
+}
+
+  .work-meta {
+    display: flex;
     align-items: center;
+    justify-content: space-between;
+    font-size: 0.875rem;
+  }
+
+  .work-category { color: var(--text-primary); font-weight: 500; }
+  .work-year     { color: var(--text-secondary); }
+
+  .work-content h3 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1.5rem;
+  }
+
+  .work-content p {
+    max-width: 100%;
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.6;
+  }
+
+  .work-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: var(--spacing-xs);
+  }
+
+  .work-tag {
+    padding: 3px 10px;
+    border-radius: var(--radius-full);
+    background-color: var(--work-tag-bg);
+    color: var(--work-tag-text);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+
+  .work-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+  margin-top: auto;
+  padding-top: var(--spacing-md);   /* ← bump from sm → md */
+  border-top: 1px solid var(--border-subtle);  /* ← optional: adds a clear separator */
+  color: var(--color-steel-blue);
+  font-weight: 500;
+  transition: gap var(--transition-base);
+  }
+
+  .work-card:hover .work-link { gap: var(--spacing-sm); }
+
+  .featured-cta {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--spacing-2xl);
+  }
+
+  /* =============================================
+     PROCESS
+     ============================================= */
+
+  .process-section .section-header p,
+  .process-section .process-step p {
+    color: inherit;
+    opacity: 0.75;
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--spacing-lg);
+  }
+
+  .process-step {
+    padding: var(--spacing-lg);
+    border: 1px solid color-mix(in srgb, currentColor 16%, transparent);
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, currentColor 5%, transparent);
+  }
+
+  .process-step span {
+    display: inline-flex;
+    margin-bottom: var(--spacing-xl);
+    color: var(--color-steel-blue);
+    font-size: 2.5rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  .process-step h3 { color: inherit; }
+  .process-step p  { margin: 0; max-width: 100%; }
+
+  /* =============================================
+     WHY US
+     ============================================= */
+
+  .why-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 0.85fr) minmax(320px, 1fr);
+    gap: var(--spacing-3xl);
+    align-items: center;
+  }
+
+  .why-copy p { color: var(--text-secondary); }
+  .why-copy .btn { margin-top: var(--spacing-md); }
+
+  .reason-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: var(--spacing-md);
   }
 
-  .cta-box p {
-    font-size: 1.125rem;
-    color: var(--color-slate-grey);
+  .reason-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+    padding: var(--spacing-md);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+  }
+
+  .reason-item span {
+    width: 28px;
+    height: 28px;
+    display: grid;
+    flex: 0 0 auto;
+    place-items: center;
+    border-radius: var(--radius-full);
+    background: rgba(47, 111, 237, 0.14);
+    color: var(--color-steel-blue);
+    font-weight: 800;
+  }
+
+  .reason-item p {
     margin: 0;
+    color: var(--text-primary);
+    font-weight: 600;
   }
 
-  .btn-lg {
-    padding: var(--spacing-md) var(--spacing-xl);
-    font-size: 1.125rem;
+  /* =============================================
+     RESOURCES
+     ============================================= */
+
+  .resource-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--spacing-lg);
   }
 
-  @media (max-width: 768px) {
-    .section-header {
-      margin-bottom: var(--spacing-xl);
-    }
+  .resource-card {
+    display: flex;
+    flex-direction: column;
+    min-height: 240px;
+    padding: var(--spacing-lg);
+    border: 1px solid var(--border-subtle);
+    border-radius: var(--radius-lg);
+    background: var(--bg-card);
+    transition:
+      transform var(--transition-base),
+      border-color var(--transition-base),
+      background var(--transition-base),
+      box-shadow var(--transition-base);
+  }
 
-    .lead {
-      font-size: 1.125rem;
-    }
+  .resource-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-medium);
+    background: var(--bg-card-hover);
+    box-shadow: var(--shadow-card);
+  }
 
-    .work-process {
+  .resource-card p { color: var(--text-secondary); max-width: 100%; }
+
+  /* =============================================
+     FINAL CTA
+     ============================================= */
+
+  .final-cta-section { padding-top: var(--spacing-2xl); }
+
+  .final-cta {
+    position: relative;
+    overflow: hidden;
+    padding: var(--spacing-3xl);
+    border: 1px solid var(--border-subtle);
+    border-radius: 32px;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(47, 111, 237, 0.22), transparent 32%),
+      radial-gradient(circle at 80% 80%, rgba(255, 106, 0, 0.16), transparent 32%),
+      var(--bg-card);
+    text-align: center;
+    box-shadow: var(--shadow-card);
+  }
+
+  .final-cta .eyebrow { justify-content: center; }
+  .final-cta .eyebrow::before { display: none; }
+
+  .final-cta h2 {
+    max-width: 820px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .final-cta p {
+    color: var(--text-secondary);
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cta-actions {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+    margin-top: var(--spacing-xl);
+  }
+
+  /* =============================================
+     RESPONSIVE
+     ============================================= */
+
+  @media (max-width: 1180px) {
+    .outcome-grid,
+    .process-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 900px) {
+    .home-hero-grid,
+    .split-header,
+    .why-grid {
       grid-template-columns: 1fr;
       gap: var(--spacing-xl);
     }
 
-    .step-number {
-      font-size: 2.5rem;
+    .home-hero { padding-top: var(--spacing-2xl); }
+
+    .service-grid,
+    .work-grid,
+    .resource-grid {
+      grid-template-columns: 1fr;
     }
 
-    .pillar-item {
-      padding: var(--spacing-md);
-    }
-
-    .pillar-item h4 {
-      font-size: 1.125rem;
-    }
-
-    .cta-box {
-      padding: var(--spacing-2xl) var(--spacing-lg);
-    }
-
-    .cta-box p {
-      font-size: 1rem;
-    }
-
-    .btn-lg {
-      width: 100%;
-      padding: var(--spacing-md);
-    }
+    .split-header { align-items: start; }
   }
 
-  @media (min-width: 769px) and (max-width: 1024px) {
-    .work-process {
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: var(--spacing-xl);
+  @media (max-width: 768px) {
+    .section-header { margin-bottom: var(--spacing-xl); }
+
+    .hero-actions,
+    .cta-actions {
+      flex-direction: column;
+      width: 100%;
     }
 
-    .step-number {
-      font-size: 2.75rem;
+    .hero-actions .btn,
+    .cta-actions .btn {
+      width: 100%;
     }
+
+    .home-hero-panel { border-radius: 20px; }
+
+    .panel-body,
+    .service-card,
+    .final-cta {
+      padding: var(--spacing-lg);
+    }
+
+    .outcome-grid,
+    .process-grid,
+    .reason-list {
+      grid-template-columns: 1fr;
+    }
+
+    .outcome-card,
+    .service-card,
+    .resource-card {
+      min-height: auto;
+    }
+
+    .trust-strip-inner {
+      justify-content: flex-start;
+      gap: var(--spacing-md);
+    }
+
+    .final-cta { border-radius: 24px; }
   }
 
   @media (max-width: 480px) {
-    .section-header h2 {
-      font-size: 2rem;
+    .eyebrow { font-size: 0.72rem; }
+    .eyebrow::before { width: 20px; }
+
+    .panel-list div,
+    .reason-item {
+      align-items: flex-start;
     }
 
-    .lead {
-      font-size: 1rem;
-    }
-
-    .card {
-      padding: var(--spacing-md);
-    }
-
-    .card h3 {
-      font-size: 1.25rem;
-    }
-
-    .process-step h3 {
-      font-size: 1.25rem;
-    }
-
-    .process-step p {
-      font-size: 0.9375rem;
-    }
+    .process-step span { font-size: 2rem; }
   }
 </style>
+
+<script>
+  // Gallery hover slideshow — same logic as work.astro
+  function initGalleries() {
+    document.querySelectorAll<HTMLElement>('[data-gallery]').forEach((gallery) => {
+      const imgs = gallery.querySelectorAll('img');
+      const dots = gallery.querySelectorAll('.dot');
+      let current = 0;
+      let interval: ReturnType<typeof setInterval>;
+
+      const goTo = (index: number) => {
+        imgs[current].classList.remove('active');
+        dots[current]?.classList.remove('active');
+        current = index;
+        imgs[current].classList.add('active');
+        dots[current]?.classList.add('active');
+      };
+
+      const card = gallery.closest('.work-card');
+      card?.addEventListener('mouseenter', () => {
+        interval = setInterval(() => goTo((current + 1) % imgs.length), 1000);
+      });
+      card?.addEventListener('mouseleave', () => {
+        clearInterval(interval);
+        goTo(0);
+      });
+    });
+  }
+
+  document.addEventListener('astro:page-load', initGalleries);
+  document.addEventListener('DOMContentLoaded', initGalleries);
+</script>
