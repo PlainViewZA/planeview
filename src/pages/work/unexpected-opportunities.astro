@@ -2,17 +2,15 @@
 import MainLayout from '../../layouts/MainLayout.astro';
 
 
-// ============================================================
-//  EDIT THIS SECTION ONLY — everything else stays the same
-// ============================================================
-
 const project = {
   metaTitle: "Unexpected Opportunities Case Study | Plane View Collective",
-  metaDescription: "How we built a complete digital presence for a Cape Town community movement through brand identity, website design, and content strategy",
+  metaDescription:
+    "How we built a complete digital presence for a Cape Town community movement through brand identity, website design, and content strategy",
 
   tags: ["Web Design", "Branding", "Content Strategy"],
   title: "Unexpected Opportunities",
-  tagline: "Creating a digital home for a Cape Town community movement built on dignity, care, and showing up, through brand identity, website design, and content strategy.",
+  tagline:
+    "Creating a digital home for a Cape Town community movement built on dignity, care, and showing up, through brand identity, website design, and content strategy.",
 
   client: "Unexpected Opportunities",
   industry: "Non profit and community",
@@ -43,19 +41,22 @@ const project = {
       number: "01",
       service: "Brand Identity",
       heading: "A visual identity built on warmth and trust",
-      description: "We created a brand system that feels human and credible at the same time. It includes grounded colours, clean typography, and a visual identity that works across digital, print, and social platforms from the start.",
+      description:
+        "We created a brand system that feels human and credible at the same time. It includes grounded colours, clean typography, and a visual identity that works across digital, print, and social platforms from the start.",
     },
     {
       number: "02",
       service: "Website Design & Build",
       heading: "A website that invites people in",
-      description: "The site was designed to clearly explain the mission, showcase the programs, and make it easy for people to donate or get involved. The layout is clean, the structure is intuitive, and the Stories section plays a central role in building trust.",
+      description:
+        "The site was designed to clearly explain the mission, showcase the programs, and make it easy for people to donate or get involved. The layout is clean, the structure is intuitive, and the Stories section plays a central role in building trust.",
     },
     {
       number: "03",
       service: "Content Strategy",
       heading: "Turning storytelling into a long term asset",
-      description: "Every page was written to feel personal and close. The content system was built so the team can continue sharing stories easily without relying on a developer, allowing the platform to grow over time.",
+      description:
+        "Every page was written to feel personal and close. The content system was built so the team can continue sharing stories easily without relying on a developer, allowing the platform to grow over time.",
     },
   ],
 
@@ -64,27 +65,26 @@ const project = {
     "Unexpected Opportunities now has a digital presence that reflects the same warmth and honesty as their work on the ground. Someone visiting the site for the first time can quickly understand the mission and take action without confusion.",
     "The platform does more than present information. It gives the team a consistent way to communicate, a space to share stories, and a foundation they can grow as the movement expands.",
   ],
+
   stats: [
-    { figure: "3",   label: "Core programs clearly communicated for the first time" },
+    { figure: "3", label: "Core programs clearly communicated for the first time" },
     { figure: "15+", label: "Local partnerships supported by the new digital presence" },
     { figure: "0→1", label: "From no brand identity to a complete movement presence" },
   ],
 
-  quote: "Plane View understood immediately that we did not want something that looked like a typical charity. They created something that feels like us, honest, warm, and built for the people we serve.",
+  quote:
+    "Plane View understood immediately that we did not want something that looked like a typical charity. They created something that feels like us, honest, warm, and built for the people we serve.",
   quoteAuthor: "Unexpected Opportunities",
 };
 // ============================================================
 ---
 
 <MainLayout title={project.metaTitle} description={project.metaDescription}>
-
-
   <!-- ═══════════════════════════════════════════
        1. HERO — Case Study Intro
   ═══════════════════════════════════════════ -->
   <section class="cs-hero">
     <div class="container">
-
       <div class="cs-hero-inner">
         <div class="cs-hero-left">
           <div class="cs-tags">
@@ -92,47 +92,54 @@ const project = {
               <span class="cs-tag">{tag}</span>
             ))}
           </div>
+
+          <p class="cs-kicker">Case Study</p>
           <h1 class="cs-hero-title">{project.title}</h1>
           <p class="cs-hero-tagline">{project.tagline}</p>
         </div>
 
-        <div class="cs-hero-meta">
+        <aside class="cs-hero-meta" aria-label="Project details">
           <div class="meta-item">
             <span class="meta-label">Client</span>
             <span class="meta-value">{project.client}</span>
           </div>
+
           <div class="meta-item">
             <span class="meta-label">Industry</span>
             <span class="meta-value">{project.industry}</span>
           </div>
+
           <div class="meta-item">
             <span class="meta-label">Location</span>
             <span class="meta-value">{project.location}</span>
           </div>
+
           <div class="meta-item">
             <span class="meta-label">Services</span>
-            {project.services.map((s) => (
-              <span class="meta-value">{s}</span>
-            ))}
+            <span class="meta-value">{project.services.join(" / ")}</span>
           </div>
+
           <div class="meta-item">
             <span class="meta-label">Year</span>
             <span class="meta-value">{project.year}</span>
           </div>
-        </div>
+        </aside>
       </div>
 
-      <!-- Hero cover -->
       <div class="cs-hero-cover">
         {project.heroImage ? (
-          <img src={project.heroImage} alt={project.heroImageAlt} />
+          <img
+            src={project.heroImage}
+            alt={project.heroImageAlt}
+            loading="eager"
+            decoding="async"
+          />
         ) : (
           <div class="cover-placeholder" aria-label={project.heroImageAlt}>
             <span class="cover-hint">Hero Image — {project.client}</span>
           </div>
         )}
       </div>
-
     </div>
   </section>
 
@@ -140,43 +147,44 @@ const project = {
        2. BRAND IDENTITY
   ═══════════════════════════════════════════ -->
   <section class="brand-section">
-
     <div class="container">
       <div class="section-label-block">
         <span class="eyebrow">Brand Identity</span>
         <h2 class="section-heading">The {project.client} Identity</h2>
-        <p class="section-subheading">A visual system built on warmth, trust, and community dignity.</p>
+        <p class="section-subheading">
+          A visual system built on warmth, trust, and community dignity.
+        </p>
       </div>
     </div>
 
-    <!-- Brand Board -->
     <div class="brand-board">
       <div class="brand-board-left">
         <div class="logo-on-light">
           <div class="logo-placeholder">
             <div class="logo-icon-placeholder">UO</div>
-            <span class="logo-wordmark">UNEXPECTED<br>OPPORTUNITIES</span>
+            <span class="logo-wordmark">UNEXPECTED<br />OPPORTUNITIES</span>
           </div>
           <span class="logo-variant-label">Primary — Light Background</span>
         </div>
+
         <div class="logo-on-dark">
           <div class="logo-placeholder">
             <div class="logo-icon-placeholder reversed">UO</div>
-            <span class="logo-wordmark reversed">UNEXPECTED<br>OPPORTUNITIES</span>
+            <span class="logo-wordmark reversed">UNEXPECTED<br />OPPORTUNITIES</span>
           </div>
           <span class="logo-variant-label light">Primary — Dark Background</span>
         </div>
+
         <div class="logo-on-brand">
           <div class="logo-placeholder">
             <div class="logo-icon-placeholder brand">UO</div>
-            <span class="logo-wordmark brand">UNEXPECTED<br>OPPORTUNITIES</span>
+            <span class="logo-wordmark brand">UNEXPECTED<br />OPPORTUNITIES</span>
           </div>
           <span class="logo-variant-label light">Primary Brand Colour</span>
         </div>
       </div>
 
       <div class="brand-board-right">
-        <!-- Brand colours from guide: White, Dim Grey, Black, Carrot Orange, Sandy Brown -->
         <div class="colour-column" style="background:#ffffff;">
           <div class="colour-info dark">
             <span class="colour-name">White</span>
@@ -184,6 +192,7 @@ const project = {
             <span class="colour-role">Background</span>
           </div>
         </div>
+
         <div class="colour-column" style="background:#696969;">
           <div class="colour-info light">
             <span class="colour-name">Dim Grey</span>
@@ -191,6 +200,7 @@ const project = {
             <span class="colour-role">Body Text</span>
           </div>
         </div>
+
         <div class="colour-column" style="background:#1a1a1a;">
           <div class="colour-info light">
             <span class="colour-name">Black</span>
@@ -198,6 +208,7 @@ const project = {
             <span class="colour-role">Primary</span>
           </div>
         </div>
+
         <div class="colour-column" style="background:#e9732a;">
           <div class="colour-info light">
             <span class="colour-name">Carrot Orange</span>
@@ -205,6 +216,7 @@ const project = {
             <span class="colour-role">Accent</span>
           </div>
         </div>
+
         <div class="colour-column" style="background:#f4a460;">
           <div class="colour-info dark">
             <span class="colour-name">Sandy Brown</span>
@@ -215,46 +227,54 @@ const project = {
       </div>
     </div>
 
-    <!-- Typography Strip -->
     <div class="type-strip">
       <div class="container">
         <div class="type-grid">
-
           <div class="type-block">
             <span class="type-label">Display — Myanmar</span>
             <div class="type-specimen-display">Aa</div>
+
             <div class="type-weights">
               <span style="font-weight:400;">Regular</span>
               <span style="font-weight:700;">Bold</span>
             </div>
-            <p class="type-usage">Used for headlines, pull quotes, and all display text.</p>
+
+            <p class="type-usage">
+              Used for headlines, pull quotes, and all display text.
+            </p>
           </div>
 
-          <div class="type-divider"></div>
+          <div class="type-divider" aria-hidden="true"></div>
 
           <div class="type-block">
             <span class="type-label">Body — Bahnschrift</span>
             <div class="type-specimen-body">Aa</div>
+
             <div class="type-weights">
               <span style="font-weight:400;">Regular</span>
               <span style="font-weight:600;">SemiBold</span>
             </div>
-            <p class="type-usage">Used for body copy, captions, and UI labels.</p>
+
+            <p class="type-usage">
+              Used for body copy, captions, and UI labels.
+            </p>
           </div>
 
-          <div class="type-divider"></div>
+          <div class="type-divider" aria-hidden="true"></div>
 
           <div class="type-block">
             <span class="type-label">In Use</span>
             <p class="specimen-headline">Showing up for community.</p>
-            <p class="specimen-body">Serving Cape Town’s most vulnerable residents through food support, youth mentorship, and community storytelling. Because dignity should never feel out of reach.</p>
+            <p class="specimen-body">
+              Serving Cape Town’s most vulnerable residents through food support,
+              youth mentorship, and community storytelling. Because dignity should
+              never feel out of reach.
+            </p>
           </div>
-
         </div>
       </div>
     </div>
 
-    <!-- Brand Values -->
     <div class="brand-values-strip">
       <div class="container">
         <div class="values-grid">
@@ -269,62 +289,60 @@ const project = {
         </div>
       </div>
     </div>
-
   </section>
 
   <!-- ═══════════════════════════════════════════
-       3. MOCKUPS — Visual Application
+       3. PREMIUM VISUAL SHOWCASE — Supporting Applications
+       Desktop cleaned into equal cards.
   ═══════════════════════════════════════════ -->
-  <section class="mockups-section">
+  <section class="visual-showcase" aria-labelledby="showcase-title">
     <div class="container">
-
-      <div class="section-label-block">
+      <div class="section-label-block showcase-header">
         <span class="eyebrow">Application</span>
-        <h2 class="section-heading">The Work in Context</h2>
-        <p class="section-subheading">The brand applied consistently across both digital platforms and real world community touchpoints.</p>
+        <h2 id="showcase-title" class="section-heading">The Work in Context</h2>
+        <p class="section-subheading">
+          The brand applied consistently across digital platforms and real-world
+          community touchpoints with a cleaner, more editorial presentation.
+        </p>
       </div>
 
-      <!-- Feature desktop -->
-      <div class="mockup-feature">
-        <div class="mockup-frame mockup-frame--desktop">
-          <div class="mockup-browser-bar">
-            <div class="browser-dots"><span></span><span></span><span></span></div>
-            <div class="browser-url">unexpectedopportunities.netlify.app</div>
+      <div class="showcase-grid showcase-grid--balanced">
+        <figure class="showcase-item">
+          <div class="media-frame">
+            <img
+              src="/UnexpectedOpportunities/Business_Card.png"
+              alt="Unexpected Opportunities business card design"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
-          <div class="mockup-screen">
-               <img src="/UnexpectedOpportunities/up.webp" alt="Homepage" />
+          <figcaption class="showcase-caption">Business Card</figcaption>
+        </figure>
+
+        <figure class="showcase-item">
+          <div class="media-frame">
+            <img
+              src="/UnexpectedOpportunities/socialmedia.webp"
+              alt="Unexpected Opportunities social media post"
+              loading="lazy"
+              decoding="async"
+            />
           </div>
-        </div>
-        <p class="mockup-caption">Homepage Design</p>
+          <figcaption class="showcase-caption">Social Media</figcaption>
+        </figure>
+
+        <figure class="showcase-item">
+          <div class="media-frame">
+            <img
+              src="/UnexpectedOpportunities/socialmedia02.webp"
+              alt="Unexpected Opportunities social media campaign visual"
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+          <figcaption class="showcase-caption">Campaign Visual</figcaption>
+        </figure>
       </div>
-
-    <!-- Three-col collateral -->
-<div class="mockup-grid mockup-grid--3col">
-
-  <div class="mockup-item">
-    <div class="mockup-frame mockup-frame--card">
-      <img src="/UnexpectedOpportunities/Business_Card.png" alt="Business Card" class="card-image" />
-    </div>
-    <p class="mockup-caption">Business Card</p>
-  </div>
-
-  <div class="mockup-item">
-    <div class="mockup-frame mockup-frame--card">
-      <img src="/UnexpectedOpportunities/socialmedia.webp" alt="Social Media Post" class="card-image" />
-    </div>
-    <p class="mockup-caption">Social Media</p>
-  </div>
-
-  <div class="mockup-item">
-    <div class="mockup-frame mockup-frame--card">
-      <img src="/UnexpectedOpportunities/socialmedia02.webp" alt="Social Media Post" class="card-image" />
-    </div>
-    <p class="mockup-caption">Social Media</p>
-  </div>
-
-</div>
-
-
     </div>
   </section>
 
@@ -333,71 +351,88 @@ const project = {
   ═══════════════════════════════════════════ -->
   <section class="story-section">
     <div class="container story-container">
-
       <nav class="story-sidenav" aria-label="Case study navigation">
         <a href="#challenge" class="cs-nav-link">Challenge</a>
-        <a href="#approach"  class="cs-nav-link">Approach</a>
+        <a href="#approach" class="cs-nav-link">Approach</a>
         <a href="#execution" class="cs-nav-link">Execution</a>
-        <a href="#result"    class="cs-nav-link">Result</a>
+        <a href="#result" class="cs-nav-link">Result</a>
       </nav>
 
       <div class="story-body">
-
-        <!-- Challenge -->
         <article id="challenge" class="story-chapter">
           <div class="chapter-marker">
             <span class="chapter-number">01</span>
             <span class="chapter-title">The Challenge</span>
           </div>
+
           <h3 class="chapter-heading">{project.challengeHeading}</h3>
+
           <div class="chapter-content">
             {project.challenge.map((para) => <p>{para}</p>)}
           </div>
         </article>
 
-        <!-- Approach -->
         <article id="approach" class="story-chapter">
           <div class="chapter-marker">
             <span class="chapter-number">02</span>
             <span class="chapter-title">The Approach</span>
           </div>
+
           <h3 class="chapter-heading">{project.approachHeading}</h3>
+
           <div class="chapter-content">
             {project.approach.map((para) => <p>{para}</p>)}
+
             <div class="approach-pillars">
               <div class="pillar">
                 <span class="pillar-label">Brand Direction</span>
-                <p>Warmth without naivety. Grounded in the community it serves, never corporate or distant.</p>
+                <p>
+                  Warmth without naivety. Grounded in the community it serves,
+                  never corporate or distant.
+                </p>
               </div>
+
               <div class="pillar">
                 <span class="pillar-label">Content Strategy</span>
-                <p>Stories as evidence. Lived experience treated as the most powerful trust signal the organisation has.</p>
+                <p>
+                  Stories as evidence. Lived experience treated as the most
+                  powerful trust signal the organisation has.
+                </p>
               </div>
+
               <div class="pillar">
                 <span class="pillar-label">Digital Strategy</span>
-                <p>Answer three questions in order: What do you do? Why trust you? How do I get involved?</p>
+                <p>
+                  Answer three questions in order: What do you do? Why trust you?
+                  How do I get involved?
+                </p>
               </div>
             </div>
           </div>
         </article>
 
-        <!-- Execution -->
         <article id="execution" class="story-chapter">
           <div class="chapter-marker">
             <span class="chapter-number">03</span>
             <span class="chapter-title">The Execution</span>
           </div>
+
           <h3 class="chapter-heading">
-            Built to feel like them.<br>Every touchpoint considered.
+            Built to feel like them.<br />Every touchpoint considered.
           </h3>
+
           <div class="chapter-content">
             <p>
-              We delivered a complete brand system and digital presence in a single focused engagement — identity, digital, and collateral working together so the movement has a coherent voice wherever it shows up.
+              We delivered a complete brand system and digital presence in a single
+              focused engagement — identity, digital, and collateral working
+              together so the movement has a coherent voice wherever it shows up.
             </p>
+
             <div class="execution-deliverables">
               {project.deliverables.map((d) => (
                 <div class="deliverable-row">
-                  <div class="deliverable-icon">—</div>
+                  <div class="deliverable-icon" aria-hidden="true">—</div>
+
                   <div class="deliverable-detail">
                     <span class="deliverable-name">{d.number} — {d.service}</span>
                     <span class="deliverable-heading">{d.heading}</span>
@@ -409,13 +444,14 @@ const project = {
           </div>
         </article>
 
-        <!-- Result -->
         <article id="result" class="story-chapter story-chapter--last">
           <div class="chapter-marker">
             <span class="chapter-number">04</span>
             <span class="chapter-title">The Result</span>
           </div>
+
           <h3 class="chapter-heading">{project.resultHeading}</h3>
+
           <div class="chapter-content">
             {project.result.map((para) => <p>{para}</p>)}
           </div>
@@ -431,15 +467,13 @@ const project = {
 
           {project.quote && (
             <blockquote class="story-quote">
-              <p class="story-quote-text">"{project.quote}"</p>
+              <p class="story-quote-text">“{project.quote}”</p>
               <footer>
                 <span class="story-quote-author">— {project.quoteAuthor}</span>
               </footer>
             </blockquote>
           )}
-
         </article>
-
       </div>
     </div>
   </section>
@@ -458,918 +492,1154 @@ const project = {
       </div>
     </div>
   </section>
-
-
 </MainLayout>
 
 <style>
-/* ════════════════════════════════════════
-   SHARED UTILITIES
-   Brand: #ffffff White · #696969 Dim Grey · #1a1a1a Black
-          #e9732a Carrot Orange · #f4a460 Sandy Brown
-════════════════════════════════════════ */
+  :root {
+    --uo-white: #ffffff;
+    --uo-cream: #f2ede6;
+    --uo-cream-soft: #f9f8f5;
+    --uo-muted: #696969;
+    --uo-text: #1a1a1a;
+    --uo-orange: #e9732a;
+    --uo-orange-soft: #f4a460;
+    --uo-line: rgba(26, 26, 26, 0.08);
+    --uo-line-strong: rgba(26, 26, 26, 0.12);
+    --uo-shadow: 0 24px 80px rgba(233, 115, 42, 0.09);
+  }
+
+  .container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .container-wide {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .eyebrow {
+    display: inline-block;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--uo-orange);
+    margin: 0 0 0.75rem;
+  }
+
+  .section-label-block {
+    max-width: 680px;
+    margin-bottom: 3.5rem;
+  }
+
+  .section-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 4vw, 3.6rem);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    color: var(--uo-text);
+    margin: 0 0 0.8rem;
+    line-height: 1;
+  }
+
+  .section-subheading {
+    font-family: 'Open Sans', sans-serif;
+    font-size: clamp(1rem, 1.4vw, 1.125rem);
+    color: var(--uo-muted);
+    margin: 0;
+    line-height: 1.7;
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+  /* ════════════════════════════════════════
+     1. HERO
+  ════════════════════════════════════════ */
+  .cs-hero {
+    position: relative;
+    background:
+      radial-gradient(circle at 10% 0%, rgba(233, 115, 42, 0.16), transparent 32rem),
+      linear-gradient(180deg, #ffffff 0%, #f2ede6 72%, #eee5dc 100%);
+    padding: clamp(6rem, 9vw, 8.5rem) 0 0;
+    overflow: hidden;
+  }
+
+  .cs-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.5;
+    background-image:
+      linear-gradient(rgba(26, 26, 26, 0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26, 26, 26, 0.025) 1px, transparent 1px);
+    background-size: 46px 46px;
+    mask-image: linear-gradient(to bottom, black, transparent 85%);
+  }
+
+  .cs-hero-inner {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 340px;
+    gap: clamp(3rem, 6vw, 5rem);
+    align-items: start;
+    padding-bottom: clamp(3rem, 6vw, 4.75rem);
+  }
+
+  .cs-hero-left {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .cs-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .cs-tag {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 0.42rem 0.9rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(233, 115, 42, 0.34);
+    color: var(--uo-orange);
+    background: rgba(233, 115, 42, 0.07);
+  }
+
+  .cs-kicker {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(26, 26, 26, 0.46);
+    margin: 0 0 0.75rem;
+  }
+
+  .cs-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 8.5vw, 7.5rem);
+    font-weight: 700;
+    letter-spacing: -0.045em;
+    color: var(--uo-text);
+    line-height: 0.95;
+    margin: 0.25rem 0 1.5rem;
+    max-width: 880px;
+  }
+
+  .cs-hero-tagline {
+    font-family: 'Open Sans', sans-serif;
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    color: var(--uo-muted);
+    line-height: 1.75;
+    max-width: 720px;
+    margin: 0;
+  }
 
-.container {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.eyebrow {
-  display: inline-block;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #e9732a;
-  margin-bottom: 0.75rem;
-}
-
-.section-label-block {
-  max-width: 640px;
-  margin-bottom: 3.5rem;
-}
-
-.section-heading {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: #1a1a1a;
-  margin: 0 0 0.75rem;
-  line-height: 1.1;
-}
-
-.section-subheading {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 1.0625rem;
-  color: #696969;
-  margin: 0;
-  line-height: 1.7;
-}
-
-/* ════════════════════════════════════════
-   1. HERO
-════════════════════════════════════════ */
-
-.cs-hero {
-  background: #f2ede6;
-  padding: 7rem 0 0;
-  overflow: hidden;
-}
-
-.cs-hero-inner {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  gap: 4rem;
-  align-items: start;
-  padding-bottom: 4rem;
-}
-
-.cs-hero-left {
-  display: flex;
-  flex-direction: column;
-}
-
-.cs-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 1.25rem;
-}
-
-.cs-tag {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  padding: 4px 14px;
-  border-radius: 9999px;
-  border: 1.5px solid rgba(233, 115, 42, 0.4);
-  color: #e9732a;
-}
-
-.cs-hero-title {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(3rem, 7vw, 6rem);
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  color: #1a1a1a;
-  line-height: 0.95;
-  margin: 0.5rem 0 1.5rem;
-}
-
-.cs-hero-tagline {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 1.125rem;
-  color: #696969;
-  line-height: 1.7;
-  max-width: 480px;
-  margin: 0;
-}
-
-/* Subtle left-rule separator between hero content and meta */
-.cs-hero-meta {
-  display: flex;
-  flex-direction: column;
-  gap: 1.75rem;
-  padding-top: 1.25rem;
-  padding-left: 2.5rem;
-  border-left: 1px solid rgba(26, 26, 26, 0.12);
-}
-
-.meta-item {
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
-}
-
-.meta-label {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #e9732a;
-}
-
-.meta-value {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.9375rem;
-  color: #1a1a1a;
-  font-weight: 500;
-  line-height: 1.5;
-}
-
-/* Hero cover — full width, image height determines the space */
-.cs-hero-cover {
-  width: 100%;
-  overflow: hidden;
-}
-
-.cs-hero-cover img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
-
-.cover-placeholder {
-  width: 100%;
-  min-height: 360px;
-  background: #e8e3db;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.cover-hint {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: rgba(0, 0, 0, 0.25);
-}
-
-
-/* ════════════════════════════════════════
-   2. BRAND IDENTITY
-════════════════════════════════════════ */
-
-.brand-section {
-  background: #f9f8f5;
-  padding: 6rem 0 0;
-  overflow: hidden;
-}
-
-/* FIX: close the gap between the .container label block and the full-bleed board */
-.brand-section > .container {
-  padding-bottom: 0;
-}
-
-/* FIX: both sides must stretch to the same height */
-.brand-board {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  align-items: stretch;   /* was missing */
-  min-height: 480px;
-}
-
-/* FIX: left side must fill the same height as the colour columns on the right */
-.brand-board-left {
-  display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
-  min-height: 480px;      /* matches .colour-column */
-}
-
-.logo-on-light,
-.logo-on-dark,
-.logo-on-brand {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  padding: 2.5rem;
-}
-
-.logo-on-light { background: #ffffff; }
-.logo-on-dark  { background: #1a1a1a; }
-.logo-on-brand { background: #e9732a; }
-
-.logo-placeholder {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.logo-icon-placeholder {
-  width: 52px;
-  height: 52px;
-  border: 2px solid #1a1a1a;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: 'Playfair Display', serif;
-  font-size: 1rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  flex-shrink: 0;
-}
-
-.logo-icon-placeholder.reversed { border-color: #ffffff; color: #ffffff; }
-.logo-icon-placeholder.brand    { border-color: #ffffff; color: #ffffff; }
-
-.logo-wordmark {
-  font-family: 'Playfair Display', serif;
-  font-size: 0.9375rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: #1a1a1a;
-  line-height: 1.3;
-  text-transform: uppercase;
-}
-
-.logo-wordmark.reversed { color: #ffffff; }
-.logo-wordmark.brand    { color: #ffffff; }
-
-.logo-variant-label {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: #696969;
-}
-
-.logo-variant-label.light { color: rgba(255, 255, 255, 0.5); }
-
-.brand-board-right {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-}
-
-.colour-column {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 1.25rem 1rem;
-  min-height: 480px;
-}
-
-.colour-info { display: flex; flex-direction: column; gap: 3px; }
-
-.colour-name { font-family: 'Playfair Display', serif; font-size: 0.8125rem; font-weight: 700; line-height: 1.2; }
-.colour-hex  { font-family: 'Open Sans', sans-serif; font-size: 0.75rem; font-weight: 600; opacity: 0.7; }
-.colour-role { font-family: 'Open Sans', sans-serif; font-size: 0.6875rem; opacity: 0.5; margin-top: 2px; }
-
-.colour-info.dark  .colour-name,
-.colour-info.dark  .colour-hex,
-.colour-info.dark  .colour-role { color: #1a1a1a; }
-
-.colour-info.light .colour-name,
-.colour-info.light .colour-hex,
-.colour-info.light .colour-role { color: #ffffff; }
-
-
-/* ── Typography strip ── */
-
-/* FIX: was completely unstyled — add padding and background */
-.type-strip {
-  padding: 4rem 0;
-  background: #f9f8f5;
-}
-
-.type-grid {
-  display: grid;
-  grid-template-columns: 1fr 1px 1fr 1px 1.4fr;
-  gap: 0;
-  align-items: stretch;
-}
-
-.type-divider {
-  background: rgba(0, 0, 0, 0.06);
-  width: 1px;
-}
-
-.type-block {
-  padding: 0 2.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.type-block:first-child { padding-left: 0; }
-.type-block:last-child  { padding-right: 0; }
-
-.type-label {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #e9732a;
-}
-
-.type-specimen-display {
-  font-size: clamp(4rem, 8vw, 7rem);
-  font-weight: 700;
-  color: #1a1a1a;
-  line-height: 0.9;
-}
-
-.type-specimen-body {
-  font-size: clamp(4rem, 8vw, 7rem);
-  font-weight: 400;
-  color: #1a1a1a;
-  line-height: 0.9;
-}
-
-.type-weights {
-  display: flex;
-  gap: 1.25rem;
-  flex-wrap: wrap;
-}
-
-.type-weights span {
-  font-size: 0.875rem;
-  color: #696969;
-}
-
-.type-usage {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.875rem;
-  color: #696969;
-  margin: 0;
-  line-height: 1.6;
-  max-width: 260px;
-}
-
-.specimen-headline {
-  font-size: clamp(1.375rem, 2.5vw, 1.875rem);
-  font-weight: 700;
-  color: #1a1a1a;
-  line-height: 1.2;
-  margin: 0 0 0.75rem;
-}
-
-.specimen-body {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.9375rem;
-  color: #696969;
-  line-height: 1.7;
-  margin: 0;
-}
-
-
-/* ── Brand values strip ── */
-
-.brand-values-strip {
-  background: #1a1a1a;
-  padding: 2rem 0;
-}
-
-.values-grid {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.value-pill {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  padding: 6px 14px;
-  border-radius: 9999px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.65);
-  background: transparent;
-}
-
-.value-pill.accent {
-  border-color: rgba(233, 115, 42, 0.5);
-  color: #e9732a;
-  background: rgba(233, 115, 42, 0.08);
-}
-
-
-/* ════════════════════════════════════════
-   3. MOCKUPS
-════════════════════════════════════════ */
-
-.mockups-section {
-  background: #1a1a1a;
-  padding: 6rem 0;
-}
-
-.mockups-section .section-label-block { margin-bottom: 4rem; }
-.mockups-section .section-heading     { color: #ffffff; }
-.mockups-section .section-subheading  { color: rgba(255, 255, 255, 0.5); }
-.mockups-section .eyebrow             { color: #e9732a; }
-
-.mockup-feature { margin-bottom: 3rem; }
-
-.mockup-grid {
-  display: grid;
-  gap: 1.5rem;
-  margin-bottom: 3rem;
-}
-
-.mockup-grid--2col { grid-template-columns: 1fr 1fr; }
-.mockup-grid--3col { grid-template-columns: repeat(3, 1fr); }
-
-.mockup-frame {
-  border-radius: 8px;
-  overflow: hidden;
-  background: #242424;
-}
-
-.mockup-frame--mobile {
-  max-width: 280px;
-  margin: 0 auto;
-  border-radius: 24px;
-}
-
-/* Card frame: the image is the frame — no chrome around it */
-.mockup-frame--card {
-  background: none;
-  border-radius: 0;
-  overflow: hidden;
-}
-
-.card-image {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.mockup-browser-bar {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.625rem 1rem;
-  background: #2e2e2e;
-}
-
-.browser-dots { display: flex; gap: 5px; }
-
-.browser-dots span {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.15);
-  display: block;
-}
-
-.browser-url {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.06);
-  padding: 3px 12px;
-  border-radius: 4px;
-  flex: 1;
-  max-width: 220px;
-}
-
-.mockup-screen {
-  position: relative;
-  display: block;
-  width: 100%;
-  overflow: hidden;
-  background: #f2ede6;
-  aspect-ratio: 16 / 9;
-}
-
-.mockup-screen > img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: top center;
-}
-
-.screen-placeholder {
-  display: grid;
-  place-items: center;
-  min-height: 260px;
-  width: 100%;
-  background: #242424;
-}
-
-.screen-hint {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.8125rem;
-  color: rgba(255, 255, 255, 0.3);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  text-align: center;
-  padding: 2rem;
-}
-
-.mockup-caption {
-  margin-top: 0.875rem;
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.875rem;
-  color: rgba(255, 255, 255, 0.72);
-  text-align: center;
-}
-
-
-/* ════════════════════════════════════════
-   4. STORY
-════════════════════════════════════════ */
-
-.story-section {
-  background: #f9f8f5;
-  padding: 6rem 0 7rem;
-}
-
-.story-container {
-  display: grid;
-  grid-template-columns: 180px 1fr;
-  gap: 6rem;
-  align-items: start;
-}
-
-.story-sidenav {
-  position: sticky;
-  top: 5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-  padding-top: 0.25rem;
-}
-
-.cs-nav-link {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.8125rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: #696969;
-  padding: 0.5rem 0 0.5rem 1rem;
-  border-left: 2px solid transparent;
-  transition: color 0.2s, border-color 0.2s;
-}
-
-.cs-nav-link:hover,
-.cs-nav-link.active {
-  color: #1a1a1a;
-  border-left-color: #e9732a;
-}
-
-.story-body { display: flex; flex-direction: column; }
-
-.story-chapter { padding: 4rem 0; }
-
-.chapter-marker {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-.chapter-number {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  color: rgba(0, 0, 0, 0.18);
-}
-
-.chapter-title {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: #e9732a;
-}
-
-.chapter-heading {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: #1a1a1a;
-  line-height: 1.1;
-  margin: 0 0 2rem;
-}
-
-.chapter-content {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  max-width: 640px;
-}
-
-.chapter-content p {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 1rem;
-  color: #4a4a4a;
-  line-height: 1.8;
-  margin: 0;
-}
-
-.approach-pillars {
-  display: flex;
-  flex-direction: column;
-  border-radius: 4px;
-  overflow: hidden;
-  margin-top: 1rem;
-  gap: 2px;
-}
-
-.pillar {
-  padding: 1.25rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.375rem;
-  background: #f0ece4;
-}
-
-.pillar-label {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.6875rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: #e9732a;
-}
-
-.pillar p {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.9375rem;
-  color: #696969;
-  margin: 0;
-  line-height: 1.6;
-}
-
-.execution-deliverables {
-  display: flex;
-  flex-direction: column;
-  gap: 1.75rem;
-  margin-top: 1rem;
-}
-
-.deliverable-row {
-  display: grid;
-  grid-template-columns: 24px 1fr;
-  gap: 1.25rem;
-  align-items: start;
-}
-
-.deliverable-icon {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.25rem;
-  color: #e9732a;
-  line-height: 1.4;
-  margin-top: 2px;
-}
-
-.deliverable-detail { display: flex; flex-direction: column; gap: 0.25rem; }
-
-.deliverable-name {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.75rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #e9732a;
-}
-
-.deliverable-heading {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.125rem;
-  font-weight: 700;
-  color: #1a1a1a;
-  line-height: 1.3;
-}
-
-.deliverable-detail p {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.9375rem;
-  color: #696969;
-  margin: 0.25rem 0 0;
-  line-height: 1.6;
-}
-
-.result-stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-  margin-top: 2.5rem;
-  padding-top: 2.5rem;
-  border-top: 1px solid rgba(26, 26, 26, 0.08);
-}
-
-.stat-card { display: flex; flex-direction: column; gap: 0.5rem; }
-
-.stat-figure {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem, 3.5vw, 2.75rem);
-  font-weight: 700;
-  color: #1a1a1a;
-  letter-spacing: -0.02em;
-  line-height: 1;
-}
-
-.stat-desc {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.875rem;
-  color: #696969;
-  line-height: 1.5;
-}
-
-.story-quote {
-  margin: 2.5rem 0 0;
-  padding: 2rem 2.5rem;
-  background: #1a1a1a;
-  border-radius: 6px;
-}
-
-.story-quote-text {
-  font-family: 'Playfair Display', serif;
-  font-size: 1.1875rem;
-  font-weight: 400;
-  font-style: italic;
-  color: #f2ede6;
-  line-height: 1.65;
-  margin: 0 0 1rem;
-}
-
-.story-quote-author {
-  font-family: 'Open Sans', sans-serif;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: rgba(242, 237, 230, 0.5);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-}
-
-
-/* ════════════════════════════════════════
-   5. NEXT PROJECT
-════════════════════════════════════════ */
-
-.next-project {
-  background: #1a1a1a;
-  padding: 4rem 0;
-}
-
-.next-project-inner {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.next-project-inner .eyebrow { color: rgba(242, 237, 230, 0.45); }
-
-.next-project-link {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  text-decoration: none;
-  padding-top: 1.5rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-.next-project-name {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 700;
-  color: #f2ede6;
-  transition: color 0.2s;
-}
-
-.next-arrow {
-  font-family: 'Playfair Display', serif;
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  color: rgba(242, 237, 230, 0.3);
-  transition: color 0.2s, transform 0.2s;
-}
-
-.next-project-link:hover .next-project-name { color: #ffffff; }
-.next-project-link:hover .next-arrow { color: #ffffff; transform: translateX(8px); }
-
-
-/* ════════════════════════════════════════
-   RESPONSIVE
-════════════════════════════════════════ */
-
-@media (max-width: 1024px) {
-  .cs-hero-inner { grid-template-columns: 1fr; gap: 3rem; }
   .cs-hero-meta {
-    border-left: none;
-    border-top: 1px solid rgba(26, 26, 26, 0.12);
-    padding-left: 0;
-    padding-top: 2rem;
-    flex-direction: row;
-    flex-wrap: wrap;
-    column-gap: 2.5rem;
-    row-gap: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.4rem;
+    padding: 1.35rem 0 1.35rem 2rem;
+    border-left: 1px solid rgba(26, 26, 26, 0.12);
   }
 
-  .brand-board { grid-template-columns: 1fr; }
+  .meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.38rem;
+  }
+
+  .meta-label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--uo-orange);
+  }
+
+  .meta-value {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9375rem;
+    color: var(--uo-text);
+    font-weight: 600;
+    line-height: 1.55;
+  }
+
+  .cs-hero-cover {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 1.5rem 1.5rem 0 0;
+    border: 1px solid var(--uo-line);
+    border-bottom: none;
+    background: var(--uo-cream);
+    box-shadow: var(--uo-shadow);
+  }
+
+  .cs-hero-cover img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .cover-placeholder {
+    width: 100%;
+    min-height: 360px;
+    background: #e8e3db;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cover-hint {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(0, 0, 0, 0.25);
+  }
+
+  /* ════════════════════════════════════════
+     2. BRAND IDENTITY
+  ════════════════════════════════════════ */
+  .brand-section {
+    background: var(--uo-cream-soft);
+    padding: clamp(4.5rem, 8vw, 6.5rem) 0 0;
+    overflow: hidden;
+  }
+
+  .brand-board {
+    display: grid;
+    grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+    align-items: stretch;
+    min-height: 520px;
+    border-top: 1px solid var(--uo-line);
+    margin-top: 1rem;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  }
+
   .brand-board-left {
-    grid-template-rows: auto;
-    grid-template-columns: repeat(3, 1fr);
-    min-height: auto;
+    display: grid;
+    grid-template-rows: repeat(3, 1fr);
+    min-height: 520px;
+    border-right: 1px solid var(--uo-line);
   }
-  .colour-column { min-height: 200px; }
 
-  .type-grid { grid-template-columns: 1fr; gap: 2.5rem; }
-  .type-divider { display: none; }
-  .type-block { padding: 0; }
+  .logo-on-light,
+  .logo-on-dark,
+  .logo-on-brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.95rem;
+    padding: 2.5rem;
+  }
 
-  .story-container { grid-template-columns: 1fr; gap: 0; }
-  .story-sidenav {
-    position: static;
-    flex-direction: row;
-    flex-wrap: wrap;
+  .logo-on-light {
+    background: #ffffff;
+  }
+
+  .logo-on-dark {
+    background: #1a1a1a;
+  }
+
+  .logo-on-brand {
+    background: var(--uo-orange);
+  }
+
+  .logo-placeholder {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .logo-icon-placeholder {
+    width: 52px;
+    height: 52px;
+    border: 2px solid var(--uo-text);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--uo-text);
+    flex-shrink: 0;
+  }
+
+  .logo-icon-placeholder.reversed,
+  .logo-icon-placeholder.brand {
+    border-color: #ffffff;
+    color: #ffffff;
+  }
+
+  .logo-wordmark {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.9375rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--uo-text);
+    line-height: 1.3;
+    text-transform: uppercase;
+  }
+
+  .logo-wordmark.reversed,
+  .logo-wordmark.brand {
+    color: #ffffff;
+  }
+
+  .logo-variant-label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--uo-muted);
+    text-align: center;
+  }
+
+  .logo-variant-label.light {
+    color: rgba(255, 255, 255, 0.52);
+  }
+
+  .brand-board-right {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .colour-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.25rem 1rem;
+    min-height: 520px;
+  }
+
+  .colour-column:not(:last-child) {
+    border-right: 1px solid rgba(255, 255, 255, 0.12);
+  }
+
+  .colour-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .colour-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .colour-hex {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    opacity: 0.72;
+  }
+
+  .colour-role {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.6875rem;
+    opacity: 0.58;
+    margin-top: 2px;
+  }
+
+  .colour-info.dark .colour-name,
+  .colour-info.dark .colour-hex,
+  .colour-info.dark .colour-role {
+    color: var(--uo-text);
+  }
+
+  .colour-info.light .colour-name,
+  .colour-info.light .colour-hex,
+  .colour-info.light .colour-role {
+    color: #ffffff;
+  }
+
+  .type-strip {
+    padding: clamp(3.5rem, 6vw, 4.5rem) 0;
+    background: var(--uo-cream-soft);
+    border-top: 1px solid var(--uo-line);
+  }
+
+  .type-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 1px minmax(0, 1fr) 1px minmax(0, 1.4fr);
     gap: 0;
-    padding: 0 0 1.5rem;
-    margin-bottom: 2rem;
-    border-bottom: 1px solid rgba(26, 26, 26, 0.08);
+    align-items: stretch;
   }
+
+  .type-divider {
+    background: rgba(0, 0, 0, 0.06);
+    width: 1px;
+  }
+
+  .type-block {
+    padding: 0 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .type-block:first-child {
+    padding-left: 0;
+  }
+
+  .type-block:last-child {
+    padding-right: 0;
+  }
+
+  .type-label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--uo-orange);
+  }
+
+  .type-specimen-display {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4rem, 8vw, 7rem);
+    font-weight: 700;
+    color: var(--uo-text);
+    line-height: 0.9;
+  }
+
+  .type-specimen-body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: clamp(4rem, 8vw, 7rem);
+    font-weight: 400;
+    color: var(--uo-text);
+    line-height: 0.9;
+  }
+
+  .type-weights {
+    display: flex;
+    gap: 1.25rem;
+    flex-wrap: wrap;
+  }
+
+  .type-weights span {
+    font-size: 0.875rem;
+    color: var(--uo-muted);
+  }
+
+  .type-usage {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.875rem;
+    color: var(--uo-muted);
+    margin: 0;
+    line-height: 1.65;
+    max-width: 280px;
+  }
+
+  .specimen-headline {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.45rem, 2.5vw, 2rem);
+    font-weight: 700;
+    color: var(--uo-text);
+    line-height: 1.2;
+    margin: 0 0 0.75rem;
+  }
+
+  .specimen-body {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9375rem;
+    color: var(--uo-muted);
+    line-height: 1.75;
+    margin: 0;
+  }
+
+  .brand-values-strip {
+    background: var(--uo-text);
+    padding: 2rem 0;
+  }
+
+  .values-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    align-items: center;
+  }
+
+  .value-pill {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 0.5rem 0.9rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.68);
+    background: transparent;
+  }
+
+  .value-pill.accent {
+    border-color: rgba(233, 115, 42, 0.5);
+    color: var(--uo-orange);
+    background: rgba(233, 115, 42, 0.08);
+  }
+
+  /* ════════════════════════════════════════
+     3. PREMIUM VISUAL SHOWCASE
+     Larger equal-card gallery, blended with page
+  ════════════════════════════════════════ */
+  .visual-showcase {
+    background:
+      radial-gradient(circle at 12% 0%, rgba(233, 115, 42, 0.06), transparent 26rem),
+      linear-gradient(180deg, #f9f8f5 0%, #ffffff 48%, #f9f8f5 100%);
+    padding: clamp(4.5rem, 7vw, 6rem) 0;
+    overflow: hidden;
+  }
+
+  .visual-showcase .section-label-block {
+    margin-bottom: 3.25rem;
+  }
+
+  .showcase-grid {
+    max-width: 1160px;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.25rem, 2.2vw, 1.85rem);
+    align-items: stretch;
+  }
+
+  .showcase-item {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .media-frame {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border: 1px solid rgba(26, 26, 26, 0.055);
+    border-radius: 1.15rem;
+    background: rgba(255, 255, 255, 0.42);
+    box-shadow: 0 18px 48px rgba(233, 115, 42, 0.045);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(0.5rem, 1vw, 0.85rem);
+  }
+
+  .media-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.28);
+    pointer-events: none;
+  }
+
+  .media-frame img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+    border-radius: 0.85rem;
+  }
+
+  .showcase-caption {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(233, 115, 42, 0.72);
+    margin: 0.75rem 0 0;
+  }
+
+  /* ════════════════════════════════════════
+     4. STORY
+  ════════════════════════════════════════ */
+  .story-section {
+    background: var(--uo-cream-soft);
+    padding: clamp(4.5rem, 8vw, 6.5rem) 0 clamp(5rem, 8vw, 7rem);
+  }
+
+  .story-container {
+    display: grid;
+    grid-template-columns: 180px minmax(0, 1fr);
+    gap: clamp(3rem, 7vw, 6rem);
+    align-items: start;
+  }
+
+  .story-sidenav {
+    position: sticky;
+    top: 5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-top: 0.25rem;
+  }
+
   .cs-nav-link {
-    border-left: none;
-    border-bottom: 2px solid transparent;
-    padding: 0.5rem 1rem 0.5rem 0;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--uo-muted);
+    padding: 0.5rem 0 0.5rem 1rem;
+    border-left: 2px solid transparent;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease,
+      transform 0.2s ease;
   }
+
   .cs-nav-link:hover,
   .cs-nav-link.active {
-    border-left-color: transparent;
-    border-bottom-color: #e9732a;
+    color: var(--uo-text);
+    border-left-color: var(--uo-orange);
+    transform: translateX(2px);
   }
 
-  .mockup-grid--2col { grid-template-columns: 1fr; }
-  .mockup-grid--3col { grid-template-columns: 1fr 1fr; }
-  .result-stats { grid-template-columns: 1fr 1fr; }
-}
+  .story-body {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
 
-@media (max-width: 768px) {
-  .cs-hero { padding: 5rem 0 0; }
-  .cs-hero-meta { flex-direction: column; }
+  .story-chapter {
+    padding: clamp(3rem, 6vw, 4.8rem) 0;
+    border-bottom: 1px solid var(--uo-line);
+  }
 
-  .brand-board-left { grid-template-columns: 1fr; }
-  .brand-board-right { grid-template-columns: repeat(3, 1fr); grid-template-rows: auto auto; }
-  .colour-column { min-height: 140px; }
+  .story-chapter:first-child {
+    padding-top: 0;
+  }
 
-  .brand-section,
-  .story-section { padding-top: 4rem; }
-  .mockups-section { padding: 4rem 0; }
-  .story-section { padding-bottom: 5rem; }
+  .story-chapter--last {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
 
-  .mockup-grid--3col { grid-template-columns: 1fr; }
-  .result-stats { grid-template-columns: 1fr; gap: 2rem; }
-  .story-quote { padding: 1.5rem; }
-}
+  .chapter-marker {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.4rem;
+  }
+
+  .chapter-number {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    color: rgba(0, 0, 0, 0.18);
+  }
+
+  .chapter-title {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--uo-orange);
+  }
+
+  .chapter-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.9rem, 3.7vw, 3rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--uo-text);
+    line-height: 1.08;
+    margin: 0 0 2rem;
+    max-width: 840px;
+  }
+
+  .chapter-content {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+    max-width: 720px;
+  }
+
+  .chapter-content p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    color: #4a4a4a;
+    line-height: 1.85;
+    margin: 0;
+  }
+
+  .approach-pillars {
+    display: flex;
+    flex-direction: column;
+    border-radius: 1rem;
+    overflow: hidden;
+    margin-top: 1rem;
+    gap: 2px;
+  }
+
+  .pillar {
+    padding: 1.35rem 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    background: #f0ece4;
+  }
+
+  .pillar-label {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--uo-orange);
+  }
+
+  .pillar p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9375rem;
+    color: var(--uo-muted);
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  .execution-deliverables {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+    margin-top: 1rem;
+  }
+
+  .deliverable-row {
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 1.15rem;
+    align-items: start;
+  }
+
+  .deliverable-icon {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    color: var(--uo-orange);
+    line-height: 1.4;
+    margin-top: 2px;
+  }
+
+  .deliverable-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+
+  .deliverable-name {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--uo-orange);
+  }
+
+  .deliverable-heading {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: var(--uo-text);
+    line-height: 1.3;
+  }
+
+  .deliverable-detail p {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.9375rem;
+    color: var(--uo-muted);
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  .result-stats {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 2.5rem;
+    padding-top: 2.5rem;
+    border-top: 1px solid var(--uo-line);
+  }
+
+  .stat-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 1.25rem;
+    border: 1px solid var(--uo-line);
+    border-radius: 1rem;
+    background: rgba(255, 255, 255, 0.42);
+  }
+
+  .stat-figure {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.1rem, 3.6vw, 3rem);
+    font-weight: 700;
+    color: var(--uo-text);
+    letter-spacing: -0.03em;
+    line-height: 1;
+  }
+
+  .stat-desc {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.875rem;
+    color: var(--uo-muted);
+    line-height: 1.55;
+  }
+
+  .story-quote {
+    margin: 2.5rem 0 0;
+    padding: clamp(1.6rem, 3vw, 2.2rem);
+    background: var(--uo-text);
+    border-radius: 1rem;
+    box-shadow: 0 20px 70px rgba(26, 26, 26, 0.12);
+  }
+
+  .story-quote-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.25rem, 2vw, 1.55rem);
+    font-weight: 400;
+    font-style: italic;
+    color: var(--uo-cream);
+    line-height: 1.55;
+    margin: 0 0 1rem;
+  }
+
+  .story-quote-author {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.8125rem;
+    font-weight: 800;
+    color: rgba(242, 237, 230, 0.55);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ════════════════════════════════════════
+     5. NEXT PROJECT
+  ════════════════════════════════════════ */
+  .next-project {
+    background:
+      radial-gradient(circle at 85% 10%, rgba(233, 115, 42, 0.18), transparent 28rem),
+      var(--uo-text);
+    padding: clamp(3.5rem, 6vw, 4.8rem) 0;
+  }
+
+  .next-project-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .next-project-inner .eyebrow {
+    color: rgba(242, 237, 230, 0.48);
+  }
+
+  .next-project-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    text-decoration: none;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .next-project-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    font-weight: 700;
+    color: var(--uo-cream);
+    transition: color 0.2s ease;
+  }
+
+  .next-arrow {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.8rem);
+    color: rgba(242, 237, 230, 0.3);
+    transition:
+      color 0.2s ease,
+      transform 0.2s ease;
+  }
+
+  .next-project-link:hover .next-project-name {
+    color: #ffffff;
+  }
+
+  .next-project-link:hover .next-arrow {
+    color: #ffffff;
+    transform: translateX(8px);
+  }
+
+  /* ════════════════════════════════════════
+     RESPONSIVE
+  ════════════════════════════════════════ */
+  @media (max-width: 1024px) {
+    .cs-hero-inner {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .cs-hero-meta {
+      border-left: none;
+      border-top: 1px solid rgba(26, 26, 26, 0.12);
+      padding-left: 0;
+      padding-top: 2rem;
+      flex-direction: row;
+      flex-wrap: wrap;
+      column-gap: 2.5rem;
+      row-gap: 1.5rem;
+    }
+
+    .brand-board {
+      grid-template-columns: 1fr;
+    }
+
+    .brand-board-left {
+      grid-template-rows: auto;
+      grid-template-columns: repeat(3, 1fr);
+      min-height: auto;
+    }
+
+    .colour-column {
+      min-height: 220px;
+    }
+
+    .type-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .type-divider {
+      display: none;
+    }
+
+    .type-block,
+    .type-block:first-child,
+    .type-block:last-child {
+      padding: 0;
+    }
+
+    .showcase-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      max-width: 840px;
+    }
+
+    .story-container {
+      grid-template-columns: 1fr;
+      gap: 0;
+    }
+
+    .story-sidenav {
+      position: static;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 0;
+      padding: 0 0 1.5rem;
+      margin-bottom: 3rem;
+      border-bottom: 1px solid rgba(26, 26, 26, 0.08);
+    }
+
+    .cs-nav-link {
+      border-left: none;
+      border-bottom: 2px solid transparent;
+      padding: 0.5rem 1rem 0.5rem 0;
+    }
+
+    .cs-nav-link:hover,
+    .cs-nav-link.active {
+      border-left-color: transparent;
+      border-bottom-color: var(--uo-orange);
+      transform: none;
+    }
+
+    .result-stats {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .container,
+    .container-wide {
+      padding: 0 1.5rem;
+    }
+
+    .cs-hero {
+      padding: 5rem 0 0;
+    }
+
+    .cs-hero-meta {
+      flex-direction: column;
+    }
+
+    .brand-board-left {
+      grid-template-columns: 1fr;
+    }
+
+    .brand-board-right {
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+    }
+
+    .colour-column {
+      min-height: 150px;
+    }
+
+    .brand-section,
+    .visual-showcase,
+    .story-section {
+      padding-top: 4rem;
+    }
+
+    .visual-showcase {
+      padding-bottom: 4rem;
+    }
+
+    .showcase-grid {
+      grid-template-columns: 1fr;
+      max-width: 560px;
+    }
+
+    .story-section {
+      padding-bottom: 5rem;
+    }
+
+    .result-stats {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .story-quote {
+      padding: 1.5rem;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .cs-hero-title {
+      font-size: clamp(2.8rem, 15vw, 4.1rem);
+    }
+
+    .cs-hero-tagline {
+      font-size: 1rem;
+    }
+
+    .brand-board-right {
+      grid-template-columns: 1fr;
+    }
+
+    .colour-column {
+      min-height: 125px;
+    }
+
+    .media-frame {
+      aspect-ratio: 4 / 3;
+      padding: 0.65rem;
+    }
+
+    .deliverable-row {
+      grid-template-columns: 1fr;
+      gap: 0.4rem;
+    }
+
+    .next-project-link {
+      align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 430px) {
+    .container,
+    .container-wide {
+      padding: 0 1.25rem;
+    }
+
+    .section-heading,
+    .chapter-heading,
+    .story-quote-text,
+    .next-project-name {
+      letter-spacing: -0.025em;
+    }
+
+    .cs-tags {
+      gap: 0.4rem;
+    }
+
+    .cs-tag {
+      font-size: 0.7rem;
+      padding: 0.35rem 0.7rem;
+    }
+
+    .logo-on-light,
+    .logo-on-dark,
+    .logo-on-brand {
+      padding: 1.75rem 1rem;
+      min-height: 185px;
+    }
+
+    .logo-placeholder {
+      flex-direction: column;
+      gap: 0.55rem;
+      text-align: center;
+    }
+
+    .value-pill {
+      font-size: 0.74rem;
+    }
+
+    .media-frame {
+      border-radius: 1rem;
+    }
+  }
 </style>
 
 <script>
-  const sections = document.querySelectorAll<HTMLElement>('#challenge, #approach, #execution, #result');
-  const navLinks = document.querySelectorAll<HTMLAnchorElement>('.cs-nav-link');
+  const sections = document.querySelectorAll('#challenge, #approach, #execution, #result');
+  const navLinks = document.querySelectorAll('.cs-nav-link');
 
   if (sections.length > 0 && navLinks.length > 0) {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            navLinks.forEach((link) => {
-              link.classList.toggle('active', link.getAttribute('href') === `#${entry.target.id}`);
-            });
-          }
+          if (!entry.isIntersecting) return;
+
+          navLinks.forEach((link) => {
+            const isActive = link.getAttribute('href') === `#${entry.target.id}`;
+            link.classList.toggle('active', isActive);
+          });
         });
       },
-      { rootMargin: '-20% 0px -70% 0px' }
+      {
+        rootMargin: '-20% 0px -70% 0px',
+        threshold: 0.05,
+      }
     );
-    sections.forEach((s) => observer.observe(s));
+
+    sections.forEach((section) => observer.observe(section));
   }
 </script>

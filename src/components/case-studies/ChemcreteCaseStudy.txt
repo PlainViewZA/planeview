@@ -379,7 +379,7 @@ const { data } = Astro.props;
   .section-subheading {
     font-family: 'Open Sans', sans-serif;
     font-size: 1.0625rem;
-    color: #636363;
+    color: #1a1a1a;
     margin: 0;
     line-height: 1.6;
   }
@@ -1037,33 +1037,36 @@ const { data } = Astro.props;
     margin-top: 2px;
   }
 
-  .deliverable-detail {
-    display: flex;
-    flex-direction: column;
-    gap: 0.375rem;
-  }
+ .deliverable-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
 
   .deliverable-name {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 0.9375rem;
-    font-weight: 700;
-    color: #1a1a1a;
-  }
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 800;
+  color: #1a1a1a;
+  line-height: 1.4;
+}
+.deliverable-heading {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: #1a1a1a !important;
+  opacity: 1 !important;
+  line-height: 1.5;
+  margin: 0;
+}
 
-  .deliverable-heading {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: #1a1a1a;
-  }
-
-  .deliverable-detail p {
-    font-family: 'Open Sans', sans-serif;
-    font-size: 0.9375rem;
-    color: #636363;
-    margin: 0;
-    line-height: 1.6;
-  }
+.deliverable-detail p {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 0.9375rem;
+  color: #3f3f3f;
+  margin: 0;
+  line-height: 1.65;
+}
 
   .result-stats {
     display: grid;
@@ -1165,6 +1168,54 @@ const { data } = Astro.props;
 
   .next-project-link:hover .next-project-name { color: #ffffff; }
   .next-project-link:hover .next-arrow { color: #ffffff; transform: translateX(8px); }
+
+  @media (max-width: 768px) {
+  .execution-deliverables {
+    gap: 2rem;
+  }
+
+  .deliverable-row {
+    grid-template-columns: 40px 1fr;
+    gap: 1rem;
+  }
+
+  .deliverable-icon {
+    font-size: 1.25rem;
+    color: #7c0000;
+    line-height: 1.4;
+    margin-top: 0.15rem;
+  }
+
+  .deliverable-name {
+    font-size: 0.9375rem;
+    font-weight: 800;
+    color: #111111;
+  }
+
+  .deliverable-heading {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #1a1a1a !important;
+    opacity: 1 !important;
+    line-height: 1.5;
+  }
+
+  .deliverable-detail p {
+    font-size: 0.9375rem;
+    color: #3f3f3f;
+    line-height: 1.7;
+  }
+}
+
+  @media (max-width: 768px) {
+  .story-section {
+    padding-top: 5rem;
+  }
+
+  .story-chapter:first-child {
+    padding-top: 2rem;
+  }
+}
 
   @media (max-width: 1024px) {
     .cs-hero-inner {
